@@ -1,0 +1,711 @@
+<hero-slider
+  class="hero-slider full-width"
+  style="--hero-min-height: {{ section.settings.min_height }}px;"
+  {{ section.shopify_attributes }}
+>
+  <!-- ══ Slides ══ -->
+  <div class="hero-slider__track">
+    {%- for block in section.blocks -%}
+      <div
+        class="hero-slider__slide{% if forloop.first %} is-active{% endif %}"
+        aria-hidden="{%- if forloop.first -%}false{%- else -%}true{%- endif -%}"
+        {{ block.shopify_attributes }}
+      >
+        <!-- Media -->
+        <div class="hero-slider__media" aria-hidden="true">
+          {%- if block.settings.video_url != blank -%}
+            <video
+              class="hero-slider__video"
+              src="{{ block.settings.video_url }}"
+              autoplay loop muted playsinline preload="none"
+            ></video>
+          {%- elsif block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 2000
+              | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                class: 'hero-slider__image',
+                widths: '375, 750, 1100, 1500, 2000',
+                sizes: '100vw'
+            }}
+          {%- else -%}
+            <div class="hero-slider__fallback" aria-hidden="true"></div>
+          {%- endif -%}
+        </div>
+
+        <!-- Overlays -->
+        <div class="hero-slider__overlay" aria-hidden="true"></div>
+        <div class="hero-slider__noise"   aria-hidden="true"></div>
+
+        <!-- Content -->
+        <div class="hero-slider__content">
+          {%- if block.settings.eyebrow != blank -%}
+            <p class="hero-slider__eyebrow">
+              <span class="hero-slider__eyebrow-dot" aria-hidden="true"></span>
+              {{- block.settings.eyebrow -}}
+              <span class="hero-slider__eyebrow-dot" aria-hidden="true"></span>
+            </p>
+          {%- endif -%}
+
+          {%- if block.settings.heading != blank -%}
+            <h{% if forloop.first %}1{% else %}2{% endif %} class="hero-slider__heading">
+              {{- block.settings.heading -}}
+            </h{% if forloop.first %}1{% else %}2{% endif %}>
+          {%- endif -%}
+
+          {%- if block.settings.subheading != blank -%}
+            <p class="hero-slider__subheading">{{ block.settings.subheading }}</p>
+          {%- endif -%}
+
+          <div class="hero-slider__actions">
+            {%- if block.settings.button_label != blank -%}
+              <a
+                class="hero-slider__cta hero-slider__cta--primary"
+                href="{{ block.settings.button_url | default: '#' }}"
+              >
+                <span>{{- block.settings.button_label -}}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            {%- endif -%}
+            {%- if block.settings.button_label_2 != blank -%}
+              <a
+                class="hero-slider__cta hero-slider__cta--ghost"
+                href="{{ block.settings.button_url_2 | default: '#' }}"
+              >
+                {{- block.settings.button_label_2 -}}
+              </a>
+            {%- endif -%}
+          </div>
+
+          <div class="hero-slider__badges">
+            <span class="hero-slider__badge">🔒 Compra segura</span>
+            <span class="hero-slider__badge">🚚 Envío nacional</span>
+            <span class="hero-slider__badge">🤝 Garantía directa</span>
+          </div>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="hero-slider__slide is-active">
+        <div class="hero-slider__media" aria-hidden="true">
+          <div class="hero-slider__fallback"></div>
+        </div>
+        <div class="hero-slider__overlay" aria-hidden="true"></div>
+        <div class="hero-slider__content">
+          <h1 class="hero-slider__heading">EL SONIDO PROFESIONAL QUE BUSCAS 🔊</h1>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <!-- ══ Arrows ══ -->
+  {%- if section.blocks.size > 1 -%}
+    <button class="hero-slider__arrow hero-slider__arrow--prev" aria-label="Slide anterior" type="button">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="hero-slider__arrow hero-slider__arrow--next" aria-label="Siguiente slide" type="button">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <!-- ══ Dot pagination ══ -->
+    <div class="hero-slider__dots" role="tablist" aria-label="Navegación de slides">
+      {%- for block in section.blocks -%}
+        <button
+          class="hero-slider__dot{% if forloop.first %} is-active{% endif %}"
+          role="tab"
+          aria-selected="{%- if forloop.first -%}true{%- else -%}false{%- endif -%}"
+          aria-label="Slide {{ forloop.index }}"
+          data-index="{{ forloop.index0 }}"
+          type="button"
+        ></button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <!-- ══ Scroll indicator ══ -->
+  <div class="hero-slider__scroll-hint" aria-hidden="true">
+    <span class="hero-slider__scroll-line"></span>
+  </div>
+</hero-slider>
+
+{% stylesheet %}
+  /* ══════════════════════════════════════════
+     HERO SLIDER — Soportech Premium Dark
+  ══════════════════════════════════════════ */
+
+  hero-slider {
+    display: block;
+    position: relative;
+    height: var(--hero-min-height, 680px);
+    overflow: hidden;
+    background-color: #000000;
+  }
+
+  /* ── Track & slides ── */
+  .hero-slider__track {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-slider__slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+
+  .hero-slider__slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── Media ── */
+  .hero-slider__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-slider__video,
+  .hero-slider__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .hero-slider__fallback {
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(6,182,212,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 20% 80%, rgba(59,130,246,0.1) 0%, transparent 70%),
+      #000000;
+  }
+
+  /* ── Overlay layers ── */
+  .hero-slider__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.35)  0%,
+        rgba(0,0,0,0.72)  55%,
+        rgba(0,0,0,0.90) 100%
+      );
+  }
+
+  .hero-slider__noise {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px;
+    pointer-events: none;
+  }
+
+  /* ── Content ── */
+  .hero-slider__content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 5rem 1.25rem 6rem;
+    width: 100%;
+    max-width: 860px;
+    gap: 1.5rem;
+  }
+
+  /* ── Eyebrow ── */
+  .hero-slider__eyebrow {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #06b6d4;
+    border: 1px solid rgba(6,182,212,0.3);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    background: rgba(6,182,212,0.06);
+    backdrop-filter: blur(4px);
+  }
+
+  .hero-slider__eyebrow-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #06b6d4;
+    box-shadow: 0 0 6px #06b6d4;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  /* ── Heading ── */
+  .hero-slider__heading {
+    margin: 0;
+    font-size: clamp(2.25rem, 6.5vw, 4.75rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    background: linear-gradient(
+      135deg,
+      #ffffff   0%,
+      #e2e8f0  40%,
+      #7dd3fc  70%,
+      #06b6d4 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: #ffffff;
+    text-shadow: none;
+    filter: drop-shadow(0 0 40px rgba(6,182,212,0.18));
+  }
+
+  /* ── Subheading ── */
+  .hero-slider__subheading {
+    margin: 0;
+    font-size: clamp(0.9375rem, 2vw, 1.1875rem);
+    font-weight: 400;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.6);
+    max-width: 580px;
+  }
+
+  /* ── Actions ── */
+  .hero-slider__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.875rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .hero-slider__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border-radius: 0.5rem;
+    transition:
+      transform       0.2s cubic-bezier(0.34,1.56,0.64,1),
+      box-shadow       0.2s ease,
+      background-color 0.2s ease,
+      opacity          0.2s ease;
+  }
+
+  .hero-slider__cta--primary {
+    padding: 1rem 2.25rem;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+    color: #000000;
+    box-shadow:
+      0 0 20px rgba(6,182,212,0.45),
+      0 4px 24px rgba(6,182,212,0.25),
+      inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+
+  .hero-slider__cta--primary:hover {
+    transform: scale(1.06) translateY(-2px);
+    box-shadow:
+      0 0 40px rgba(6,182,212,0.7),
+      0 8px 40px rgba(6,182,212,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+
+  .hero-slider__cta--primary svg {
+    transition: transform 0.2s ease;
+  }
+
+  .hero-slider__cta--primary:hover svg {
+    transform: translateX(3px);
+  }
+
+  .hero-slider__cta--ghost {
+    padding: 0.9375rem 2rem;
+    font-size: 0.9375rem;
+    background: transparent;
+    color: rgba(255,255,255,0.82);
+    border: 1px solid rgba(255,255,255,0.15);
+    backdrop-filter: blur(6px);
+  }
+
+  .hero-slider__cta--ghost:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.3);
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  /* ── Trust micro-badges ── */
+  .hero-slider__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    justify-content: center;
+    margin-top: 0.25rem;
+  }
+
+  .hero-slider__badge {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.45);
+    padding: 0.3rem 0.75rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  /* ── Arrow buttons ── */
+  .hero-slider__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    border: 1px solid rgba(6,182,212,0.25);
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background    0.2s ease,
+      border-color  0.2s ease,
+      transform     0.2s ease;
+    padding: 0;
+  }
+
+  .hero-slider__arrow--prev { left:  1.25rem; }
+  .hero-slider__arrow--next { right: 1.25rem; }
+
+  .hero-slider__arrow:hover {
+    background: rgba(6,182,212,0.18);
+    border-color: rgba(6,182,212,0.65);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  @media (min-width: 990px) {
+    .hero-slider__arrow--prev { left:  2rem; }
+    .hero-slider__arrow--next { right: 2rem; }
+  }
+
+  /* ── Dot pagination ── */
+  .hero-slider__dots {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .hero-slider__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(6,182,212,0.5);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition:
+      background      0.25s ease,
+      transform       0.25s ease,
+      width           0.3s ease,
+      border-radius   0.3s ease;
+  }
+
+  .hero-slider__dot.is-active {
+    background: #06b6d4;
+    width: 24px;
+    border-radius: 4px;
+    border-color: #06b6d4;
+    box-shadow: 0 0 8px rgba(6,182,212,0.6);
+  }
+
+  .hero-slider__dot:hover:not(.is-active) {
+    background: rgba(6,182,212,0.35);
+    transform: scale(1.25);
+  }
+
+  /* ── Scroll indicator ── */
+  .hero-slider__scroll-hint {
+    position: absolute;
+    bottom: 1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-slider__scroll-line {
+    display: block;
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, rgba(6,182,212,0.8), transparent);
+    animation: scroll-line 2s ease-in-out infinite;
+  }
+
+  @keyframes scroll-line {
+    0%   { transform: scaleY(0); transform-origin: top;    opacity: 1; }
+    50%  { transform: scaleY(1); transform-origin: top;    opacity: 1; }
+    100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+  }
+
+  /* ── Responsive ── */
+  @media (min-width: 750px) {
+    .hero-slider__content { padding: 6rem 2.5rem 7rem; }
+  }
+  @media (min-width: 990px) {
+    .hero-slider__content { padding: 7rem 2rem 8rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slider__slide      { transition: none; }
+    .hero-slider__scroll-line { animation: none; }
+    .hero-slider__eyebrow-dot { animation: none; }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class HeroSlider extends HTMLElement {
+    connectedCallback() {
+      this.slides  = Array.from(this.querySelectorAll('.hero-slider__slide'));
+      this.dots    = Array.from(this.querySelectorAll('.hero-slider__dot'));
+      this.prevBtn = this.querySelector('.hero-slider__arrow--prev');
+      this.nextBtn = this.querySelector('.hero-slider__arrow--next');
+      this.current = 0;
+      this.delay   = 5500;
+      this.timer   = null;
+
+      if (this.slides.length <= 1) return;
+
+      this.prevBtn?.addEventListener('click', () => this.step(-1));
+      this.nextBtn?.addEventListener('click', () => this.step(1));
+      this.dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => { this.goTo(i); this.reset(); });
+      });
+
+      // Keyboard navigation
+      this.setAttribute('tabindex', '0');
+      this.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  { this.step(-1); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { this.step(1);  e.preventDefault(); }
+      });
+
+      // Touch / swipe
+      let startX = 0;
+      this.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      this.addEventListener('touchend', e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 48) this.step(diff > 0 ? 1 : -1);
+      });
+
+      // Pause on hover / focus
+      this.addEventListener('mouseenter', () => this.stopTimer());
+      this.addEventListener('mouseleave', () => this.startTimer());
+      this.addEventListener('focusin',    () => this.stopTimer());
+      this.addEventListener('focusout',   () => this.startTimer());
+
+      this.startTimer();
+    }
+
+    goTo(index) {
+      const len  = this.slides.length;
+      const next = ((index % len) + len) % len;
+
+      this.slides[this.current].classList.remove('is-active');
+      this.slides[this.current].setAttribute('aria-hidden', 'true');
+      this.dots[this.current]?.classList.remove('is-active');
+      this.dots[this.current]?.setAttribute('aria-selected', 'false');
+
+      this.current = next;
+
+      this.slides[this.current].classList.add('is-active');
+      this.slides[this.current].setAttribute('aria-hidden', 'false');
+      this.dots[this.current]?.classList.add('is-active');
+      this.dots[this.current]?.setAttribute('aria-selected', 'true');
+    }
+
+    step(dir)   { this.goTo(this.current + dir); this.reset(); }
+    startTimer(){ this.timer = setInterval(() => this.goTo(this.current + 1), this.delay); }
+    stopTimer() { clearInterval(this.timer); }
+    reset()     { this.stopTimer(); this.startTimer(); }
+  }
+
+  if (!customElements.get('hero-slider')) {
+    customElements.define('hero-slider', HeroSlider);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.hero_banner.name",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "t:sections.hero_banner.settings.min_height",
+      "min": 400,
+      "max": 960,
+      "step": 40,
+      "unit": "px",
+      "default": 680
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "t:sections.hero_banner.blocks.slide.name",
+      "settings": [
+        {
+          "type": "header",
+          "content": "t:sections.hero_banner.headers.media"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "t:sections.hero_banner.settings.video_url",
+          "info": "t:sections.hero_banner.settings.video_url_info"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.hero_banner.settings.fallback_image"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.hero_banner.headers.content"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "t:sections.hero_banner.settings.eyebrow"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "t:labels.heading"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "t:labels.subheading"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.hero_banner.headers.button"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:labels.button_label"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "t:labels.button_url"
+        },
+        {
+          "type": "text",
+          "id": "button_label_2",
+          "label": "t:sections.hero_banner.settings.button_label_2"
+        },
+        {
+          "type": "url",
+          "id": "button_url_2",
+          "label": "t:sections.hero_banner.settings.button_url_2"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.hero_banner.name",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "🎶 Audio Profesional & Tecnología",
+            "heading": "EL SONIDO PROFESIONAL QUE BUSCAS 🔊",
+            "subheading": "Equipos de audio para conciertos, estudios y eventos. Las mejores marcas con garantía directa.",
+            "button_label": "Ver Promociones",
+            "button_label_2": "Ver catálogo"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "🎤 Micrófonos & Sistemas PA",
+            "heading": "POTENCIA CADA EVENTO CON EL MEJOR SONIDO",
+            "subheading": "Sistemas de amplificación profesional para escenarios, iglesias y corporativos.",
+            "button_label": "Explorar sistemas PA",
+            "button_label_2": "Ver marcas"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "🎚️ Estudios & Producción",
+            "heading": "EQUIPA TU ESTUDIO DE GRABACIÓN IDEAL",
+            "subheading": "Interfaces de audio, monitores y accesorios para productores y músicos.",
+            "button_label": "Ver equipos de estudio",
+            "button_label_2": "Asesoría gratuita"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "🚚 Envíos a todo Colombia",
+            "heading": "CALIDAD GARANTIZADA EN CADA PEDIDO",
+            "subheading": "Garantía directa, soporte técnico y asesoría personalizada en Pereira y todo el país.",
+            "button_label": "Contáctanos",
+            "button_label_2": "Ver catálogo"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

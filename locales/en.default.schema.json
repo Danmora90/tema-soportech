@@ -1,0 +1,140 @@
+{
+  "general": {
+    "404": "Not found",
+    "article": "Article",
+    "block": "Block",
+    "blog": "Blog",
+    "cart": "Cart",
+    "collection": "Collection",
+    "collections": "Collections",
+    "collection_card": "Collection card",
+    "collections_grid": "Collections grid",
+    "colors": "Colors",
+    "column": "Column",
+    "content": "Content",
+    "custom_section": "Custom section",
+    "fonts": "Fonts",
+    "footer": "Footer",
+    "group": "Group",
+    "header": "Header",
+    "layout": "Layout",
+    "main": "Main",
+    "page": "Page",
+    "password": "Password",
+    "primary": "Primary",
+    "product": "Product",
+    "row": "Row",
+    "search": "Search",
+    "secondary": "Secondary",
+    "section": "Section",
+    "settings": "Settings",
+    "sidebar": "Sidebar",
+    "text": "Text",
+    "theme": "Theme",
+    "typography": "Typography"
+  },
+  "labels": {
+    "alignment": "Alignment",
+    "background": "Background",
+    "foreground": "Foreground",
+    "grid_gap": "Grid spacing",
+    "grid_item_width": "Grid item width",
+    "input_corner_radius": "Input corner radius",
+    "layout_direction": "Layout direction",
+    "menu": "Menu",
+    "customer_account_menu": "Customer account menu",
+    "padding": "Padding",
+    "page_margin": "Page margin",
+    "page_width": "Page width",
+    "show_payment_icons": "Show payment icons",
+    "text_style": "Text style",
+    "text": "Text",
+    "heading": "Heading",
+    "subheading": "Subheading",
+    "button_label": "Button label",
+    "button_url": "Button URL"
+  },
+  "options": {
+    "alignment": {
+      "left": "Left",
+      "center": "Center",
+      "right": "Right"
+    },
+    "direction": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "page_width": {
+      "narrow": "Narrow",
+      "wide": "Wide"
+    },
+    "size": {
+      "large": "Large",
+      "small": "Small"
+    },
+    "text_style": {
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "normal": "Normal text"
+    }
+  },
+  "sections": {
+    "announcement_bar": {
+      "name": "Announcement bar",
+      "settings": {
+        "message_1": "First message",
+        "message_2": "Second message",
+        "message_3": "Third message",
+        "scroll_speed": "Scroll speed"
+      }
+    },
+    "hero_banner": {
+      "name": "Hero banner",
+      "blocks": {
+        "slide": {
+          "name": "Slide"
+        }
+      },
+      "headers": {
+        "media": "Media",
+        "content": "Content",
+        "button": "Button"
+      },
+      "settings": {
+        "video_url": "Video URL (mp4)",
+        "video_url_info": "Paste a direct .mp4 link from Pexels, Coverr or your CDN. Leave blank to use the image below.",
+        "fallback_image": "Fallback image",
+        "min_height": "Minimum height",
+        "eyebrow": "Eyebrow text",
+        "button_label_2": "Second button label",
+        "button_url_2": "Second button URL"
+      }
+    },
+    "featured_collection": {
+      "name": "Featured collection",
+      "headers": {
+        "content": "Content",
+        "collection": "Collection",
+        "cta": "Call to action"
+      },
+      "settings": {
+        "eyebrow": "Eyebrow text",
+        "collection": "Collection",
+        "products_to_show": "Products to show"
+      }
+    },
+    "social_proof": {
+      "name": "Social proof",
+      "blocks": {
+        "photo": {
+          "name": "Customer photo",
+          "settings": {
+            "customer_name": "Customer name",
+            "product_name": "Product purchased",
+            "alt_text": "Image alt text"
+          }
+        }
+      }
+    }
+  }
+}

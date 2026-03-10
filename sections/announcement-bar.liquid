@@ -1,0 +1,143 @@
+{%- capture bar_messages -%}
+  <span class="announcement-bar__item">{{ section.settings.message_1 }}</span>
+  <span class="announcement-bar__sep" aria-hidden="true">◆</span>
+  <span class="announcement-bar__item">{{ section.settings.message_2 }}</span>
+  <span class="announcement-bar__sep" aria-hidden="true">◆</span>
+  <span class="announcement-bar__item">{{ section.settings.message_3 }}</span>
+  <span class="announcement-bar__sep" aria-hidden="true">◆</span>
+{%- endcapture -%}
+
+<div
+  class="announcement-bar full-width"
+  style="--bar-speed: {{ section.settings.scroll_speed }}s"
+  role="region"
+  aria-label="{{ section.settings.message_1 }}. {{ section.settings.message_2 }}"
+  {{ section.shopify_attributes }}
+>
+  <div class="announcement-bar__track" aria-hidden="true">
+    <div class="announcement-bar__list">
+      {{ bar_messages }}
+      {{ bar_messages }}
+      {{ bar_messages }}
+      {{ bar_messages }}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .announcement-bar {
+    position: relative;
+    overflow: hidden;
+    padding: 11px 0;
+    background: linear-gradient(90deg, #0a0a0a 0%, #0f172a 40%, #0a0a0a 100%);
+    border-bottom: 1px solid rgba(6, 182, 212, 0.18);
+  }
+
+  /* Edge fade masks */
+  .announcement-bar::before,
+  .announcement-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .announcement-bar::before {
+    left: 0;
+    background: linear-gradient(to right, #0a0a0a, transparent);
+  }
+  .announcement-bar::after {
+    right: 0;
+    background: linear-gradient(to left, #0a0a0a, transparent);
+  }
+
+  .announcement-bar__track {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .announcement-bar__list {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    width: max-content;
+    animation: bar-scroll var(--bar-speed, 30s) linear infinite;
+  }
+
+  .announcement-bar__item {
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0 1.5rem;
+    color: #ffffff;
+  }
+
+  .announcement-bar__sep {
+    flex-shrink: 0;
+    font-size: 0.45rem;
+    background: linear-gradient(90deg, #06b6d4, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  @keyframes bar-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-25%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .announcement-bar__list {
+      animation: none;
+      justify-content: center;
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.announcement_bar.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "message_1",
+      "label": "t:sections.announcement_bar.settings.message_1",
+      "default": "🚚 Envíos a todo el país"
+    },
+    {
+      "type": "text",
+      "id": "message_2",
+      "label": "t:sections.announcement_bar.settings.message_2",
+      "default": "📍 Visítanos en Pereira: Calle 16 # 6-55"
+    },
+    {
+      "type": "text",
+      "id": "message_3",
+      "label": "t:sections.announcement_bar.settings.message_3",
+      "default": "🔋 Garantía directa en todos los productos"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "t:sections.announcement_bar.settings.scroll_speed",
+      "min": 15,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "default": 30
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.announcement_bar.name"
+    }
+  ]
+}
+{% endschema %}

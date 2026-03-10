@@ -1,0 +1,411 @@
+<section
+  class="sp full-width"
+  aria-labelledby="sp-heading-{{ section.id }}"
+  {{ section.shopify_attributes }}
+>
+  <!-- ══ Header ══ -->
+  <div class="sp__header">
+    <p class="sp__eyebrow">{{ section.settings.eyebrow }}</p>
+    <h2 id="sp-heading-{{ section.id }}" class="sp__title">{{ section.settings.title }}</h2>
+    {%- if section.settings.subtitle != blank -%}
+      <p class="sp__subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+  </div>
+
+  <!-- ══ Bento Grid (when blocks exist) ══ -->
+  {%- if section.blocks.size > 0 -%}
+    <div class="sp__grid sp__grid--{{ section.blocks.size }}">
+      {%- for block in section.blocks -%}
+        <div class="sp-card sp-card--{{ forloop.index }}" {{ block.shopify_attributes }}>
+          <div class="sp-card__inner">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 900
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '400, 600, 900',
+                  sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
+                  class: 'sp-card__img',
+                  alt: block.settings.alt_text | default: 'Cliente satisfecho Soportech'
+              }}
+            {%- else -%}
+              {{ 'lifestyle-' | append: forloop.index | placeholder_svg_tag: 'sp-card__img sp-card__img--placeholder' }}
+            {%- endif -%}
+            <div class="sp-card__caption" aria-hidden="true">
+              <svg class="sp-card__ig" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="white" stroke-width="1.6"/>
+                <circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="1.6"/>
+                <circle cx="17.5" cy="6.5" r="1.2" fill="white"/>
+              </svg>
+              {%- if block.settings.customer_name != blank -%}
+                <span class="sp-card__name">{{ block.settings.customer_name }}</span>
+              {%- endif -%}
+              {%- if block.settings.product_name != blank -%}
+                <span class="sp-card__product">{{ block.settings.product_name }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  <!-- ══ Marquee fallback ══ -->
+  {%- else -%}
+    {%- capture items -%}
+      {%- for i in (1..6) -%}
+        <div class="sp-mq__item">
+          {{ 'lifestyle-' | append: i | placeholder_svg_tag: 'sp-mq__img sp-mq__img--placeholder' }}
+        </div>
+      {%- endfor -%}
+    {%- endcapture -%}
+    <div class="sp-mq" aria-hidden="true">
+      <div class="sp-mq__track">
+        {{ items }}
+        {{ items }}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <!-- ══ Stats bar ══ -->
+  <div class="sp__stats">
+    <div class="sp__stat">
+      <span class="sp__stat-n">+5.000</span>
+      <span class="sp__stat-l">Clientes equipados</span>
+    </div>
+    <div class="sp__divider" aria-hidden="true"></div>
+    <div class="sp__stat">
+      <span class="sp__stat-n">4.9 ★</span>
+      <span class="sp__stat-l">Calificación promedio</span>
+    </div>
+    <div class="sp__divider" aria-hidden="true"></div>
+    <div class="sp__stat">
+      <span class="sp__stat-n">100%</span>
+      <span class="sp__stat-l">Garantía directa</span>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  /* ══════════════════════════════════════════
+     SOCIAL PROOF — Light Mode
+  ══════════════════════════════════════════ */
+
+  .sp {
+    background-color: #ffffff;
+    padding: 5rem 1.25rem;
+  }
+
+  .sp__header {
+    text-align: center;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .sp__eyebrow {
+    margin: 0;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #06b6d4;
+  }
+
+  .sp__title {
+    margin: 0;
+    font-size: clamp(1.75rem, 4.5vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    color: #0f172a;
+  }
+
+  .sp__subtitle {
+    margin: 0;
+    font-size: 1rem;
+    color: #6b7280;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  /* ── Bento Grid ── */
+  .sp__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 200px;
+    gap: 0.75rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .sp__grid .sp-card--1,
+  .sp__grid .sp-card--4 {
+    grid-row: span 2;
+  }
+
+  @media (min-width: 750px) {
+    .sp__grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 220px;
+      gap: 0.875rem;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .sp__grid {
+      grid-auto-rows: 260px;
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .sp__grid .sp-card--1 {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+    .sp__grid .sp-card--4 { grid-row: span 1; }
+    .sp__grid { grid-auto-rows: 180px; }
+  }
+
+  .sp-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #f3f4f6;
+  }
+
+  .sp-card__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .sp-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .sp-card__img--placeholder {
+    fill: #d1d5db;
+    background: #f3f4f6;
+    padding: 1.5rem;
+    width: 100%;
+    height: 100%;
+  }
+
+  .sp-card:hover .sp-card__img {
+    transform: scale(1.06);
+  }
+
+  .sp-card__caption {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.2rem;
+    padding: 1rem;
+    background: linear-gradient(
+      to top,
+      rgba(15, 23, 42, 0.72) 0%,
+      rgba(15, 23, 42, 0.12) 55%,
+      transparent            100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .sp-card:hover .sp-card__caption { opacity: 1; }
+
+  .sp-card__ig { margin-bottom: 0.2rem; opacity: 0.9; }
+
+  .sp-card__name {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+  }
+
+  .sp-card__product {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: #67e8f9;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Marquee fallback ── */
+  .sp-mq {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .sp-mq__track {
+    display: flex;
+    gap: 0.75rem;
+    width: max-content;
+    animation: sp-scroll 30s linear infinite;
+  }
+
+  .sp-mq__item {
+    width: 240px;
+    height: 280px;
+    flex-shrink: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #f3f4f6;
+  }
+
+  .sp-mq__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .sp-mq__img--placeholder {
+    fill: #d1d5db;
+    background: #f3f4f6;
+    padding: 2rem;
+  }
+
+  .sp-mq__item:hover .sp-mq__img { transform: scale(1.05); }
+
+  @keyframes sp-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sp-mq__track { animation: none; }
+  }
+
+  /* ── Stats bar ── */
+  .sp__stats {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
+    margin-top: 3rem;
+    max-width: 680px;
+    margin-inline: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    background: #f8fafc;
+    overflow: hidden;
+  }
+
+  .sp__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 1.375rem 1.5rem;
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .sp__stat-n {
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+  }
+
+  .sp__stat-l {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #9ca3af;
+  }
+
+  .sp__divider {
+    width: 1px;
+    background: #e5e7eb;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+
+  @media (max-width: 480px) {
+    .sp__divider { display: none; }
+    .sp__stat { border-bottom: 1px solid #e5e7eb; flex-basis: 100%; }
+    .sp__stat:last-child { border-bottom: none; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.social_proof.name",
+  "max_blocks": 9,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:sections.featured_collection.settings.eyebrow",
+      "default": "Nuestra Comunidad"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.heading",
+      "default": "MÁS DE 5,000 CLIENTES EQUIPADOS"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "t:labels.subheading",
+      "default": "Clientes satisfechos de todo el país confían en Soportech."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "t:sections.social_proof.blocks.photo.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:labels.background"
+        },
+        {
+          "type": "text",
+          "id": "customer_name",
+          "label": "t:sections.social_proof.blocks.photo.settings.customer_name",
+          "default": "Cliente satisfecho"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "t:sections.social_proof.blocks.photo.settings.product_name",
+          "placeholder": "JBL EON712"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "t:sections.social_proof.blocks.photo.settings.alt_text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.social_proof.name",
+      "blocks": [
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

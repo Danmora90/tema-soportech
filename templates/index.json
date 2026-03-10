@@ -1,0 +1,117 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "message_1": "🚚 Envíos a todo el país",
+        "message_2": "📍 Visítanos en Pereira: Calle 16 # 6-55",
+        "message_3": "🔋 Garantía directa en todos los productos",
+        "scroll_speed": 30
+      }
+    },
+    "hero-banner": {
+      "type": "hero-banner",
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "eyebrow": "🎶 Audio Profesional & Tecnología",
+            "heading": "EL SONIDO PROFESIONAL QUE BUSCAS 🔊",
+            "subheading": "Equipos de audio para conciertos, estudios y eventos. Las mejores marcas con garantía directa.",
+            "button_label": "Ver Promociones",
+            "button_url": "",
+            "button_label_2": "Ver catálogo",
+            "button_url_2": ""
+          }
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "image": "shopify://shop_images/Gemini_Generated_Image_yetbemyetbemyetb.webp",
+            "eyebrow": "🎤 Micrófonos & Sistemas PA",
+            "heading": "POTENCIA CADA EVENTO CON EL MEJOR SONIDO",
+            "subheading": "Sistemas de amplificación profesional para escenarios, iglesias y corporativos.",
+            "button_label": "Explorar sistemas PA",
+            "button_url": "",
+            "button_label_2": "Ver marcas",
+            "button_url_2": ""
+          }
+        },
+        "slide-3": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "image": "shopify://shop_images/Gemini_Generated_Image_luxjbrluxjbrluxj.webp",
+            "eyebrow": "🎚️ Estudios & Producción",
+            "heading": "EQUIPA TU ESTUDIO DE GRABACIÓN IDEAL",
+            "subheading": "Interfaces de audio, monitores y accesorios para productores y músicos.",
+            "button_label": "Ver equipos de estudio",
+            "button_url": "",
+            "button_label_2": "Asesoría gratuita",
+            "button_url_2": ""
+          }
+        },
+        "slide-4": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "image": "shopify://shop_images/Gemini_Generated_Image_n0knoxn0knoxn0kn.webp",
+            "eyebrow": "🚚 Envíos a todo Colombia",
+            "heading": "CALIDAD GARANTIZADA EN CADA PEDIDO",
+            "subheading": "Garantía directa, soporte técnico y asesoría personalizada en Pereira y todo el país.",
+            "button_label": "Contáctanos",
+            "button_url": "",
+            "button_label_2": "Ver catálogo",
+            "button_url_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide-1",
+        "slide-2",
+        "slide-3",
+        "slide-4"
+      ],
+      "settings": {
+        "min_height": 680
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Promociones Exclusivas",
+        "title": "OFERTAS DESTACADAS",
+        "subtitle": "Precios imposibles de ignorar. Solo por tiempo limitado.",
+        "collection": "",
+        "products_to_show": 4,
+        "cta_label": "Ver todas las ofertas",
+        "cta_url": ""
+      }
+    },
+    "social-proof": {
+      "type": "social-proof",
+      "settings": {
+        "eyebrow": "Nuestra Comunidad",
+        "title": "MÁS DE 5,000 CLIENTES EQUIPADOS",
+        "subtitle": "Clientes satisfechos de todo el país confían en Soportech."
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "hero-banner",
+    "featured-collection",
+    "social-proof"
+  ]
+}

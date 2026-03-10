@@ -1,0 +1,1 @@
+/home/daniel/Documentos/Daniel Mora/tema-soportech/AGENTS.md
