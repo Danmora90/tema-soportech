@@ -1,0 +1,174 @@
+<section class="category-icons-section" {{ section.shopify_attributes }}>
+  <div class="category-icons-scroll-container hide-scroll-bar">
+    {%- for block in section.blocks -%}
+      <a href="{{ block.settings.url | default: '#' }}" class="category-icon-item" {{ block.shopify_attributes }}>
+        <div class="category-icon-box">
+          {%- if block.settings.icon != blank -%}
+            {{ block.settings.icon | image_url: width: 100 | image_tag: class: 'category-icon-img' }}
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'category-icon-placeholder' }}
+          {%- endif -%}
+        </div>
+        <span class="category-icon-title">
+          {{ block.settings.title | escape }}
+        </span>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .category-icons-section {
+    width: 100vw;
+    max-width: 100%;
+    overflow: hidden;
+    background-color: #ffffff;
+    padding: 2rem 0;
+  }
+
+  .category-icons-scroll-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 1rem;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  @media screen and (min-width: 768px) {
+    .category-icons-scroll-container {
+      justify-content: center;
+      gap: 3rem;
+    }
+  }
+
+  .category-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    text-decoration: none;
+    width: 80px;
+    transition: transform 0.3s ease;
+  }
+
+  @media screen and (min-width: 768px) {
+    .category-icon-item {
+      width: 120px;
+    }
+  }
+
+  .category-icon-item:hover {
+    transform: translateY(-4px);
+  }
+
+  .category-icon-box {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    transition: transform 0.3s ease;
+  }
+
+  @media screen and (min-width: 768px) {
+    .category-icon-box {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  .category-icon-item:hover .category-icon-box {
+    transform: scale(1.05);
+  }
+
+  .category-icon-img, .category-icon-placeholder {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  @media screen and (min-width: 768px) {
+    .category-icon-img, .category-icon-placeholder {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  .category-icon-placeholder {
+    color: #9ca3af;
+  }
+
+  .category-icon-title {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #1f2937;
+    transition: color 0.3s ease;
+  }
+
+  @media screen and (min-width: 768px) {
+    .category-icon-title {
+      font-size: 0.875rem;
+    }
+  }
+
+  .category-icon-item:hover .category-icon-title {
+    color: #2563eb;
+  }
+
+  .hide-scroll-bar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .hide-scroll-bar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Navegación Categorías",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Categoría",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Ícono (PNG/SVG transparente)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Nombre de Categoría",
+          "default": "Categoría"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Enlace"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Navegación Categorías",
+      "blocks": [
+        { "type": "category", "settings": { "title": "Sonido" } },
+        { "type": "category", "settings": { "title": "Audífonos" } },
+        { "type": "category", "settings": { "title": "Soportes" } },
+        { "type": "category", "settings": { "title": "Accesorios" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

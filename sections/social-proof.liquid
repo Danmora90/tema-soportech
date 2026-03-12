@@ -30,7 +30,8 @@
                   alt: block.settings.alt_text | default: 'Cliente satisfecho Soportech'
               }}
             {%- else -%}
-              {{ 'lifestyle-' | append: forloop.index | placeholder_svg_tag: 'sp-card__img sp-card__img--placeholder' }}
+              {%- assign placeholder_idx = forloop.index | modulo: 2 | plus: 1 -%}
+              {{ 'lifestyle-' | append: placeholder_idx | placeholder_svg_tag: 'sp-card__img sp-card__img--placeholder' }}
             {%- endif -%}
             <div class="sp-card__caption" aria-hidden="true">
               <svg class="sp-card__ig" width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -55,7 +56,8 @@
     {%- capture items -%}
       {%- for i in (1..6) -%}
         <div class="sp-mq__item">
-          {{ 'lifestyle-' | append: i | placeholder_svg_tag: 'sp-mq__img sp-mq__img--placeholder' }}
+          {%- assign placeholder_idx = i | modulo: 2 | plus: 1 -%}
+          {{ 'lifestyle-' | append: placeholder_idx | placeholder_svg_tag: 'sp-mq__img sp-mq__img--placeholder' }}
         </div>
       {%- endfor -%}
     {%- endcapture -%}

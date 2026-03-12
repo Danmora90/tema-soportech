@@ -1,0 +1,285 @@
+<section class="pg-section" {{ section.shopify_attributes }}>
+  <div class="pg-header">
+    {%- if section.settings.title != blank -%}
+      <h2 class="pg-title">{{ section.settings.title | escape }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subtitle != blank -%}
+      <p class="pg-subtitle">{{ section.settings.subtitle | escape }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="pg-grid" style="--cols: {{ section.settings.columns_desktop }}; --cols-mobile: {{ section.settings.columns_mobile }};">
+    {%- for block in section.blocks -%}
+      <a href="{{ block.settings.product.url | default: block.settings.link | default: '#' }}" class="pg-card" {{ block.shopify_attributes }}>
+        <div class="pg-image-wrapper">
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 800 | image_tag: class: 'pg-image', loading: 'lazy' }}
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'pg-image placeholder-svg' }}
+          {%- endif -%}
+          <!-- Capa oscura superpuesta -->
+          <div class="pg-overlay" style="opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+        </div>
+        
+        <div class="pg-content">
+          <div class="pg-content-inner">
+            {%- if block.settings.title != blank -%}
+              <h3 class="pg-card-title">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+            
+            {%- if block.settings.subtitle != blank -%}
+              <p class="pg-card-subtitle">{{ block.settings.subtitle | escape }}</p>
+            {%- endif -%}
+            
+            {%- if block.settings.button_text != blank -%}
+              <span class="pg-button">{{ block.settings.button_text | escape }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  /* ══════════════════════════════════════════
+     PROMO GALLERY (Grid)
+  ══════════════════════════════════════════ */
+  .pg-section {
+    padding: 4rem 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .pg-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .pg-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: #111827;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .pg-subtitle {
+    font-size: 1.125rem;
+    color: #4b5563;
+    margin: 0;
+  }
+
+  .pg-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols-mobile, 1), 1fr);
+    gap: 1.5rem;
+  }
+
+  @media screen and (min-width: 768px) {
+    .pg-grid {
+      grid-template-columns: repeat(var(--cols, 3), 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .pg-card {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    border-radius: 12px;
+    overflow: hidden;
+    min-height: 380px; /* Altura minima para que destaque la imagen */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .pg-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .pg-image-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .pg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .pg-card:hover .pg-image {
+    transform: scale(1.05); /* Zoom sutil al pasar el mouse */
+  }
+
+  .placeholder-svg {
+    background-color: #e5e7eb;
+    fill: #9ca3af;
+  }
+
+  .pg-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: #000000;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .pg-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Alinear el texto abajo */
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%); /* Extra gradiente para asegurar lectura */
+  }
+
+  .pg-content-inner {
+    text-align: center;
+    width: 100%;
+  }
+
+  .pg-card-title {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    text-transform: uppercase;
+  }
+
+  .pg-card-subtitle {
+    color: #f3f4f6;
+    font-size: 0.9375rem;
+    margin: 0 0 1.25rem 0;
+  }
+
+  .pg-button {
+    display: inline-block;
+    background-color: #06b6d4; /* Color cyan */
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .pg-card:hover .pg-button {
+    background-color: #0891b2; /* Cyan mas oscuro */
+    transform: scale(1.05);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Galería de Promociones",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título Principal",
+      "default": "PROMOCIONES DESTACADAS"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Encuentra el regalo perfecto con nuestros equipos en descuento."
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columnas en PC",
+      "options": [
+        { "value": "2", "label": "2 Columnas" },
+        { "value": "3", "label": "3 Columnas" },
+        { "value": "4", "label": "4 Columnas" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columnas en Móvil",
+      "options": [
+        { "value": "1", "label": "1 Columna" },
+        { "value": "2", "label": "2 Columnas" }
+      ],
+      "default": "1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promo",
+      "name": "Promoción",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen de fondo"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "label": "Opacidad del filtro oscuro",
+          "default": 30
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título de Promoción",
+          "default": "Sonido Portátil"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtítulo",
+          "default": "Lleva la fiesta a cualquier lugar."
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto del Botón",
+          "default": "Ver Productos"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Enlace a Producto"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace alternativo (Colección, Página, etc)",
+          "info": "Si no seleccionas un producto arriba, puedes colocar cualquier URL aquí."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Galería de Promociones",
+      "blocks": [
+        { "type": "promo" },
+        { "type": "promo" },
+        { "type": "promo" },
+        { "type": "promo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

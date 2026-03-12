@@ -1,0 +1,167 @@
+<section class="bm-section" {{ section.shopify_attributes }}>
+  <div class="bm-overflow">
+    <div class="bm-track">
+      {%- capture brand_items -%}
+        {%- for block in section.blocks -%}
+          <div class="bm-item" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 300
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'bm-logo',
+                  alt: block.settings.alt_text | default: block.settings.brand_name
+              }}
+            {%- else -%}
+              <!-- Texto opcional si no hay imagen (fallback) -->
+              <span class="bm-text-fallback">{{ block.settings.brand_name }}</span>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      <!-- Duplicados para el efecto de marquee infinito -->
+      {{ brand_items }}
+      {{ brand_items }}
+      {{ brand_items }}
+      {{ brand_items }}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  /* ══════════════════════════════════════════
+     BRANDS MARQUEE (Full Width)
+  ══════════════════════════════════════════ */
+  .bm-section {
+    width: 100%;
+    max-width: 100%;
+    background-color: #ffffff; /* Fondo blanco puro */
+    padding: 3.5rem 0;
+    overflow: hidden;
+  }
+
+  .bm-overflow {
+    width: 100%;
+    overflow: hidden;
+    /* Efecto de desvanecimiento a los lados */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .bm-track {
+    display: flex;
+    align-items: center;
+    gap: 5rem;
+    width: max-content;
+    animation: marquee-scroll 35s linear infinite;
+  }
+
+  .bm-track:hover {
+    animation-play-state: paused;
+  }
+
+  .bm-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-width: 120px;
+    height: 60px;
+    cursor: default;
+  }
+
+  /* Clases equivalentes a Tailwind: opacity-60 grayscale transition-all duration-300 */
+  .bm-logo,
+  .bm-text-fallback {
+    max-height: 100%;
+    max-width: 160px;
+    object-fit: contain;
+    opacity: 0.6;
+    filter: grayscale(100%);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .bm-text-fallback {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #111827;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* Hover: hover:grayscale-0 hover:opacity-100 */
+  .bm-item:hover .bm-logo,
+  .bm-item:hover .bm-text-fallback {
+    opacity: 1;
+    filter: grayscale(0%);
+    transform: scale(1.05); /* Ligerísimo zoom opcional para mejor feedback visual */
+  }
+
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media screen and (max-width: 768px) {
+    .bm-section {
+      padding: 2.5rem 0;
+    }
+    .bm-track {
+      gap: 3rem;
+    }
+    .bm-logo,
+    .bm-text-fallback {
+      max-width: 110px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Carrusel de Marcas",
+  "settings": [],
+  "max_blocks": 15,
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Marca",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo de la marca",
+          "info": "Para mejores resultados usa imágenes PNG transparentes u horizontales."
+        },
+        {
+          "type": "text",
+          "id": "brand_name",
+          "label": "Nombre de la Marca (Fallback)",
+          "info": "Se muestra si no hay imagen subida.",
+          "default": "MARCA"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Texto Alternativo (SEO)",
+          "info": "Describe la imagen (Ej: Logo de JBL)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Carrusel de Marcas",
+      "blocks": [
+        { "type": "brand", "settings": { "brand_name": "JBL" } },
+        { "type": "brand", "settings": { "brand_name": "BOSE" } },
+        { "type": "brand", "settings": { "brand_name": "YAMAHA" } },
+        { "type": "brand", "settings": { "brand_name": "ELECTRO-VOICE" } },
+        { "type": "brand", "settings": { "brand_name": "STEREN" } },
+        { "type": "brand", "settings": { "brand_name": "SONIVOX" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

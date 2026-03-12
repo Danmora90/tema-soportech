@@ -1,0 +1,190 @@
+<section class="yt-showcase-section full-width" {{ section.shopify_attributes }}>
+  {%- if section.settings.title != blank or section.settings.text != blank -%}
+    <div class="yt-showcase-header">
+      {%- if section.settings.title != blank -%}
+        <h2 class="yt-showcase-title">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="yt-showcase-desc">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="yt-showcase-slider hide-scroll-bar">
+      {%- for block in section.blocks -%}
+        <div class="yt-showcase-slide" {{ block.shopify_attributes }}>
+          {%- if block.settings.video_url != blank -%}
+            <iframe 
+              src="https://www.youtube.com/embed/{{ block.settings.video_url.id }}?autoplay=0&controls=1&rel=0&showinfo=0" 
+              class="yt-showcase-iframe" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              title="{{ block.settings.video_url.type }}"
+              allowfullscreen>
+            </iframe>
+          {%- else -%}
+            <iframe 
+              src="https://www.youtube.com/embed/_9VUPq3xdRs?autoplay=0&controls=1&rel=0&showinfo=0" 
+              class="yt-showcase-iframe" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              title="YouTube video default"
+              allowfullscreen>
+            </iframe>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- else -%}
+    <div class="yt-showcase-slide single-placeholder">
+      <iframe 
+        src="https://www.youtube.com/embed/_9VUPq3xdRs?autoplay=0&controls=1&rel=0&showinfo=0" 
+        class="yt-showcase-iframe" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        title="YouTube video example"
+        allowfullscreen>
+      </iframe>
+    </div>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  .yt-showcase-section {
+    position: relative;
+    background-color: #f8fafc;
+    overflow: hidden;
+    padding: 3rem 0; /* Updated padding for top/bottom breathing room */
+  }
+
+  .yt-showcase-header {
+    text-align: center;
+    padding: 0 1.5rem;
+    margin-bottom: 2rem;
+    color: #ffffff;
+  }
+
+  .yt-showcase-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    color: #111827;
+    letter-spacing: -0.01em;
+  }
+
+  @media screen and (min-width: 768px) {
+    .yt-showcase-title {
+      font-size: 2.25rem;
+    }
+  }
+
+  .yt-showcase-desc {
+    font-size: 1rem;
+    color: #4b5563; /* Light subtle gray */
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .yt-showcase-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    width: 100%;
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .yt-showcase-slide {
+    width: 85%; /* 85% width for mobile to show the next card peeking */
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    display: block;
+  }
+
+  /* Tablets */
+  @media screen and (min-width: 640px) {
+    .yt-showcase-slide {
+      width: calc(50% - 0.5rem);
+    }
+  }
+
+  /* Desktop: 4 columns */
+  @media screen and (min-width: 1024px) {
+    .yt-showcase-slide {
+      width: calc(25% - 0.75rem);
+    }
+    .yt-showcase-slider {
+      padding: 0;
+    }
+  }
+
+  .single-placeholder {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .yt-showcase-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 8px; /* Slight rounding for a modern look */
+  }
+
+  .hide-scroll-bar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .hide-scroll-bar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Videos Destacados",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título de la sección",
+      "default": "Videos Destacados"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Breve descripción",
+      "default": "<p>Explora nuestras reseñas y demostraciones de productos.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video de YouTube",
+      "settings": [
+        {
+          "type": "video_url",
+          "id": "video_url",
+          "label": "Enlace de YouTube",
+          "accept": ["youtube"]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Videos Destacados",
+      "blocks": [
+        { "type": "video" }
+      ]
+    }
+  ]
+}
+{% endschema %}

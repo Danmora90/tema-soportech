@@ -1,0 +1,187 @@
+<section class="tb-section" {{ section.shopify_attributes }}>
+  <div class="page-width tb-container">
+    <div class="tb-grid">
+      
+      <!-- Columna 1: Compra Segura -->
+      <div class="tb-col">
+        <div class="tb-icon-box">
+          <svg class="tb-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h3 class="tb-heading">{{ section.settings.title_1 | escape }}</h3>
+        <p class="tb-desc">{{ section.settings.text_1 | escape }}</p>
+      </div>
+
+      <!-- Columna 2: Envíos Nacionales -->
+      <div class="tb-col">
+        <div class="tb-icon-box">
+          <svg class="tb-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+        </div>
+        <h3 class="tb-heading">{{ section.settings.title_2 | escape }}</h3>
+        <p class="tb-desc">{{ section.settings.text_2 | escape }}</p>
+      </div>
+
+      <!-- Columna 3: Garantía Directa -->
+      <div class="tb-col">
+        <div class="tb-icon-box">
+          <svg class="tb-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <h3 class="tb-heading">{{ section.settings.title_3 | escape }}</h3>
+        <p class="tb-desc">{{ section.settings.text_3 | escape }}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  /* ══════════════════════════════════════════
+     TRUST BADGES (Pre-Footer)
+  ══════════════════════════════════════════ */
+  .tb-section {
+    background-color: #f8fafc; /* Gris ultra-claro contrastante con el blanco del marquee */
+    padding: 6rem 0; /* Bastante padding vertical para respirar */
+  }
+
+  .tb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .tb-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  .tb-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .tb-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: transparent;
+    margin-bottom: 1.25rem;
+    transition: transform 0.3s ease;
+  }
+
+  .tb-col:hover .tb-icon-box {
+    transform: translateY(-4px);
+  }
+
+  .tb-svg {
+    width: 32px;
+    height: 32px;
+    color: #06b6d4; /* Color cyan de Soportech */
+  }
+
+  .tb-heading {
+    font-size: 1.125rem;
+    font-weight: 800; /* Audaces */
+    color: #111827; /* Oscuros */
+    margin: 0 0 0.75rem 0;
+    letter-spacing: -0.01em;
+  }
+
+  .tb-desc {
+    font-size: 0.9375rem;
+    color: #4b5563; /* Gris medio */
+    line-height: 1.6;
+    margin: 0;
+    max-width: 300px;
+  }
+
+  /* Responsive: Apilar en móvil (1 columna) */
+  @media screen and (max-width: 768px) {
+    .tb-section {
+      padding: 4.5rem 0;
+    }
+    .tb-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .tb-desc {
+      max-width: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Iconos de Confianza",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Bloque 1: Seguridad"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Título",
+      "default": "Compra Segura"
+    },
+    {
+      "type": "textarea",
+      "id": "text_1",
+      "label": "Descripción",
+      "default": "Transacciones 100% encriptadas y protegidas."
+    },
+    {
+      "type": "header",
+      "content": "Bloque 2: Logística"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Título",
+      "default": "Envíos Nacionales"
+    },
+    {
+      "type": "textarea",
+      "id": "text_2",
+      "label": "Descripción",
+      "default": "Despachamos a toda Colombia con las mejores transportadoras."
+    },
+    {
+      "type": "header",
+      "content": "Bloque 3: Respaldo"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Título",
+      "default": "Garantía Directa"
+    },
+    {
+      "type": "textarea",
+      "id": "text_3",
+      "label": "Descripción",
+      "default": "Respaldo y soporte técnico directamente en nuestra tienda física."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Iconos de Confianza (Pre-Footer)"
+    }
+  ]
+}
+{% endschema %}

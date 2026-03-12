@@ -87,31 +87,349 @@
         "min_height": 680
       }
     },
+    "brands-marquee": {
+      "type": "brands-marquee",
+      "blocks": {
+        "brand-1": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_oc22beoc22beoc22.webp",
+            "brand_name": "JBL",
+            "alt_text": ""
+          }
+        },
+        "brand-2": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_vcsrmavcsrmavcsr.webp",
+            "brand_name": "BOSE",
+            "alt_text": ""
+          }
+        },
+        "brand-3": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_cbvplocbvplocbvp.webp",
+            "brand_name": "YAMAHA",
+            "alt_text": ""
+          }
+        },
+        "brand-4": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_hkqawghkqawghkqa.webp",
+            "brand_name": "ELECTRO-VOICE",
+            "alt_text": ""
+          }
+        },
+        "brand-5": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_vj1rd2vj1rd2vj1r.webp",
+            "brand_name": "STEREN",
+            "alt_text": ""
+          }
+        },
+        "brand-6": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_xzcls1xzcls1xzcl.webp",
+            "brand_name": "SONIVOX",
+            "alt_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "brand-1",
+        "brand-2",
+        "brand-3",
+        "brand-4",
+        "brand-5",
+        "brand-6"
+      ],
+      "settings": {}
+    },
     "featured-collection": {
       "type": "featured-collection",
       "settings": {
         "eyebrow": "Promociones Exclusivas",
         "title": "OFERTAS DESTACADAS",
         "subtitle": "Precios imposibles de ignorar. Solo por tiempo limitado.",
-        "collection": "",
+        "collection": "frontpage",
         "products_to_show": 4,
         "cta_label": "Ver todas las ofertas",
         "cta_url": ""
       }
     },
+    "seasonal-promo": {
+      "type": "promo-gallery",
+      "blocks": {
+        "promo-1": {
+          "type": "promo",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_abyvnkabyvnkabyv.webp",
+            "overlay_opacity": 5,
+            "title": "Sonido Portátil",
+            "subtitle": "Lleva la fiesta a cualquier lugar.",
+            "button_text": "Ver Productos",
+            "product": "",
+            "link": ""
+          }
+        },
+        "promo-2": {
+          "type": "promo",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_66zlno66zlno66zl.webp",
+            "overlay_opacity": 5,
+            "title": "Estudio en Casa",
+            "subtitle": "Graba con calidad profesional.",
+            "button_text": "Ver Equipos",
+            "product": "",
+            "link": ""
+          }
+        },
+        "promo-3": {
+          "type": "promo",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_vrg58nvrg58nvrg5.webp",
+            "overlay_opacity": 5,
+            "title": "Sistemas PA",
+            "subtitle": "Potencia para tus eventos.",
+            "button_text": "Ver Altavoces",
+            "product": "",
+            "link": ""
+          }
+        },
+        "promo-4": {
+          "type": "promo",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_9ccgbz9ccgbz9ccg.webp",
+            "overlay_opacity": 5,
+            "title": "Audio Profesional",
+            "subtitle": "La mejor calidad del mercado.",
+            "button_text": "Descubrir",
+            "product": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "promo-1",
+        "promo-2",
+        "promo-3",
+        "promo-4"
+      ],
+      "settings": {
+        "title": "PROMOCIONES DESTACADAS",
+        "subtitle": "Descubre nuestras mejores ofertas por tiempo limitado.",
+        "columns_desktop": "4",
+        "columns_mobile": "1"
+      }
+    },
     "social-proof": {
       "type": "social-proof",
+      "blocks": {
+        "photo_tDWHp7": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_2ztkkc2ztkkc2ztk.webp",
+            "customer_name": "Cliente satisfecho",
+            "product_name": "",
+            "alt_text": ""
+          }
+        },
+        "photo_QagaV9": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_dfj1rtdfj1rtdfj1.webp",
+            "customer_name": "Cliente satisfecho",
+            "product_name": "",
+            "alt_text": ""
+          }
+        },
+        "photo_tWWDBL": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_g91u5ng91u5ng91u.webp",
+            "customer_name": "Cliente satisfecho",
+            "product_name": "",
+            "alt_text": ""
+          }
+        },
+        "photo_Kqtw6a": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_8ran228ran228ran.webp",
+            "customer_name": "Cliente satisfecho",
+            "product_name": "",
+            "alt_text": ""
+          }
+        },
+        "photo_mPrrjH": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_fzpj05fzpj05fzpj.webp",
+            "customer_name": "Cliente satisfecho",
+            "product_name": "",
+            "alt_text": ""
+          }
+        },
+        "photo_iEDFET": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_2flcxs2flcxs2flc.webp",
+            "customer_name": "Cliente satisfecho",
+            "product_name": "",
+            "alt_text": ""
+          }
+        },
+        "photo_8QcRE6": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_hnfal9hnfal9hnfa.webp",
+            "customer_name": "Cliente satisfecho",
+            "product_name": "",
+            "alt_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "photo_tDWHp7",
+        "photo_QagaV9",
+        "photo_tWWDBL",
+        "photo_Kqtw6a",
+        "photo_mPrrjH",
+        "photo_iEDFET",
+        "photo_8QcRE6"
+      ],
       "settings": {
         "eyebrow": "Nuestra Comunidad",
         "title": "MÁS DE 5,000 CLIENTES EQUIPADOS",
         "subtitle": "Clientes satisfechos de todo el país confían en Soportech."
       }
+    },
+    "trust-badges": {
+      "type": "trust-badges",
+      "settings": {
+        "title_1": "Compra Segura",
+        "text_1": "Transacciones 100% encriptadas y protegidas.",
+        "title_2": "Envíos Nacionales",
+        "text_2": "Despachamos a toda Colombia con las mejores transportadoras.",
+        "title_3": "Garantía Directa",
+        "text_3": "Respaldo y soporte técnico directamente en nuestra tienda física."
+      }
+    },
+    "youtube-showcase": {
+      "type": "youtube-showcase",
+      "blocks": {
+        "vid-1": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://youtu.be/cY9P-a7zG6c?si=lWH2Vmn0a_MfwqmY"
+          }
+        },
+        "vid-2": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://youtu.be/y-s8IVxOiw8?si=W3vjaXR8nMDYeO5R"
+          }
+        },
+        "vid-3": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://youtu.be/fz4eDD5OMWY?si=cgKOJO37MM0UNVPp"
+          }
+        },
+        "vid-4": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://youtu.be/AGAn8WAer3o?si=0yr5lwkNzfjDlxxE"
+          }
+        }
+      },
+      "block_order": [
+        "vid-1",
+        "vid-2",
+        "vid-3",
+        "vid-4"
+      ],
+      "settings": {
+        "title": "Videos Destacados",
+        "text": "<p>Explora nuestras reseñas y demostraciones de productos.</p>"
+      }
+    },
+    "category-icons": {
+      "type": "category-icons",
+      "blocks": {
+        "category_GCkB3A": {
+          "type": "category",
+          "settings": {
+            "icon": "shopify://shop_images/Gemini_Generated_Image_1edfi81edfi81edf.webp",
+            "title": "Micrófonos",
+            "url": ""
+          }
+        },
+        "category_4nHQA6": {
+          "type": "category",
+          "settings": {
+            "icon": "shopify://shop_images/Gemini_Generated_Image_vf89ebvf89ebvf89.webp",
+            "title": "Pantallas",
+            "url": ""
+          }
+        },
+        "cat-1": {
+          "type": "category",
+          "settings": {
+            "icon": "shopify://shop_images/Gemini_Generated_Image_emyjclemyjclemyj.webp",
+            "title": "Sonido",
+            "url": ""
+          }
+        },
+        "cat-2": {
+          "type": "category",
+          "settings": {
+            "icon": "shopify://shop_images/Gemini_Generated_Image_czt563czt563czt5.webp",
+            "title": "Audífonos",
+            "url": ""
+          }
+        },
+        "cat-3": {
+          "type": "category",
+          "settings": {
+            "icon": "shopify://shop_images/Gemini_Generated_Image_mq1h08mq1h08mq1h.webp",
+            "title": "Soportes",
+            "url": ""
+          }
+        },
+        "cat-4": {
+          "type": "category",
+          "settings": {
+            "icon": "shopify://shop_images/Gemini_Generated_Image_hkbtj5hkbtj5hkbt.webp",
+            "title": "Accesorios",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_GCkB3A",
+        "category_4nHQA6",
+        "cat-1",
+        "cat-2",
+        "cat-3",
+        "cat-4"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "announcement-bar",
     "hero-banner",
+    "brands-marquee",
     "featured-collection",
-    "social-proof"
+    "seasonal-promo",
+    "social-proof",
+    "trust-badges",
+    "youtube-showcase",
+    "category-icons"
   ]
 }
