@@ -1,52 +1,633 @@
 {% comment %}
   This section is used in the product template to render product page with
-  media, content, and add-to-cart form.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
+  media, content, and add-to-cart form based on blocks.
 {% endcomment %}
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
-</div>
+{% stylesheet %}
+  .product-section-wrapper {
+    background-color: #fafafa;
+    width: 100%;
+  }
+  .product-page-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    font-family: inherit;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    width: 100%;
+  }
+  @media(min-width: 768px) {
+    .product-grid {
+      grid-template-columns: 6fr 4fr;
+    }
+  }
 
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
+  /* MEDIA SECTION */
+  .product-media-gallery {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03); /* Soft shadow for a more premium look */
+  }
+  .product-thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 70px; /* Thumbs width */
+    flex-shrink: 0;
+  }
+  .product-thumbnails img {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    transition: opacity 0.2s ease;
+  }
+  .product-thumbnails img:hover {
+    opacity: 0.8;
+  }
+  .product-main-image {
+    flex-grow: 1;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .product-main-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
 
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
+  /* INFO SECTION */
+  .product-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+  .product-info-block {
+    margin-bottom: 0.25rem;
+  }
+  .product-vendor {
+    font-size: 0.8rem;
+    color: #06b6d4;
+    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+  .product-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0.25rem 0 0.5rem 0;
+    line-height: 1.1;
+    color: #121826;
+  }
+  .product-sku {
+    font-size: 0.85rem;
+    color: #999;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .product-price-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+  }
+  .product-price-current {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #121826;
+  }
+  .product-price-compare {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 1.2rem;
+  }
+  .product-savings-badge {
+    background-color: #121826;
+    color: #fff;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
 
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
+  .product-variant-picker select {
+    padding: 0.5rem;
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: none; /* Hide default select if using swatches, but keep for simpler themes */
+  }
+  .swatch-color {
+    width: 24px;
+    height: 24px;
+    background: #ffb84d; /* Mock color for the reference image */
+    border-radius: 50%;
+    display: inline-block;
+    border: 2px solid transparent;
+    cursor: pointer;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px #ffb84d;
+    margin-top: 0.5rem;
+  }
+
+  .product-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 100%;
+  }
+  .product-quantity-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .product-quantity-label {
+    font-size: 0.95rem;
+    color: #444;
+  }
+
+  .product-quantity {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .product-quantity button {
+    background: transparent;
+    border: none;
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #666;
+  }
+  .product-quantity input {
+    width: 40px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #e1e1e1;
+    border-right: 1px solid #e1e1e1;
+    padding: 0.6rem 0;
+  }
+  
+  .product-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .product-add-to-cart {
+    background-color: #0f172a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: opacity 0.2s;
+  }
+  .product-add-to-cart:hover {
+    opacity: 0.9;
+  }
+
+  /* Style the dynamic checkout button or custom buy now button */
+  .shopify-payment-button {
+    width: 100%;
+  }
+  .shopify-payment-button__button--unbranded,
+  .product-buy-now {
+    background-color: #06b6d4 !important;
+    color: #121826 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 0.85rem 1rem !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: opacity 0.2s;
+  }
+  .product-buy-now {
+    font-size: 1rem !important;
+  }
+  .shopify-payment-button__button--unbranded {
+    font-size: 0 !important;
+  }
+  .shopify-payment-button__button--unbranded::after {
+    content: 'Comprar ahora →';
+    font-size: 1rem;
+    font-family: inherit;
+  }
+  .shopify-payment-button__button--unbranded:hover,
+  .product-buy-now:hover {
+    background-color: #0891b2 !important;
+  }
+
+  .payment-methods-wrapper {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .payment-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .payment-icons li {
+    display: flex;
+  }
+  .payment-icons svg {
+    height: 24px;
+    width: auto;
+  }
+
+  /* Footer Links area (badges and favorites) */
+  .product-meta-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .product-meta-row-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .product-favorite {
+    background: none;
+    border: none;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0;
+  }
+  .product-favorite:hover {
+    color: #121826;
+  }
+
+  .trust-badge-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #444;
+  }
+  .trust-badge-item svg {
+    color: #444;
+  }
+
+  @media(max-width: 768px) {
+    .product-media-gallery {
+      flex-direction: column-reverse;
+    }
+    .product-thumbnails {
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .product-thumbnails img {
+      width: 60px;
+    }
+  }
+{% endstylesheet %}
+
+<div class="product-section-wrapper">
+<div class="product-page-container">
+  <div class="product-grid">
+    
+    {% comment %} COLUMNA IZQUIERDA: GALERIA DE MEDIOS {% endcomment %}
+    <div class="product-media-gallery">
+      {% if product.images.size > 0 %}
+        <div class="product-thumbnails" id="product-thumbnails-{{ section.id }}">
+          {% for image in product.images %}
+            <img 
+              src="{{ image | image_url: width: 100, height: 100, crop: 'center' }}" 
+              alt="{{ image.alt | escape }}" 
+              data-full-src="{{ image | image_url: width: 1200 }}" 
+              class="thumbnail-image"
+              loading="lazy"
+            >
+          {% endfor %}
+        </div>
+        
+        <div class="product-main-image">
+          <img 
+            id="main-product-image-{{ section.id }}" 
+            src="{{ product.featured_image | image_url: width: 1200 }}" 
+            alt="{{ product.title | escape }}"
+            loading="lazy"
+          >
+        </div>
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'product-main-image' }}
+      {% endif %}
+    </div>
+
+    {% comment %} COLUMNA DERECHA: INFORMACIÓN Y BLOQUES {% endcomment %}
+    <div class="product-info-wrapper">
+      {%- assign current_variant = product.selected_or_first_available_variant -%}
+      
+      {% for block in section.blocks %}
+        <div class="product-info-block" {{ block.shopify_attributes }}>
+          {% case block.type %}
+            {% when 'vendor_sku' %}
+              <div style="display:flex; flex-direction:column; gap: 0.25rem;">
+                <p class="product-vendor">{{ product.vendor }}</p>
+              </div>
+              
+            {% when 'title' %}
+              <div style="display:flex; flex-direction:column; gap: 0.25rem;">
+                <h1 class="product-title">{{ product.title }}</h1>
+                {% if current_variant.sku != blank %}
+                  <p class="product-sku">{{ current_variant.sku }}</p>
+                {% endif %}
+              </div>
+              
+            {% when 'price' %}
+              <div class="product-price-container">
+                <span class="product-price-current">{{ current_variant.price | money }}</span>
+                {% if current_variant.compare_at_price > current_variant.price %}
+                  <span class="product-price-compare">{{ current_variant.compare_at_price | money }}</span>
+                  {% assign discount = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round %}
+                  <span class="product-savings-badge">-{{ discount }}%</span>
+                {% endif %}
+              </div>
+              
+            {% when 'variant_picker' %}
+              {% unless product.has_only_default_variant %}
+                <div class="product-variant-picker">
+                  {% comment %} Dummy visual color representation similar to the reference image {% endcomment %}
+                  <div>
+                    <button class="swatch-color" title="Color Seleccionado" type="button"></button>
+                  </div>
+                  
+                  {% comment %} Actual functional select, hidden since the image uses swatches, but kept functional {% endcomment %}
+                  <select id="Option-{{ section.id }}" name="id" form="product-form-{{ section.id }}" style="margin-top:10px; display:block;">
+                    {% for variant in product.variants %}
+                      <option 
+                        value="{{ variant.id }}"
+                        {% if variant == current_variant %}selected="selected"{% endif %}
+                        {% unless variant.available %}disabled="disabled"{% endunless %}
+                      >
+                       {{ variant.title }} - {{ variant.price | money }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              {% endunless %}
+              
+            {% when 'buy_buttons' %}
+              <div class="product-actions" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                {% assign product_form_id = 'product-form-' | append: section.id %}
+                {% form 'product', product, id: product_form_id %}
+                  <input type="hidden" name="id" value="{{ current_variant.id }}">
+                  
+                  <div class="product-form-container">
+                    {% if block.settings.show_quantity_selector %}
+                    <div class="product-quantity-wrapper">
+                      <label for="Quantity-{{ section.id }}" class="product-quantity-label">Cantidad:</label>
+                      <div class="product-quantity">
+                        <button type="button" class="quantity-minus" aria-label="Decrease quantity">
+                          <svg width="12" height="2" viewBox="0 0 12 2" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 1H12" stroke="currentColor" stroke-width="1.5"/></svg>
+                        </button>
+                        <input type="number" id="Quantity-{{ section.id }}" name="quantity" value="1" min="1" form="{{ product_form_id }}">
+                        <button type="button" class="quantity-plus" aria-label="Increase quantity">
+                           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 0V12M0 6H12" stroke="currentColor" stroke-width="1.5"/></svg>
+                        </button>
+                      </div>
+                    </div>
+                    {% endif %}
+                    
+                    {%- unless shop.enabled_payment_types == empty -%}
+                      <div class="payment-methods-wrapper">
+                        <ul class="payment-icons" role="list">
+                          {%- for type in shop.enabled_payment_types -%}
+                            <li>
+                              {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    {%- endunless -%}
+
+                    <div class="product-actions-grid">
+                      <button type="submit" name="add" class="product-add-to-cart" {% unless current_variant.available %}disabled{% endunless %}>
+                        {% if current_variant.available %}
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                          Añadir al carrito
+                        {% else %}
+                          Agotado
+                        {% endif %}
+                      </button>
+
+                      {% if block.settings.show_dynamic_checkout %}
+                        <div class="shopify-payment-button">
+                          {{ form | payment_button }}
+                        </div>
+                      {% else %}
+                         <button type="submit" name="return_to" value="/checkout" class="product-buy-now">
+                           Comprar ahora →
+                         </button>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endform %}
+              </div>
+
+            {% when 'favorite_button' %}
+               {% comment %} Favoritos is now integrated visually near the first trust badge {% endcomment %}
+               <div style="display:none;" id="hidden-favorite-btn-data">
+                 <!-- Stored just in case you use JS to move it -->
+               </div>
+
+            {% when 'trust_badges' %}
+              <div class="product-meta-footer">
+                
+                <div class="product-meta-row-1">
+                  {% if block.settings.badge_1_text != blank %}
+                  <div class="trust-badge-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+                    <span>{{ block.settings.badge_1_text }}</span>
+                  </div>
+                  {% endif %}
+                  
+                  <button class="product-favorite" type="button">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    <span>Agregar a favoritos</span>
+                  </button>
+                </div>
+
+                {% if block.settings.badge_2_text != blank %}
+                <div class="trust-badge-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                  <span>{{ block.settings.badge_2_text }}</span>
+                </div>
+                {% endif %}
+                
+              </div>
+              
+          {% endcase %}
+        </div>
       {% endfor %}
-    </select>
-
-    <input type="text" name="quantity" min="1" value="1">
-
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
+    </div>
+  </div>
 </div>
+</div>
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', function() {
+    // Gallery Image Swapping
+    const thumbnails = document.querySelectorAll('.thumbnail-image');
+    const mainImage = document.querySelector('img[id^="main-product-image-"]');
+
+    if (thumbnails.length > 0 && mainImage) {
+      thumbnails.forEach(function(thumb) {
+        thumb.addEventListener('click', function() {
+          const newSrc = this.getAttribute('data-full-src');
+          if(newSrc) {
+            mainImage.setAttribute('src', newSrc);
+            
+            // Highlight current thumb
+            thumbnails.forEach(t => t.style.opacity = '1');
+            this.style.opacity = '0.5';
+          }
+        });
+      });
+    }
+
+    // Quantity Selector Logic
+    const qtyWrappers = document.querySelectorAll('.product-quantity');
+    qtyWrappers.forEach(function(wrapper) {
+      const btnMinus = wrapper.querySelector('.quantity-minus');
+      const btnPlus = wrapper.querySelector('.quantity-plus');
+      const input = wrapper.querySelector('input[type="number"]');
+
+      if(btnMinus && btnPlus && input) {
+        btnMinus.addEventListener('click', function() {
+          let currentVal = parseInt(input.value) || 1;
+          if (currentVal > 1) {
+            input.value = currentVal - 1;
+          }
+        });
+        
+        btnPlus.addEventListener('click', function() {
+          let currentVal = parseInt(input.value) || 1;
+          input.value = currentVal + 1;
+        });
+      }
+    });
+
+  });
+{% endjavascript %}
 
 {% schema %}
 {
-  "name": "t:general.product",
+  "name": "Producto Principal",
   "settings": [],
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  }
+  "blocks": [
+    {
+      "type": "vendor_sku",
+      "name": "Marca y SKU",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Título",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Precio",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "Selector de Variantes",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Botones de Compra",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_quantity_selector",
+          "default": true,
+          "label": "Mostrar selector de cantidad"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "default": true,
+          "label": "Mostrar botón de pago dinámico"
+        }
+      ]
+    },
+    {
+      "type": "favorite_button",
+      "name": "Añadir a favoritos",
+      "limit": 1
+    },
+    {
+      "type": "trust_badges",
+      "name": "Etiquetas de Confianza",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_1_text",
+          "label": "Texto Etiqueta 1",
+          "default": "Garantía 12 meses"
+        },
+        {
+          "type": "text",
+          "id": "badge_2_text",
+          "label": "Texto Etiqueta 2",
+          "default": "Somos distribuidores autorizados"
+        },
+        {
+          "type": "text",
+          "id": "badge_3_text",
+          "label": "Texto Etiqueta 3",
+          "default": "Envío Nacional"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

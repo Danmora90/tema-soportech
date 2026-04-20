@@ -1,0 +1,217 @@
+{% comment %}
+  This section displays the product description and trust icons in a 60/40 split layout.
+{% endcomment %}
+
+{% stylesheet %}
+  .product-description-section {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    font-family: inherit;
+    color: #444;
+  }
+  
+  .product-description-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 2rem;
+    text-align: left;
+    border-bottom: 2px solid #f3f4f6;
+    padding-bottom: 0.5rem;
+  }
+
+  .product-description-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media(min-width: 768px) {
+    .product-description-layout {
+      grid-template-columns: 6fr 4fr;
+    }
+  }
+
+  .product-description-content {
+    line-height: 1.6;
+  }
+  
+  .product-description-content h2, 
+  .product-description-content h3 {
+    color: #222;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .product-description-content p {
+    margin-bottom: 1rem;
+  }
+  
+  .product-description-content ul, 
+  .product-description-content ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  /* Right column: Informative Icons */
+  .product-info-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-content: start;
+  }
+
+  @media(max-width: 1024px) {
+    .product-info-features {
+      /* Stack in single column for narrower screens before mobile break */
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media(max-width: 767px) {
+    .product-info-features {
+      grid-template-columns: 1fr 1fr; /* Side by side on mobile */
+    }
+  }
+
+  @media(max-width: 480px) {
+    .product-info-features {
+      grid-template-columns: 1fr; /* Stack completely on very small screens */
+    }
+  }
+
+  .feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+
+  .feature-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  
+  .feature-icon svg {
+    width: 40px;
+    height: 40px;
+    color: #111827;
+  }
+
+  /* Green accents for the icons to match reference */
+  .icon-accent {
+    color: #16a34a;
+  }
+
+  .feature-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .feature-text {
+    font-size: 0.85rem;
+    color: #4b5563;
+    line-height: 1.4;
+    margin: 0;
+  }
+{% endstylesheet %}
+
+<div class="product-description-section" id="Description-{{ section.id }}">
+  <h2 class="product-description-title">Descripción</h2>
+  
+  <div class="product-description-layout">
+    
+    <!-- Left Column (60%) -->
+    <div class="product-description-content">
+      {% if product.description != blank %}
+        {{ product.description }}
+      {% else %}
+        <p>{{ 'La descripción de este producto no está disponible' | t | default: 'La descripción de este producto no está disponible.' }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Right Column (40%) -->
+    <div class="product-info-features">
+      
+      <!-- Icon 1 -->
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Magnifying glass -->
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <!-- Green star accent -->
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#16a34a" stroke="#16a34a" stroke-width="0" transform="scale(0.4) translate(-5, -5)" class="icon-accent" />
+          </svg>
+        </div>
+        <h3 class="feature-title">Garantía</h3>
+        <p class="feature-text">Somos reconocidos por entregarte un certificado de originalidad en todas tus compras.</p>
+      </div>
+
+      <!-- Icon 2 -->
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="2" y1="10" x2="22" y2="10" class="icon-accent" stroke="#16a34a" stroke-width="2"></line>
+          </svg>
+        </div>
+        <h3 class="feature-title">Pagos Seguros</h3>
+        <p class="feature-text">Puedes pagar con total tranquilidad en este sitio web con múltiples medios de pago.</p>
+      </div>
+
+      <!-- Icon 3 -->
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            <!-- Up arrow accent -->
+            <path d="M7 14 L7 8 L4 11 M7 8 L10 11" stroke="#16a34a" stroke-width="2" class="icon-accent"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Envíos 100% Gratis</h3>
+        <p class="feature-text">Ofrecemos envíos gratis a todo Colombia por compras superiores a 250.000$</p>
+      </div>
+
+      <!-- Icon 4 -->
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01" class="icon-accent" stroke="#16a34a" stroke-width="2"></polyline>
+          </svg>
+        </div>
+        <h3 class="feature-title">Verificación</h3>
+        <p class="feature-text">Estamos verificados por Instagram, lo que nos hace una empresa segura y confiable.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Descripción del Producto",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Descripción del Producto"
+    }
+  ]
+}
+{% endschema %}
