@@ -1,72 +1,318 @@
-<header>
-  <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-    {{ 'logo-soportech.svg' | inline_asset_content }}
-  </a>
+<header class="header">
+  
+  <!-- Nivel Superior: Logo, Buscador, Redes y Cuenta/Carrito -->
+  <div class="header__top">
+    
+    <!-- Logo -->
+    <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+      {% if section.settings.logo != blank %}
+        {% assign logo_alt = section.settings.logo.alt | default: shop.name | escape %}
+        {{ section.settings.logo | image_url: width: 400 | image_tag: alt: logo_alt, class: 'header__logo-image' }}
+      {% else %}
+        {{ 'logo-soportech.svg' | inline_asset_content }}
+      {% endif %}
+    </a>
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
+    <!-- Search Bar -->
+    <div class="header__search">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+        <!-- Filtrar para buscar solo productos -->
+        <input type="hidden" name="type" value="product">
+        
+        <input 
+          type="search" 
+          name="q" 
+          value="{{ search.terms | escape }}" 
+          placeholder="Buscar productos..." 
+          aria-label="Buscar productos"
+          class="search-input"
+        >
+        <button type="submit" class="search-button" aria-label="Buscar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- Área de Acciones (Redes Sociales + Iconos de Tienda) -->
+    <div class="header__actions">
+      
+      <!-- Redes Sociales -->
+      <div class="header__social">
+        <a href="{{ settings.social_facebook_link | default: '#' }}" target="_blank" aria-label="Facebook" class="social-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+        </a>
+        <a href="{{ settings.social_instagram_link | default: '#' }}" target="_blank" aria-label="Instagram" class="social-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </a>
+      </div>
+
+      <!-- Separador visual -->
+      <div class="header__separator"></div>
+
+      <!-- Icons: Account & Cart -->
+      <div class="header__icons">
+        {% if shop.customer_accounts_enabled %}
+          <shopify-account menu="{{ section.settings.customer_account_menu }}">
+            {{ 'icon-account.svg' | inline_asset_content }}
+          </shopify-account>
+        {% else %}
+          <a href="{{ routes.account_url }}" class="header__icon-link">
+            {{ 'icon-account.svg' | inline_asset_content }}
+          </a>
+        {% endif %}
+
+        <a href="{{ routes.cart_url }}" class="header__icon-link cart-link">
+          {% if cart.item_count > 0 %}
+            <span class="cart-count">{{ cart.item_count }}</span>
+          {% endif %}
+          {{ 'icon-cart.svg' | inline_asset_content }}
+        </a>
+      </div>
+
+    </div>
   </div>
 
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      <shopify-account menu="{{ section.settings.customer_account_menu }}">
-        {{ 'icon-account.svg' | inline_asset_content }}
-      </shopify-account>
-    {% endif %}
-
-    <a href="{{ routes.cart_url }}">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
-      {% endif %}
-
-      {{ 'icon-cart.svg' | inline_asset_content }}
-    </a>
+  <!-- Nivel Inferior: Menú de navegación -->
+  <div class="header__bottom">
+    <nav class="header__menu">
+      {% assign active_menu = section.settings.menu | default: 'main-menu' %}
+      {% for link in linklists[active_menu].links %}
+        <a href="{{ link.url }}" class="header__menu-link">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
   </div>
 </header>
 
 {% stylesheet %}
-  header {
-    height: 5rem;
+  .header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  /* TOP ROW */
+  .header__top {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 2rem;
   }
-  header a {
-    position: relative;
-    text-decoration: none;
-    color: var(--color-foreground);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
-  }
-  header .header__menu,
-  header .header__icons {
-    display: flex;
-    gap: 1rem;
-  }
-  header svg {
-    width: 2rem;
-  }
+
   .header__logo {
     display: flex;
     align-items: center;
     flex-shrink: 0;
+    text-decoration: none;
   }
+  
   .header__logo svg {
-    width: 3.25rem;
+    width: auto;
     height: 3.25rem;
     transition: opacity 0.2s ease;
   }
+  
   .header__logo:hover svg {
     opacity: 0.85;
+  }
+
+  .header__logo-image {
+    width: auto;
+    height: 100%;
+    max-height: 4rem; /* Permite que la imagen subida se vea a buen tamaño en el header */
+    object-fit: contain;
+  }
+
+  /* SEARCH BAR */
+  .header__search {
+    flex-grow: 1;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .search-form {
+    display: flex;
+    align-items: center;
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 9999px;
+    padding: 0.25rem 0.5rem;
+    transition: border-color 0.2s ease, background-color 0.2s;
+  }
+
+  .search-form:focus-within {
+    background-color: #ffffff;
+    border-color: #06b6d4;
+    box-shadow: 0 0 0 1px #06b6d4;
+  }
+  
+  .search-input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    padding: 0.5rem 1rem;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #111827;
+  }
+  
+  .search-input::placeholder {
+    color: #6b7280;
+  }
+  
+  .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4b5563;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 50%;
+  }
+  
+  .search-button:hover {
+    color: #06b6d4;
+  }
+  
+  .search-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* ACTIONS AREA (Social APIs + Icons) */
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .header__social {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .social-link {
+    color: #6b7280;
+    transition: color 0.2s ease;
+    display: flex;
+  }
+
+  .social-link svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .social-link:hover {
+    color: #06b6d4;
+  }
+
+  .header__separator {
+    width: 1px;
+    height: 24px;
+    background-color: #e5e7eb;
+  }
+
+  .header__icons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .header__icon-link {
+    position: relative;
+    text-decoration: none;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header__icons svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .cart-link .cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ef4444;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+  }
+
+  /* BOTTOM ROW (Menu) */
+  .header__bottom {
+    background-color: #f9fafb;
+    border-top: 1px solid #f3f4f6;
+  }
+
+  .header__menu {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: center; /* Alineación centrada */
+    gap: 2rem;
+    height: 3.5rem;
+    align-items: center;
+  }
+  
+  .header__menu-link {
+    text-decoration: none;
+    color: #374151;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .header__menu-link:hover {
+    color: #06b6d4;
+  }
+
+  /* Responsive Adjustments */
+  @media(max-width: 768px) {
+    .header__top {
+      flex-wrap: wrap;
+      padding: 1rem 1.5rem;
+      gap: 1rem;
+    }
+    
+    .header__search {
+      order: 3;
+      width: 100%;
+      max-width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .header__social, .header__separator {
+      display: none; /* Mejor ocultar redes arriba en móviles pequeños para ahorrar espacio */
+    }
+
+    .header__bottom {
+      display: none; /* En producción los celulares suelen usar un menú hamburguesa */
+    }
   }
 {% endstylesheet %}
 
@@ -75,9 +321,15 @@
   "name": "t:general.header",
   "settings": [
     {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
       "type": "link_list",
       "id": "menu",
-      "label": "t:labels.menu"
+      "label": "t:labels.menu",
+      "default": "main-menu"
     },
     {
       "type": "link_list",
