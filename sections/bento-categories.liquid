@@ -1,0 +1,294 @@
+<section class="bento-section" {{ section.shopify_attributes }}>
+  <div class="bento-container">
+    {%- if section.settings.title != blank -%}
+      <div class="bento-header">
+        <h2 class="bento-title">{{ section.settings.title }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="bento-grid">
+      {%- for block in section.blocks -%}
+        {%- assign is_main = false -%}
+        {%- if forloop.index == 1 -%}
+          {%- assign is_main = true -%}
+        {%- endif -%}
+
+        <a href="{{ block.settings.url | default: '#' }}" class="bento-card {% if is_main %}bento-card--main{% else %}bento-card--sub{% endif %}" {{ block.shopify_attributes }}>
+          <!-- Background Image -->
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 1200 | image_tag: class: 'bento-bg', loading: 'lazy', alt: block.settings.title }}
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'bento-bg bento-bg--placeholder' }}
+          {%- endif -%}
+
+          <!-- Overlay -->
+          <div class="bento-overlay"></div>
+
+          <!-- Content -->
+          <div class="bento-content">
+            <h3 class="bento-card-title">{{ block.settings.title }}</h3>
+            
+            {%- if is_main and block.settings.description != blank -%}
+              <p class="bento-card-desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.button_text != blank -%}
+              {%- if is_main -%}
+                <span class="bento-btn bento-btn--ghost">{{ block.settings.button_text }}</span>
+              {%- else -%}
+                <span class="bento-link">{{ block.settings.button_text }} &rarr;</span>
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .bento-section {
+    background-color: #f8fafc;
+    padding: 4rem 1.25rem;
+  }
+
+  .bento-container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .bento-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .bento-title {
+    font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .bento-grid {
+      grid-template-columns: 58% 42%;
+      grid-template-rows: repeat(2, 300px);
+      gap: 1.25rem;
+    }
+
+    .bento-card:nth-child(1) {
+      grid-row: 1 / 3;
+      grid-column: 1 / 2;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .bento-grid {
+      grid-template-rows: repeat(2, 350px);
+    }
+  }
+
+  .bento-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-radius: 1rem;
+    overflow: hidden;
+    text-decoration: none;
+    background: #1e293b;
+    min-height: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .bento-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .bento-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .bento-card:hover .bento-bg {
+    transform: scale(1.04);
+  }
+
+  .bento-bg--placeholder {
+    padding: 2rem;
+    fill: #94a3b8;
+    background: #cbd5e1;
+  }
+
+  .bento-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.4) 40%, rgba(15, 23, 42, 0.1) 100%);
+    z-index: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .bento-card:hover .bento-overlay {
+    opacity: 0.9;
+  }
+
+  .bento-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bento-card-title {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+  }
+
+  .bento-card--main .bento-card-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .bento-card-desc {
+    color: #e2e8f0;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0 0 1.5rem;
+    max-width: 400px;
+  }
+
+  .bento-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .bento-btn--ghost {
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+    background: transparent;
+  }
+
+  .bento-btn--ghost:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .bento-link {
+    color: #06b6d4;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .bento-card:hover .bento-link {
+    color: #22d3ee;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Categorías Bento",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título de la sección",
+      "default": "Comprar por Categoría"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Categoría",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen de fondo"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Nombre de Categoría"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Descripción (Solo para tarjeta principal)",
+          "default": "Describe esta categoría brevemente."
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texto del botón",
+          "default": "Explorar"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Enlace de la categoría"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Categorías Bento",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "title": "Componentes de PC",
+            "description": "Arma el equipo de tus sueños con motherboards, procesadores y tarjetas gráficas de gama alta.",
+            "button_text": "Explorar Categoría",
+            "image": "shopify://shop_images/bento_main_pc_1777096102438.png"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Audio Profesional",
+            "button_text": "Shop Now",
+            "image": "shopify://shop_images/bento_audio_vintage_1777096116438.png"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Celulares y Tablets",
+            "button_text": "Shop Now",
+            "image": "shopify://shop_images/bento_mobile_tablets_1777096131036.png"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

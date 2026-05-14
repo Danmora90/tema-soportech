@@ -13,10 +13,14 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "logo": "shopify://shop_images/Gemini_Generated_Image_48umd648umd648um-removebg-preview.png",
+        "menu": "main-menu",
+        "customer_account_menu": "customer-account-main-menu"
+      }
     }
   },
   "order": [
     "header"
-  ],
+  ]
 }

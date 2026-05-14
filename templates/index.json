@@ -151,14 +151,60 @@
     },
     "featured-collection": {
       "type": "featured-collection",
+      "custom_css": [
+        "h2 {text-transform: uppercase;}"
+      ],
       "settings": {
-        "eyebrow": "Promociones Exclusivas",
-        "title": "OFERTAS DESTACADAS",
-        "subtitle": "Precios imposibles de ignorar. Solo por tiempo limitado.",
-        "collection": "frontpage",
+        "eyebrow": "Los Favoritos de Nuestros clientes",
+        "title": "Lo Más Top: Nuestros Superventas",
+        "subtitle": "La tecnología que necesitas, aprobada por nuestros clientes.",
+        "collection": "lo-mas-top-nuestros-superventas",
         "products_to_show": 4,
         "cta_label": "Ver todas las ofertas",
-        "cta_url": ""
+        "cta_url": "shopify://collections/lo-mas-top-nuestros-superventas"
+      }
+    },
+    "bento-categories": {
+      "type": "bento-categories",
+      "blocks": {
+        "category-1": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Audifonos_para_venta_tecnologica__202605120045.webp",
+            "title": "Audífonos",
+            "description": "No solo escuches, siente cada momento.\n¿Estás listo para unirte a la experiencia definitiva de audio?",
+            "button_text": "Compra ahora",
+            "url": "shopify://collections/audifonos"
+          }
+        },
+        "category-2": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Cargadores_celulares_iPads_indiv__202605122244.webp",
+            "title": "Cargadores",
+            "description": "¿Cuánto tiempo de tu vida pierdes esperando a que suba ese porcentaje? Tu celular y tu iPad son el motor de tu día, dales la energía que se merecen con la mejor tecnología.",
+            "button_text": "Compra ahora",
+            "url": "shopify://collections/cargadores"
+          }
+        },
+        "category-3": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Powerbanks_for_electronic_devices_202605122257.webp",
+            "title": "Powerbank",
+            "description": "Describe esta categoría brevemente.",
+            "button_text": "Compra ahora",
+            "url": "shopify://collections/powerbank"
+          }
+        }
+      },
+      "block_order": [
+        "category-1",
+        "category-2",
+        "category-3"
+      ],
+      "settings": {
+        "title": "Comprar por Categoría"
       }
     },
     "seasonal-promo": {
@@ -426,6 +472,7 @@
     "hero-banner",
     "brands-marquee",
     "featured-collection",
+    "bento-categories",
     "seasonal-promo",
     "social-proof",
     "trust-badges",
