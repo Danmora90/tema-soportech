@@ -1,83 +1,278 @@
 {% comment %}
-  This section is used in the list-collections template to render a list of
-  collections.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
+  Lista de colecciones — Página de Categorías
 {% endcomment %}
 
-<h1>{{ 'collections.title' | t }}</h1>
+<section class="collist-page full-width" {{ section.shopify_attributes }}>
 
-<div
-  class="collections {{ section.settings.grid_item_width }}"
-  style="--grid-gap: {{ section.settings.grid_gap }}px"
->
-  {% for collection in collections %}
-    <a class="collection-card" href="{{ collection.url }}">
-      {% if collection.featured_image %}
-        {% render 'image',
-          class: 'collection-card__image',
-          image: collection.featured_image,
-          width: 600,
-          height: 600,
-          crop: 'center'
-        %}
-      {% endif %}
+  <!-- Encabezado -->
+  <div class="collist-header">
+    <div class="collist-header__inner">
+      <p class="collist-header__eyebrow">
+        <span class="collist-header__dot" aria-hidden="true"></span>
+        Explora nuestro catálogo
+        <span class="collist-header__dot" aria-hidden="true"></span>
+      </p>
+      <h1 class="collist-header__title">Categorías</h1>
+      <p class="collist-header__subtitle">Encuentra exactamente lo que necesitas en cada una de nuestras colecciones</p>
+    </div>
+  </div>
 
-      <div class="collection-card__content">
-        <p>{{ collection.title }}</p>
+  <!-- Grid de colecciones -->
+  <div class="collist-container">
+    <div class="collist-grid">
+      {%- for col in collections -%}
+        {%- unless col.handle == 'frontpage' or col.all_products_count == 0 -%}
+          <a class="col-card" href="{{ col.url }}" aria-label="{{ col.title }}">
 
-        {% if collection.description %}
-          <p>{{ collection.description | strip_html | truncatewords: 15 }}</p>
-        {% endif %}
-      </div>
-    </a>
-  {% endfor %}
-</div>
+            <!-- Imagen -->
+            <div class="col-card__img-wrap">
+              {%- if col.featured_image -%}
+                {{
+                  col.featured_image
+                  | image_url: width: 800
+                  | image_tag:
+                    loading: 'lazy',
+                    class: 'col-card__img',
+                    alt: col.featured_image.alt | default: col.title,
+                    widths: '400, 600, 800'
+                }}
+              {%- else -%}
+                {{ 'collection-1' | placeholder_svg_tag: 'col-card__img col-card__img--placeholder' }}
+              {%- endif -%}
+
+              <!-- Overlay -->
+              <div class="col-card__overlay" aria-hidden="true">
+                <span class="col-card__cta">Ver colección →</span>
+              </div>
+            </div>
+
+            <!-- Info -->
+            <div class="col-card__info">
+              <h2 class="col-card__title">{{ col.title }}</h2>
+              {%- if col.description != blank -%}
+                <p class="col-card__desc">{{ col.description | strip_html | truncatewords: 12 }}</p>
+              {%- endif -%}
+              <span class="col-card__count">{{ col.all_products_count }} {{ col.all_products_count | pluralize: 'producto', 'productos' }}</span>
+            </div>
+
+          </a>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+</section>
 
 {% stylesheet %}
-  .collections {
+  /* ══ PÁGINA DE CATEGORÍAS ══ */
+  .collist-page {
+    background-color: #f8fafc;
+    color: #0f172a;
+    min-height: 60vh;
+  }
+
+  /* ── Encabezado ── */
+  .collist-header {
+    background: linear-gradient(160deg, #f0f9ff 0%, #ffffff 50%, #eff6ff 100%);
+    padding: 4rem 1.5rem 3.5rem;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .collist-header__inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .collist-header__eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #06b6d4;
+    margin: 0 0 1.25rem;
+  }
+
+  .collist-header__dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: dot-pulse 2s ease-in-out infinite;
+  }
+
+  .collist-header__dot:last-child {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes dot-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .collist-header__title {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 1rem;
+    line-height: 1.1;
+  }
+
+  .collist-header__subtitle {
+    font-size: 1.0625rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── Grid container ── */
+  .collist-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 5rem;
+  }
+
+  .collist-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(var(--collection-card-size), 100%), 1fr));
-    gap: var(--grid-gap);
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+    gap: 1.75rem;
   }
-  .collections--compact {
-    --collection-card-size: 160px;
+
+  @media screen and (min-width: 768px) {
+    .collist-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
-  .collections--full {
-    --collection-card-size: 280px;
+
+  @media screen and (min-width: 1200px) {
+    .collist-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
-  .collection-card {
+
+  /* ── Tarjeta de colección ── */
+  .col-card {
     display: flex;
     flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 1.125rem;
+    overflow: hidden;
+    transition:
+      transform  0.28s cubic-bezier(0.34, 1.4, 0.64, 1),
+      box-shadow 0.28s ease,
+      border-color 0.28s ease;
+  }
+
+  .col-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 4px 6px -1px rgba(0,0,0,0.06),
+      0 20px 48px -8px rgba(0,0,0,0.14);
+    border-color: rgba(6,182,212,0.35);
+  }
+
+  /* ── Imagen ── */
+  .col-card__img-wrap {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #f1f5f9;
+  }
+
+  .col-card__img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+    display: block;
+  }
+
+  .col-card:hover .col-card__img {
+    transform: scale(1.06);
+  }
+
+  .col-card__img--placeholder {
+    width: 100%;
+    height: 100%;
+    fill: #cbd5e1;
+    padding: 2rem;
+    background: #f1f5f9;
+  }
+
+  /* ── Overlay ── */
+  .col-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(6,182,212,0.75) 0%, transparent 60%);
+    display: flex;
+    align-items: flex-end;
+    padding: 1.25rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .col-card:hover .col-card__overlay {
+    opacity: 1;
+  }
+
+  .col-card__cta {
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── Info ── */
+  .col-card__info {
+    padding: 1rem 1.125rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 1;
+  }
+
+  .col-card__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+    line-height: 1.3;
+    transition: color 0.2s ease;
+  }
+
+  .col-card:hover .col-card__title {
+    color: #0891b2;
+  }
+
+  .col-card__desc {
+    font-size: 0.84375rem;
+    color: #64748b;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .col-card__count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #06b6d4;
+    margin-top: 0.35rem;
+    letter-spacing: 0.02em;
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "t:general.collections_grid",
-  "settings": [
-    {
-      "type": "select",
-      "id": "grid_item_width",
-      "label": "t:labels.grid_item_width",
-      "options": [
-        { "value": "collections--compact", "label": "t:options.size.small" },
-        { "value": "collections--full", "label": "t:options.size.large" }
-      ],
-      "default": "collections--full"
-    },
-    {
-      "type": "range",
-      "id": "grid_gap",
-      "label": "t:labels.grid_gap",
-      "min": 0,
-      "max": 50,
-      "step": 5,
-      "unit": "px",
-      "default": 10
-    }
-  ],
-  "presets": [{ "name": "t:general.collections_grid" }]
+  "name": "Categorías",
+  "presets": [{ "name": "Lista de Categorías" }]
 }
 {% endschema %}
