@@ -1,0 +1,275 @@
+{% comment %}
+  Section: Políticas de Privacidad
+  Renders the custom Privacy and Security policies page content for 88jmbubble.
+{% endcomment %}
+
+{% stylesheet %}
+  /* Container for the page contents (constrained layout) */
+  .policies-container {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem 1.5rem;
+    font-family: inherit;
+    color: #334155;
+  }
+
+  /* Hero Section styling - spans full-width and has no margin-top */
+  .policies-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #047857 100%); /* Greenish gradient accent representing security */
+    border-radius: 0;
+    padding: 5rem 2rem;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 4rem;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .policies-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .policies-hero h1 {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.03em;
+    background: linear-gradient(to right, #ffffff, #e2e8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+  }
+
+  .policies-hero p {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: #cbd5e1;
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Document content styles */
+  .policies-content {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  .policies-content p {
+    margin: 0 0 1.5rem 0;
+  }
+
+  .policies-content p.intro-lead {
+    font-size: 1.1875rem;
+    color: #0f172a;
+    font-weight: 500;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .policies-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 3rem 0 1.25rem 0;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.5rem;
+  }
+
+  .policies-content h2:first-of-type {
+    margin-top: 0;
+  }
+
+  .policies-content h3 {
+    font-size: 1.1875rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 2rem 0 1rem 0;
+  }
+
+  /* List items */
+  .policies-content ul {
+    margin: 0 0 2rem 0;
+    padding-left: 1.5rem;
+    list-style: none;
+  }
+
+  .policies-content ul li {
+    position: relative;
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+  }
+
+  .policies-content ul li::before {
+    content: "•";
+    color: #10b981; /* Green bullet for checklist feeling */
+    font-weight: bold;
+    font-size: 1.25rem;
+    position: absolute;
+    left: -1rem;
+    top: -0.1rem;
+  }
+
+  .policies-content strong {
+    color: #0f172a;
+    font-weight: 600;
+  }
+{% endstylesheet %}
+
+<!-- Hero Section (Full-width) -->
+<header class="policies-hero full-width">
+  <h1>{{ section.settings.hero_title | default: "Políticas de Seguridad y Privacidad" }}</h1>
+  <p>{{ section.settings.hero_subtitle | default: "En 88jmbubble, tu tranquilidad y la seguridad de tus datos son nuestra máxima prioridad." }}</p>
+</header>
+
+<div class="policies-container">
+  
+  <article class="policies-content">
+    <p class="intro-lead">{{ section.settings.intro_text }}</p>
+    
+    <h2>1. Seguridad en tus Pagos y Transacciones Financieras</h2>
+    <p><strong>Cero Almacenamiento de Tarjetas:</strong> {{ section.settings.payments_cards }}</p>
+    <p><strong>Pasarelas Certificadas:</strong> {{ section.settings.payments_gateways }}</p>
+
+    <h2>2. Cifrado de Datos y Navegación Segura (SSL)</h2>
+    <p>{{ section.settings.ssl_text_1 }}</p>
+    <p><strong>¿Qué significa esto para ti?</strong> {{ section.settings.ssl_text_2 }}</p>
+
+    <h2>3. Protección de Datos Personales (Ley 1581 de 2012)</h2>
+    <p>{{ section.settings.law_intro }}</p>
+    <p><strong>Finalidad del uso de datos:</strong> Tus datos serán utilizados única y exclusivamente para:</p>
+    <ul>
+      <li>{{ section.settings.law_purpose_1 }}</li>
+      <li>{{ section.settings.law_purpose_2 }}</li>
+      <li>{{ section.settings.law_purpose_3 }}</li>
+      <li>{{ section.settings.law_purpose_4 }}</li>
+    </ul>
+    <p><strong>Tus Derechos (ARCO):</strong> {{ section.settings.law_rights }}</p>
+
+    <h2>4. Medidas de Seguridad Interna</h2>
+    <p>Para prevenir el acceso no autorizado, la pérdida o la alteración de la información de nuestra comunidad, en 88jmbubble aplicamos estrictos controles técnicos:</p>
+    <ul>
+      <li>{{ section.settings.security_measure_1 }}</li>
+      <li>{{ section.settings.security_measure_2 }}</li>
+    </ul>
+
+    <h2>¿Tienes dudas?</h2>
+    <p>{{ section.settings.footer_dudas }}</p>
+  </article>
+
+</div>
+
+{% schema %}
+{
+  "name": "Políticas de Privacidad",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Título Principal",
+      "default": "Políticas de Seguridad y Privacidad"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Subtítulo Principal",
+      "default": "En 88jmbubble, tu tranquilidad y la seguridad de tus datos son nuestra máxima prioridad."
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Texto Introducción",
+      "default": "Nos comprometemos a proteger la información que compartes con nosotros y a garantizar que tu experiencia de compra en nuestra tienda en línea sea 100% segura.\n\nA continuación, te detallamos los protocolos, tecnologías y normativas que aplicamos para proteger tus datos personales y financieros de acuerdo con la legislación colombiana vigente."
+    },
+    {
+      "type": "textarea",
+      "id": "payments_cards",
+      "label": "Pagos: Cero Almacenamiento",
+      "default": "Para tu total seguridad, 88jmbubble NUNCA almacena ni tiene acceso a los datos de tus tarjetas de crédito, débito o credenciales bancarias."
+    },
+    {
+      "type": "textarea",
+      "id": "payments_gateways",
+      "label": "Pagos: Pasarelas Certificadas",
+      "default": "Todo el proceso de pago se realiza a través de plataformas de procesamiento aliadas que cuentan con la certificación internacional PCI-DSS (Payment Card Industry Data Security Standard). Esta norma garantiza que la información de tus transacciones viaja encriptada y protegida bajo los más estrictos estándares bancarios globales."
+    },
+    {
+      "type": "textarea",
+      "id": "ssl_text_1",
+      "label": "SSL: Certificado SSL",
+      "default": "Nuestra tienda virtual opera bajo el protocolo de transferencia segura HTTPS. Contamos con un certificado de seguridad SSL (Secure Sockets Layer) activo."
+    },
+    {
+      "type": "textarea",
+      "id": "ssl_text_2",
+      "label": "SSL: Qué significa",
+      "default": "Toda la información personal que ingresas en nuestro sitio web (como tu nombre, correo electrónico, teléfono y dirección de envío en Pereira o cualquier parte del país) se cifra automáticamente antes de ser transmitida. Esto impide que terceros no autorizados intercepten o leer tus datos."
+    },
+    {
+      "type": "textarea",
+      "id": "law_intro",
+      "label": "Ley 1581: Introducción",
+      "default": "En cumplimiento de la Ley 1581 de 2012 (Habeas Data) y sus decretos reglamentarios en Colombia, te informamos que al registrarte o realizar una compra en nuestro sitio web, recolectamos tus datos personales (nombre, identificación, dirección, teléfono y correo electrónico) bajo las siguientes directrices:"
+    },
+    {
+      "type": "text",
+      "id": "law_purpose_1",
+      "label": "Ley 1581: Finalidad 1",
+      "default": "Procesar y realizar el envío de tus productos (dispositivos de carga, audio, accesorios o periféricos de PC)."
+    },
+    {
+      "type": "text",
+      "id": "law_purpose_2",
+      "label": "Ley 1581: Finalidad 2",
+      "default": "Gestionar las garantías, soporte técnico o reparaciones solicitadas."
+    },
+    {
+      "type": "text",
+      "id": "law_purpose_3",
+      "label": "Ley 1581: Finalidad 3",
+      "default": "Enviarte notificaciones sobre el estado de tu pedido."
+    },
+    {
+      "type": "text",
+      "id": "law_purpose_4",
+      "label": "Ley 1581: Finalidad 4",
+      "default": "Compartir ofertas y novedades de la tienda (solo si has autorizado explícitamente el envío de correos o marketing)."
+    },
+    {
+      "type": "textarea",
+      "id": "law_rights",
+      "label": "Ley 1581: Derechos ARCO",
+      "default": "Como titular de los datos, tienes derecho a conocer, actualizar, rectificar o solicitar la eliminación de tu información de nuestras bases de datos en cualquier momento. Para ejercer este derecho, puedes contactarnos directamente al correo electrónico de soporte técnico o atención al cliente visible en nuestra web."
+    },
+    {
+      "type": "text",
+      "id": "security_measure_1",
+      "label": "Seguridad Interna: Medida 1",
+      "default": "Acceso restringido y con autenticación de doble factor al panel de administración de la tienda."
+    },
+    {
+      "type": "text",
+      "id": "security_measure_2",
+      "label": "Seguridad Interna: Medida 2",
+      "default": "Copias de seguridad periódicas y automáticas de la plataforma para garantizar la continuidad del servicio ante cualquier eventualidad técnica."
+    },
+    {
+      "type": "textarea",
+      "id": "footer_dudas",
+      "label": "Sección Dudas",
+      "default": "Si tienes alguna pregunta adicional sobre cómo protegemos tu información o necesitas soporte con tu cuenta, no dudes en escribirnos a través de nuestros canales oficiales de atención o visitarnos en nuestra sede física en Pereira."
+    }
+  ]
+}
+{% endschema %}

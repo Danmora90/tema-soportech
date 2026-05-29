@@ -1,0 +1,318 @@
+{% comment %}
+  Section: Política de Pago en Línea, Envío y Derecho de Retracto
+  Renders the custom Payment, Shipping, and Return policies page content for 88jmbubble.
+{% endcomment %}
+
+{% stylesheet %}
+  /* Container for the page contents (constrained layout) */
+  .shipping-container {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem 1.5rem;
+    font-family: inherit;
+    color: #334155;
+  }
+
+  /* Hero Section styling - spans full-width and has no margin-top */
+  .shipping-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #4f46e5 100%); /* Indigo/Violet gradient */
+    border-radius: 0;
+    padding: 5rem 2rem;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 4rem;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .shipping-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 80% 20%, rgba(79, 70, 229, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .shipping-hero h1 {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.03em;
+    background: linear-gradient(to right, #ffffff, #e2e8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+  }
+
+  .shipping-hero p {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: #cbd5e1;
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Document content styles */
+  .shipping-content {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  .shipping-content p {
+    margin: 0 0 1.5rem 0;
+  }
+
+  .shipping-content p.intro-lead {
+    font-size: 1.1875rem;
+    color: #0f172a;
+    font-weight: 500;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .shipping-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 3rem 0 1.25rem 0;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.5rem;
+  }
+
+  .shipping-content h2:first-of-type {
+    margin-top: 0;
+  }
+
+  /* List items */
+  .shipping-content ul {
+    margin: 0 0 2rem 0;
+    padding-left: 1.5rem;
+    list-style: none;
+  }
+
+  .shipping-content ul li {
+    position: relative;
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+  }
+
+  .shipping-content ul li::before {
+    content: "•";
+    color: #4f46e5; /* Indigo bullet to match the hero theme */
+    font-weight: bold;
+    font-size: 1.25rem;
+    position: absolute;
+    left: -1rem;
+    top: -0.1rem;
+  }
+
+  .shipping-content strong {
+    color: #0f172a;
+    font-weight: 600;
+  }
+{% endstylesheet %}
+
+<!-- Hero Section (Full-width) -->
+<header class="shipping-hero full-width">
+  <h1>{{ section.settings.hero_title | default: "Políticas de Pago en Línea, Envío y Derecho de Retracto" }}</h1>
+  <p>{{ section.settings.hero_subtitle | default: "Garantizamos transacciones seguras, envíos ágiles y devoluciones transparentes." }}</p>
+</header>
+
+<div class="shipping-container">
+  
+  <article class="shipping-content">
+    <p class="intro-lead">{{ section.settings.intro_text }}</p>
+    
+    <h2>1. Políticas de Pago en Línea</h2>
+    <p><strong>Medios de Pago Autorizados:</strong> {{ section.settings.payment_methods }}</p>
+    <p><strong>Seguridad de las Transacciones:</strong> {{ section.settings.payment_security }}</p>
+    <p><strong>Reversión del Pago (Art. 51 - Ley 1480 de 2011):</strong> {{ section.settings.payment_reversion_intro }}</p>
+    <ul>
+      <li>{{ section.settings.payment_reversion_case_1 }}</li>
+      <li>{{ section.settings.payment_reversion_case_2 }}</li>
+      <li>{{ section.settings.payment_reversion_case_3 }}</li>
+    </ul>
+    <p>{{ section.settings.payment_reversion_footer | replace: "[Tu Correo de Soporte Aquí]", section.settings.support_email }}</p>
+
+    <h2>2. Políticas de Envío y Entrega</h2>
+    <p><strong>Cobertura:</strong> {{ section.settings.shipping_coverage }}</p>
+    <p><strong>Tiempos de Entrega Estimados:</strong></p>
+    <ul>
+      <li><strong>Pereira y Eje Cafetero:</strong> {{ section.settings.delivery_time_local }}</li>
+      <li><strong>Ciudades Principales (Bogotá, Medellín, Cali, etc.):</strong> {{ section.settings.delivery_time_main }}</li>
+      <li><strong>Resto del País / Trayectos Especiales:</strong> {{ section.settings.delivery_time_others }}</li>
+    </ul>
+    <p><em>Nota: {{ section.settings.delivery_time_note }}</em></p>
+    <p><strong>Costos de Envío:</strong> {{ section.settings.shipping_costs }}</p>
+    <p><strong>Límite Legal de Entrega:</strong> {{ section.settings.shipping_legal_limit }}</p>
+
+    <h2>3. Política del Derecho de Retracto (Devoluciones)</h2>
+    <p>{{ section.settings.retract_intro }}</p>
+    <p><strong>Plazo para Ejercerlo:</strong> {{ section.settings.retract_term }}</p>
+    <p><strong>Condiciones Obligatorias del Artículo:</strong> {{ section.settings.retract_conditions }}</p>
+    <p><strong>Excepciones al Derecho de Retracto:</strong> {{ section.settings.retract_exceptions }}</p>
+    <p><strong>Costos de Transporte:</strong> {{ section.settings.retract_costs }}</p>
+    <p><strong>Plazo para el Reembolso:</strong> {{ section.settings.retract_refund }}</p>
+  </article>
+
+</div>
+
+{% schema %}
+{
+  "name": "Pago, Envío y Retracto",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Título Principal",
+      "default": "Políticas de Pago en Línea, Envío y Derecho de Retracto"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Subtítulo Principal",
+      "default": "Garantizamos transacciones seguras, envíos ágiles y devoluciones transparentes."
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Texto Introducción",
+      "default": "En 88jmbubble, queremos que tu experiencia de compra sea transparente, ágil y totalmente respaldada por la legislación colombiana vigente. A continuación, te presentamos de forma clara las condiciones de operación que rigen las transacciones, la logística de entrega y los procesos de devolución en nuestra tienda virtual."
+    },
+    {
+      "type": "text",
+      "id": "support_email",
+      "label": "Correo de Soporte",
+      "default": "soporte@88jmbubble.com"
+    },
+    {
+      "type": "textarea",
+      "id": "payment_methods",
+      "label": "Medios de Pago",
+      "default": "Ponemos a tu disposición una amplia variedad de opciones para facilitar tu compra, incluyendo tarjetas de crédito y débito (Visa, Mastercard, American Express), transferencias bancarias mediante PSE y demás alternativas seguras integradas en nuestra plataforma."
+    },
+    {
+      "type": "textarea",
+      "id": "payment_security",
+      "label": "Seguridad de Pago",
+      "default": "Todo el procesamiento de los pagos se realiza a través de pasarelas aliadas certificadas bajo el estándar internacional PCI-DSS. Esto garantiza que tus datos bancarios viajan encriptados de forma externa y segura, por lo que 88jmbubble nunca almacena ni tiene acceso a la información de tus tarjetas o contraseñas."
+    },
+    {
+      "type": "textarea",
+      "id": "payment_reversion_intro",
+      "label": "Reversión: Introducción",
+      "default": "Si realizaste tu pago mediante un mecanismo electrónico (tarjeta de crédito, débito o PSE), tienes derecho a solicitar la reversión de la transacción directamente ante tu entidad bancaria y ante nosotros dentro de los cinco (5) días hábiles siguientes a la fecha en que tuviste conocimiento de alguna de las siguientes situaciones:"
+    },
+    {
+      "type": "text",
+      "id": "payment_reversion_case_1",
+      "label": "Reversión: Caso 1",
+      "default": "Haber sido objeto de un fraude o una operación no solicitada."
+    },
+    {
+      "type": "text",
+      "id": "payment_reversion_case_2",
+      "label": "Reversión: Caso 2",
+      "default": "Que el producto adquirido nunca haya llegado a su destino."
+    },
+    {
+      "type": "text",
+      "id": "payment_reversion_case_3",
+      "label": "Reversión: Caso 3",
+      "default": "Que el producto entregado no corresponda al solicitado, no cumpla con las características informadas o resulte defectuoso de fábrica."
+    },
+    {
+      "type": "textarea",
+      "id": "payment_reversion_footer",
+      "label": "Reversión: Pie",
+      "default": "Para radicar una solicitud de reversión, escríbenos a nuestro correo oficial de atención: [Tu Correo de Soporte Aquí] con los detalles y soportes del caso."
+    },
+    {
+      "type": "textarea",
+      "id": "shipping_coverage",
+      "label": "Envíos: Cobertura",
+      "default": "Despachamos nuestros productos desde nuestra sede en Pereira, Risaralda, y realizamos envíos a todo el territorio nacional colombiano a través de empresas transportadoras de alta confiabilidad."
+    },
+    {
+      "type": "text",
+      "id": "delivery_time_local",
+      "label": "Tiempo Local (Pereira)",
+      "default": "1 a 2 días hábiles."
+    },
+    {
+      "type": "text",
+      "id": "delivery_time_main",
+      "label": "Tiempo Ciudades Principales",
+      "default": "2 a 4 días hábiles."
+    },
+    {
+      "type": "text",
+      "id": "delivery_time_others",
+      "label": "Tiempo Resto del País",
+      "default": "3 a 7 días hábiles."
+    },
+    {
+      "type": "text",
+      "id": "delivery_time_note",
+      "label": "Nota de Envío",
+      "default": "Los tiempos se cuentan a partir del día hábil siguiente a la confirmación exitosa de tu pago."
+    },
+    {
+      "type": "textarea",
+      "id": "shipping_costs",
+      "label": "Envíos: Costos",
+      "default": "El valor exacto del flete se calcula de manera transparente y automática en la pantalla de pago antes de que finalices tu orden, dependiendo de la ubicación y el volumen del paquete."
+    },
+    {
+      "type": "textarea",
+      "id": "shipping_legal_limit",
+      "label": "Límite Legal",
+      "default": "En cumplimiento del Estatuto del Consumidor, el plazo máximo legal para entregar tu pedido es de treinta (30) días calendario. Si por razones de fuerza mayor ajenas a ti superamos este tiempo, tendrás derecho a resolver el contrato de forma unilateral y recibir la devolución total de tu dinero dentro de los quince (15) días calendario siguientes."
+    },
+    {
+      "type": "textarea",
+      "id": "retract_intro",
+      "label": "Retracto: Intro",
+      "default": "Si realizaste una compra en nuestra tienda virtual y te arrepientes de ella, el artículo 47 de la Ley 1480 de 2011 te otorga el Derecho de Retracto para solicitar la devolución de tu dinero sin necesidad de justificación."
+    },
+    {
+      "type": "textarea",
+      "id": "retract_term",
+      "label": "Retracto: Plazo",
+      "default": "Tienes un término máximo de cinco (5) días hábiles contados a partir de la fecha de entrega del producto en tu dirección."
+    },
+    {
+      "type": "textarea",
+      "id": "retract_conditions",
+      "label": "Retracto: Condiciones",
+      "default": "Para que el retracto sea aceptado, el producto debe ser devuelto por los mismos medios en que fue recibido. Debe estar completamente nuevo, sellado en su empaque original de fábrica, sin marcas de uso, rayones o alteraciones, y debe incluir todos sus manuales, etiquetas, adaptadores y accesorios completos."
+    },
+    {
+      "type": "textarea",
+      "id": "retract_exceptions",
+      "label": "Retracto: Excepciones",
+      "default": "Por motivos de higiene, salud pública y seguridad del consumidor, no se aceptará el derecho de retracto en audífonos de inserción (in-ear o intraurales) cuyos sellos de seguridad hayan sido abiertos, rotos o alterados tras la entrega. Tampoco aplica en componentes o repuestos fabricados o modificados bajo especificaciones personalizadas del cliente."
+    },
+    {
+      "type": "textarea",
+      "id": "retract_costs",
+      "label": "Retracto: Costos de Envío",
+      "default": "Los costos de envío correspondientes a la devolución del producto hacia nuestra sede en Pereira deben ser asumidos en su totalidad por el consumidor, tal como lo estipula la ley."
+    },
+    {
+      "type": "textarea",
+      "id": "retract_refund",
+      "label": "Retracto: Reembolso",
+      "default": "Una vez que el producto llegue a nuestras instalaciones y el equipo de soporte técnico valide que se encuentra en perfectas condiciones óptimas de empaque y estado, 88jmbubble reintegrará la totalidad del dinero pagado en un plazo máximo de quince (15) días calendario."
+    }
+  ]
+}
+{% endschema %}

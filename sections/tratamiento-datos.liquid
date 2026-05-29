@@ -1,0 +1,333 @@
+{% comment %}
+  Section: Política de Tratamiento de Datos
+  Renders the custom Data Treatment Policies page content for 88jmbubble.
+{% endcomment %}
+
+{% stylesheet %}
+  /* Container for the page contents (constrained layout) */
+  .treatment-container {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem 1.5rem;
+    font-family: inherit;
+    color: #334155;
+  }
+
+  /* Hero Section styling - spans full-width and has no margin-top */
+  .treatment-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0d9488 100%); /* Ocean-blue/Teal gradient */
+    border-radius: 0;
+    padding: 5rem 2rem;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 4rem;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .treatment-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .treatment-hero h1 {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.03em;
+    background: linear-gradient(to right, #ffffff, #e2e8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+  }
+
+  .treatment-hero p {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: #cbd5e1;
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Document content styles */
+  .treatment-content {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  .treatment-content p {
+    margin: 0 0 1.5rem 0;
+  }
+
+  .treatment-content p.intro-lead {
+    font-size: 1.1875rem;
+    color: #0f172a;
+    font-weight: 500;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .treatment-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 3rem 0 1.25rem 0;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.5rem;
+  }
+
+  .treatment-content h2:first-of-type {
+    margin-top: 0;
+  }
+
+  /* List items */
+  .treatment-content ul {
+    margin: 0 0 2rem 0;
+    padding-left: 1.5rem;
+    list-style: none;
+  }
+
+  .treatment-content ul li {
+    position: relative;
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+  }
+
+  .treatment-content ul li::before {
+    content: "•";
+    color: #0d9488; /* Teal bullet to match the hero theme */
+    font-weight: bold;
+    font-size: 1.25rem;
+    position: absolute;
+    left: -1rem;
+    top: -0.1rem;
+  }
+
+  .treatment-content strong {
+    color: #0f172a;
+    font-weight: 600;
+  }
+{% endstylesheet %}
+
+<!-- Hero Section (Full-width) -->
+<header class="treatment-hero full-width">
+  <h1>{{ section.settings.hero_title | default: "Política de Tratamiento de Datos Personales" }}</h1>
+  <p>{{ section.settings.hero_subtitle | default: "Garantizamos el derecho constitucional de Habeas Data de toda nuestra comunidad." }}</p>
+</header>
+
+<div class="treatment-container">
+  
+  <article class="treatment-content">
+    <p class="intro-lead">{{ section.settings.intro_text }}</p>
+    
+    <h2>1. Identificación del Responsable del Tratamiento</h2>
+    <p><strong>Razón Social / Nombre Comercial:</strong> {{ section.settings.company_name }}</p>
+    <p><strong>Domicilio y Dirección:</strong> {{ section.settings.company_address }}</p>
+    <p><strong>Correo Electrónico de Contacto:</strong> {{ section.settings.company_email }}</p>
+    <p><strong>Canal de Atención:</strong> {{ section.settings.company_channel }}</p>
+
+    <h2>2. Finalidades del Tratamiento de Datos Personales</h2>
+    <p>{{ section.settings.purposes_intro }}</p>
+    <ul>
+      <li><strong>Gestión Comercial:</strong> {{ section.settings.purpose_comercial }}</li>
+      <li><strong>Servicio Posventa y Garantías:</strong> {{ section.settings.purpose_posventa }}</li>
+      <li><strong>Canales de Atención:</strong> {{ section.settings.purpose_pqrs }}</li>
+      <li><strong>Comunicaciones de Marketing:</strong> {{ section.settings.purpose_marketing }}</li>
+      <li><strong>Seguridad y Control:</strong> {{ section.settings.purpose_security }}</li>
+    </ul>
+
+    <h2>3. Derechos de los Titulares de la Información</h2>
+    <p>{{ section.settings.rights_intro }}</p>
+    <ul>
+      <li>{{ section.settings.right_1 }}</li>
+      <li>{{ section.settings.right_2 }}</li>
+      <li>{{ section.settings.right_3 }}</li>
+      <li>{{ section.settings.right_4 }}</li>
+      <li>{{ section.settings.right_5 }}</li>
+    </ul>
+
+    <h2>4. Transferencia y Transmisión Internacional de Datos</h2>
+    <p>{{ section.settings.transfer_text }}</p>
+
+    <h2>5. Procedimiento para Ejercer los Derechos (Consultas y Reclamos)</h2>
+    <p>{{ section.settings.procedure_text_1 | replace: "[Tu Correo Aquí]", section.settings.company_email }}</p>
+    <p>{{ section.settings.procedure_text_2 }}</p>
+    <ul>
+      <li><strong>Término para Consultas:</strong> {{ section.settings.term_consults }}</li>
+      <li><strong>Término para Reclamos / Supresión:</strong> {{ section.settings.term_claims }}</li>
+    </ul>
+
+    <h2>6. Vigencia y Modificaciones</h2>
+    <p>{{ section.settings.vigencia_text }}</p>
+  </article>
+
+</div>
+
+{% schema %}
+{
+  "name": "Tratamiento de Datos",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Título Principal",
+      "default": "Política de Tratamiento de Datos Personales"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Subtítulo Principal",
+      "default": "Garantizamos el derecho constitucional de Habeas Data de toda nuestra comunidad."
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Texto Introducción",
+      "default": "88jmbubble (en adelante, \"La Empresa\"), establecimiento comercial ubicado en la ciudad de Pereira, Risaralda, Colombia, en estricto cumplimiento de la Ley 1581 de 2012, el Decreto Reglamentario 1377 de 2013 y demás normas que los modifiquen o adicionen, adopta la presente Política de Tratamiento de Datos Personales para garantizar el derecho constitucional de Habeas Data de todos nuestros clientes, usuarios, proveedores y colaboradores."
+    },
+    {
+      "type": "text",
+      "id": "company_name",
+      "label": "Nombre Comercial",
+      "default": "88jmbubble"
+    },
+    {
+      "type": "text",
+      "id": "company_address",
+      "label": "Dirección",
+      "default": "Calle 16 # 6-55, Pereira, Colombia."
+    },
+    {
+      "type": "text",
+      "id": "company_email",
+      "label": "Correo de Privacidad",
+      "default": "soporte@88jmbubble.com"
+    },
+    {
+      "type": "text",
+      "id": "company_channel",
+      "label": "Canal de Atención",
+      "default": "Formulario de contacto web y canales de atención autorizados."
+    },
+    {
+      "type": "textarea",
+      "id": "purposes_intro",
+      "label": "Finalidades: Introducción",
+      "default": "Al aceptar de manera previa, expresa e informada esta política, los datos recolectados por 88jmbubble a través de su sitio web, formularios de registro, pasarelas de pago, soporte técnico o canales de mensajería instantánea (como WhatsApp), serán tratados para las siguientes finalidades legítimas y exclusivas:"
+    },
+    {
+      "type": "textarea",
+      "id": "purpose_comercial",
+      "label": "Finalidad: Gestión Comercial",
+      "default": "Procesar los pedidos de compra, validar transacciones de pago en línea, emitir la facturación correspondiente y gestionar la logística de alistamiento y despacho de productos a través de empresas transportadoras aliadas."
+    },
+    {
+      "type": "textarea",
+      "id": "purpose_posventa",
+      "label": "Finalidad: Posventa",
+      "default": "Prestar soporte técnico especializado, gestionar la recepción de artículos para la venta o reparación de celulares iPhone, y tramitar devoluciones, retractos o reclamaciones de garantía sobre dispositivos de carga, audio, accesorios o componentes de PC."
+    },
+    {
+      "type": "textarea",
+      "id": "purpose_pqrs",
+      "label": "Finalidad: PQRs",
+      "default": "Atender, responder y hacer seguimiento a las peticiones, quejas, reclamos y sugerencias (PQR) radicadas por los titulares."
+    },
+    {
+      "type": "textarea",
+      "id": "purpose_marketing",
+      "label": "Finalidad: Marketing",
+      "default": "Enviar de manera personalizada información sobre ofertas, promociones, lanzamientos, eventos y novedades de la tienda a través de correo electrónico, mensajes de texto (SMS) o mensajería instantánea, única y exclusivamente si el usuario ha marcado la casilla de autorización para tal fin."
+    },
+    {
+      "type": "textarea",
+      "id": "purpose_security",
+      "label": "Finalidad: Seguridad",
+      "default": "Prevenir el fraude electrónico, realizar validaciones de identidad en las transacciones y garantizar la seguridad digital de la plataforma e-commerce."
+    },
+    {
+      "type": "textarea",
+      "id": "rights_intro",
+      "label": "Derechos: Introducción",
+      "default": "De acuerdo con el artículo 8 de la Ley 1581 de 2012, el titular de los datos personales tiene derecho a:"
+    },
+    {
+      "type": "textarea",
+      "id": "right_1",
+      "label": "Derecho 1",
+      "default": "Conocer, actualizar y rectificar sus datos personales frente a 88jmbubble en caso de que sean parciales, inexactos, incompletos, fraccionados o que induzcan a error."
+    },
+    {
+      "type": "textarea",
+      "id": "right_2",
+      "label": "Derecho 2",
+      "default": "Solicitar prueba de la autorización otorgada a La Empresa para el tratamiento de sus datos."
+    },
+    {
+      "type": "textarea",
+      "id": "right_3",
+      "label": "Derecho 3",
+      "default": "Ser informado por La Empresa, previa solicitud, respecto del uso que se le ha dado a sus datos personales."
+    },
+    {
+      "type": "textarea",
+      "id": "right_4",
+      "label": "Derecho 4",
+      "default": "Presentar quejas ante la Superintendencia de Industria y Comercio (SIC) por infracciones a lo dispuesto en la ley de protección de datos."
+    },
+    {
+      "type": "textarea",
+      "id": "right_5",
+      "label": "Derecho 5",
+      "default": "Revocar la autorización y/o solicitar la supresión de sus datos de nuestras bases de datos cuando considere que en el tratamiento no se respetan los principios, derechos y garantías constitucionales y legales."
+    },
+    {
+      "type": "textarea",
+      "id": "transfer_text",
+      "label": "Transferencia Internacional",
+      "default": "El usuario acepta y reconoce que 88jmbubble opera su tienda virtual sobre la plataforma global de comercio electrónico Shopify, lo cual puede implicar la transmisión o transferencia internacional de sus datos (almacenamiento en servidores en la nube ubicados fuera de Colombia). La Empresa se asegura de que sus proveedores de tecnología e infraestructura tecnológica cumplan con los niveles idóneos de seguridad y protección exigidos por la normatividad colombiana."
+    },
+    {
+      "type": "textarea",
+      "id": "procedure_text_1",
+      "label": "Procedimiento: Intro",
+      "default": "Los titulares de la información podrán ejercer sus derechos de conocer, actualizar, rectificar o suprimir sus datos enviando una comunicación escrita al correo electrónico oficial de contacto: [Tu Correo Aquí], indicando en el asunto \"Protección de Datos Personales\"."
+    },
+    {
+      "type": "textarea",
+      "id": "procedure_text_2",
+      "label": "Procedimiento: Requisitos",
+      "default": "La solicitud debe contener: nombre completo del titular, número de identificación, datos de contacto (teléfono y correo) y la descripción clara de los hechos que originan la consulta o reclamo."
+    },
+    {
+      "type": "textarea",
+      "id": "term_consults",
+      "label": "Término Consultas",
+      "default": "Las solicitudes de información sobre qué datos poseemos del titular serán atendidas en un plazo máximo de diez (10) días hábiles contados a partir de la fecha de su recibo."
+    },
+    {
+      "type": "textarea",
+      "id": "term_claims",
+      "label": "Término Reclamos",
+      "default": "Las solicitudes de corrección, actualización o eliminación de datos serán atendidas en un plazo máximo de quince (15) días hábiles contados a partir de la fecha de su recibo."
+    },
+    {
+      "type": "textarea",
+      "id": "vigencia_text",
+      "label": "Vigencia y Modificaciones",
+      "default": "La presente Política de Tratamiento de Datos Personales rige a partir de su publicación. 88jmbubble se reserva el derecho de modificar esta política en cualquier momento para adaptarla a novedades legislativas o jurisprudenciales. Cualquier cambio sustancial será informado oportunamente a través de nuestro sitio web."
+    }
+  ]
+}
+{% endschema %}

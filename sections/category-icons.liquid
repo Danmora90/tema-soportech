@@ -4,7 +4,7 @@
       <a href="{{ block.settings.url | default: '#' }}" class="category-icon-item" {{ block.shopify_attributes }}>
         <div class="category-icon-box">
           {%- if block.settings.icon != blank -%}
-            {{ block.settings.icon | image_url: width: 100 | image_tag: class: 'category-icon-img' }}
+            {{ block.settings.icon | image_url: width: 400 | image_tag: class: 'category-icon-img' }}
           {%- else -%}
             {{ 'image' | placeholder_svg_tag: 'category-icon-placeholder' }}
           {%- endif -%}
@@ -31,14 +31,14 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     padding: 0 1rem;
-    gap: 1.5rem;
+    gap: 1rem;
     text-align: center;
   }
 
   @media screen and (min-width: 768px) {
     .category-icons-scroll-container {
       justify-content: center;
-      gap: 3rem;
+      gap: 1rem;
     }
   }
 
@@ -49,13 +49,13 @@
     flex-shrink: 0;
     scroll-snap-align: center;
     text-decoration: none;
-    width: 80px;
+    width: 130px;
     transition: transform 0.3s ease;
   }
 
   @media screen and (min-width: 768px) {
     .category-icon-item {
-      width: 120px;
+      width: 190px;
     }
   }
 
@@ -64,10 +64,10 @@
   }
 
   .category-icon-box {
-    width: 64px;
-    height: 64px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    background-color: #f3f4f6;
+    background-color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,7 +77,7 @@
 
   @media screen and (min-width: 768px) {
     .category-icon-box {
-      width: 80px;
+      width: 150px;
       height: 80px;
     }
   }
@@ -87,15 +87,15 @@
   }
 
   .category-icon-img, .category-icon-placeholder {
-    width: 40px;
-    height: 40px;
+    width: 120px;
+    height: 120px;
     object-fit: contain;
   }
 
   @media screen and (min-width: 768px) {
     .category-icon-img, .category-icon-placeholder {
-      width: 48px;
-      height: 48px;
+      width: 150px;
+      height: 150px;
     }
   }
 

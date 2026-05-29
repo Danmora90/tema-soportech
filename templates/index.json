@@ -25,12 +25,13 @@
           "type": "slide",
           "settings": {
             "video_url": "",
-            "eyebrow": "🎶 Audio Profesional & Tecnología",
-            "heading": "EL SONIDO PROFESIONAL QUE BUSCAS 🔊",
-            "subheading": "Equipos de audio para conciertos, estudios y eventos. Las mejores marcas con garantía directa.",
-            "button_label": "Ver Promociones",
-            "button_url": "",
-            "button_label_2": "Ver catálogo",
+            "image": "shopify://shop_images/wmremove-transformed_2.webp",
+            "eyebrow": "Grita cada gol y vive la fiebre del fútbol",
+            "heading": "¡Lleva la emoción deportiva a donde vayas!",
+            "subheading": "Resistencia al agua y polvo<br>\nHasta 20 horas de batería continua",
+            "button_label": "¡Adquiérelo ahora!",
+            "button_url": "shopify://collections/parlantes",
+            "button_label_2": "",
             "button_url_2": ""
           }
         },
@@ -38,50 +39,20 @@
           "type": "slide",
           "settings": {
             "video_url": "",
-            "image": "shopify://shop_images/Gemini_Generated_Image_yetbemyetbemyetb.webp",
-            "eyebrow": "🎤 Micrófonos & Sistemas PA",
-            "heading": "POTENCIA CADA EVENTO CON EL MEJOR SONIDO",
-            "subheading": "Sistemas de amplificación profesional para escenarios, iglesias y corporativos.",
-            "button_label": "Explorar sistemas PA",
-            "button_url": "",
-            "button_label_2": "Ver marcas",
-            "button_url_2": ""
-          }
-        },
-        "slide-3": {
-          "type": "slide",
-          "settings": {
-            "video_url": "",
-            "image": "shopify://shop_images/Gemini_Generated_Image_luxjbrluxjbrluxj.webp",
-            "eyebrow": "🎚️ Estudios & Producción",
-            "heading": "EQUIPA TU ESTUDIO DE GRABACIÓN IDEAL",
-            "subheading": "Interfaces de audio, monitores y accesorios para productores y músicos.",
-            "button_label": "Ver equipos de estudio",
-            "button_url": "",
-            "button_label_2": "Asesoría gratuita",
-            "button_url_2": ""
-          }
-        },
-        "slide-4": {
-          "type": "slide",
-          "settings": {
-            "video_url": "",
-            "image": "shopify://shop_images/Gemini_Generated_Image_n0knoxn0knoxn0kn.webp",
-            "eyebrow": "🚚 Envíos a todo Colombia",
-            "heading": "CALIDAD GARANTIZADA EN CADA PEDIDO",
-            "subheading": "Garantía directa, soporte técnico y asesoría personalizada en Pereira y todo el país.",
-            "button_label": "Contáctanos",
-            "button_url": "",
-            "button_label_2": "Ver catálogo",
+            "image": "shopify://shop_images/wmremove-transformed_1_1.webp",
+            "eyebrow": "¡El mejor Mundial se vive al lado de Papá!",
+            "heading": "Ver el partido es bueno; con tecnología es otro nivel.",
+            "subheading": "Tenemos el regalo ideal para que papá disfrute cada jugada como si estuviera en el estadio",
+            "button_label": "¡Adquiérelo ahora!",
+            "button_url": "shopify://collections/all",
+            "button_label_2": "",
             "button_url_2": ""
           }
         }
       },
       "block_order": [
         "slide-1",
-        "slide-2",
-        "slide-3",
-        "slide-4"
+        "slide-2"
       ],
       "settings": {
         "min_height": 680
@@ -90,6 +61,46 @@
     "brands-marquee": {
       "type": "brands-marquee",
       "blocks": {
+        "brand_UB3FEp": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/LOGO-HORIZONTAL_Mesa-de-trabajo-1-removebg-preview.png",
+            "brand_name": "MARCA",
+            "alt_text": ""
+          }
+        },
+        "brand_PU9mfp": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/logo_banner.webp",
+            "brand_name": "MARCA",
+            "alt_text": ""
+          }
+        },
+        "brand_4dWJki": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/apple_logo_icon_168588.png",
+            "brand_name": "MARCA",
+            "alt_text": ""
+          }
+        },
+        "brand_nfaJQL": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/ugreen-logo-1-1024x272.webp",
+            "brand_name": "MARCA",
+            "alt_text": ""
+          }
+        },
+        "brand_NBKPqD": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Imagotipo-Horizontal-Full-Color.webp",
+            "brand_name": "MARCA",
+            "alt_text": ""
+          }
+        },
         "brand-1": {
           "type": "brand",
           "settings": {
@@ -97,55 +108,15 @@
             "brand_name": "JBL",
             "alt_text": ""
           }
-        },
-        "brand-2": {
-          "type": "brand",
-          "settings": {
-            "image": "shopify://shop_images/Gemini_Generated_Image_vcsrmavcsrmavcsr.webp",
-            "brand_name": "BOSE",
-            "alt_text": ""
-          }
-        },
-        "brand-3": {
-          "type": "brand",
-          "settings": {
-            "image": "shopify://shop_images/Gemini_Generated_Image_cbvplocbvplocbvp.webp",
-            "brand_name": "YAMAHA",
-            "alt_text": ""
-          }
-        },
-        "brand-4": {
-          "type": "brand",
-          "settings": {
-            "image": "shopify://shop_images/Gemini_Generated_Image_hkqawghkqawghkqa.webp",
-            "brand_name": "ELECTRO-VOICE",
-            "alt_text": ""
-          }
-        },
-        "brand-5": {
-          "type": "brand",
-          "settings": {
-            "image": "shopify://shop_images/Gemini_Generated_Image_vj1rd2vj1rd2vj1r.webp",
-            "brand_name": "STEREN",
-            "alt_text": ""
-          }
-        },
-        "brand-6": {
-          "type": "brand",
-          "settings": {
-            "image": "shopify://shop_images/Gemini_Generated_Image_xzcls1xzcls1xzcl.webp",
-            "brand_name": "SONIVOX",
-            "alt_text": ""
-          }
         }
       },
       "block_order": [
-        "brand-1",
-        "brand-2",
-        "brand-3",
-        "brand-4",
-        "brand-5",
-        "brand-6"
+        "brand_UB3FEp",
+        "brand_PU9mfp",
+        "brand_4dWJki",
+        "brand_nfaJQL",
+        "brand_NBKPqD",
+        "brand-1"
       ],
       "settings": {}
     },
@@ -206,6 +177,92 @@
       "settings": {
         "title": "Comprar por Categoría"
       }
+    },
+    "youtube-showcase": {
+      "type": "youtube-showcase",
+      "blocks": {
+        "vid-1": {
+          "type": "video",
+          "disabled": true,
+          "settings": {
+            "video_url": "https://youtu.be/cY9P-a7zG6c?si=lWH2Vmn0a_MfwqmY"
+          }
+        },
+        "vid-2": {
+          "type": "video",
+          "disabled": true,
+          "settings": {
+            "video_url": "https://youtu.be/y-s8IVxOiw8?si=W3vjaXR8nMDYeO5R"
+          }
+        },
+        "vid-3": {
+          "type": "video",
+          "disabled": true,
+          "settings": {
+            "video_url": "https://youtu.be/fz4eDD5OMWY?si=cgKOJO37MM0UNVPp"
+          }
+        },
+        "vid-4": {
+          "type": "video",
+          "disabled": true,
+          "settings": {
+            "video_url": "https://youtu.be/AGAn8WAer3o?si=0yr5lwkNzfjDlxxE"
+          }
+        }
+      },
+      "block_order": [
+        "vid-1",
+        "vid-2",
+        "vid-3",
+        "vid-4"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "Videos Destacados",
+        "text": "<p>Explora nuestras reseñas y demostraciones de productos.</p>"
+      }
+    },
+    "simple_text_aGF7nm": {
+      "type": "simple-text",
+      "name": "Texto simple",
+      "settings": {
+        "title": "Videos destacados",
+        "paragraph": "<p>Explora nuestras reseñas y demostraciones de nuestros productos</p>",
+        "text_alignment": "center",
+        "content_max_width": 800,
+        "bg_color": "#ffffff",
+        "title_color": "#111827",
+        "text_color": "#4b5563",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "17799171797baacb38": {
+      "type": "apps",
+      "blocks": {
+        "instafeed_app_block_9gA7fr": {
+          "type": "shopify://apps/instafeed/blocks/app-block/c447db20-095d-4a10-9725-b5977662c9d5",
+          "settings": {
+            "title": "",
+            "title_color": "",
+            "title_size_v2": 0,
+            "alignment": "center",
+            "instafeed_margin_top": 0,
+            "instafeed_margin_bottom": 0,
+            "instafeed_margin_sides": 0,
+            "show_instagram_link": false,
+            "link_alignment": "left",
+            "link_color": "#000000",
+            "background_color": "",
+            "feed_id": "",
+            "html_area": ""
+          }
+        }
+      },
+      "block_order": [
+        "instafeed_app_block_9gA7fr"
+      ],
+      "settings": {}
     },
     "seasonal-promo": {
       "type": "promo-gallery",
@@ -365,76 +422,37 @@
         "text_3": "Respaldo y soporte técnico directamente en nuestra tienda física."
       }
     },
-    "youtube-showcase": {
-      "type": "youtube-showcase",
-      "blocks": {
-        "vid-1": {
-          "type": "video",
-          "settings": {
-            "video_url": "https://youtu.be/cY9P-a7zG6c?si=lWH2Vmn0a_MfwqmY"
-          }
-        },
-        "vid-2": {
-          "type": "video",
-          "settings": {
-            "video_url": "https://youtu.be/y-s8IVxOiw8?si=W3vjaXR8nMDYeO5R"
-          }
-        },
-        "vid-3": {
-          "type": "video",
-          "settings": {
-            "video_url": "https://youtu.be/fz4eDD5OMWY?si=cgKOJO37MM0UNVPp"
-          }
-        },
-        "vid-4": {
-          "type": "video",
-          "settings": {
-            "video_url": "https://youtu.be/AGAn8WAer3o?si=0yr5lwkNzfjDlxxE"
-          }
-        }
-      },
-      "block_order": [
-        "vid-1",
-        "vid-2",
-        "vid-3",
-        "vid-4"
-      ],
-      "settings": {
-        "title": "Videos Destacados",
-        "text": "<p>Explora nuestras reseñas y demostraciones de productos.</p>"
-      }
-    },
     "category-icons": {
       "type": "category-icons",
       "blocks": {
         "category_GCkB3A": {
           "type": "category",
           "settings": {
-            "icon": "shopify://shop_images/Gemini_Generated_Image_1edfi81edfi81edf.webp",
-            "title": "Micrófonos",
+            "icon": "shopify://shop_images/Icono_case_para_celular_202605280018-removebg-preview.webp",
+            "title": "Case para celular",
             "url": ""
           }
         },
         "category_4nHQA6": {
           "type": "category",
           "settings": {
-            "icon": "shopify://shop_images/Gemini_Generated_Image_vf89ebvf89ebvf89.webp",
-            "title": "Pantallas",
+            "icon": "shopify://shop_images/Icono_case_para_celular_202605280021-removebg-preview.webp",
+            "title": "Parlantes",
             "url": ""
           }
         },
         "cat-1": {
           "type": "category",
           "settings": {
-            "icon": "shopify://shop_images/Gemini_Generated_Image_emyjclemyjclemyj.webp",
-            "title": "Sonido",
+            "icon": "shopify://shop_images/Icono_case_para_celular_202605280025-removebg-preview.webp",
+            "title": "Accesorios",
             "url": ""
           }
         },
         "cat-2": {
           "type": "category",
           "settings": {
-            "icon": "shopify://shop_images/Gemini_Generated_Image_czt563czt563czt5.webp",
+            "icon": "shopify://shop_images/Icono_case_para_celular_202605280022-removebg-preview.webp",
             "title": "Audífonos",
             "url": ""
           }
@@ -442,16 +460,16 @@
         "cat-3": {
           "type": "category",
           "settings": {
-            "icon": "shopify://shop_images/Gemini_Generated_Image_mq1h08mq1h08mq1h.webp",
-            "title": "Soportes",
+            "icon": "shopify://shop_images/Icono_case_para_celular_202605280026-removebg-preview.webp",
+            "title": "Teclados y maouses",
             "url": ""
           }
         },
         "cat-4": {
           "type": "category",
           "settings": {
-            "icon": "shopify://shop_images/Gemini_Generated_Image_hkbtj5hkbtj5hkbt.webp",
-            "title": "Accesorios",
+            "icon": "shopify://shop_images/Icono_case_para_celular_202605280023-removebg-preview.webp",
+            "title": "Cargadores",
             "url": ""
           }
         }
@@ -473,10 +491,12 @@
     "brands-marquee",
     "featured-collection",
     "bento-categories",
+    "youtube-showcase",
+    "simple_text_aGF7nm",
+    "17799171797baacb38",
     "seasonal-promo",
     "social-proof",
     "trust-badges",
-    "youtube-showcase",
     "category-icons"
   ]
 }

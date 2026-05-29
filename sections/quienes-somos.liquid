@@ -1,0 +1,368 @@
+{% comment %}
+  Section: Quiénes Somos
+  Renders the custom "About Us" page content for 88jmbubble with a full-width hero header.
+{% endcomment %}
+
+{% stylesheet %}
+  /* Container for the page contents (constrained layout) */
+  .about-us-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem 1.5rem;
+    font-family: inherit;
+    color: #334155;
+  }
+
+  /* Hero Section styling - now spans full-width and has no margin-top */
+  .about-us-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0284c7 100%);
+    border-radius: 0;
+    padding: 5rem 2rem;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 4rem;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .about-us-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .about-us-hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.03em;
+    background: linear-gradient(to right, #ffffff, #e2e8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .about-us-hero p {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: #cbd5e1;
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Introduction Section Layout */
+  .about-us-intro {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 5rem;
+  }
+
+  @media (min-width: 768px) {
+    .about-us-intro {
+      grid-template-columns: 5fr 7fr;
+    }
+  }
+
+  /* Interactive Visual Badge */
+  .about-us-visual-badge {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .about-us-visual-badge:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+
+  .about-us-badge-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 16px;
+  }
+
+  .badge-logo-container {
+    width: 100px;
+    height: 100px;
+    background: #0f172a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.3);
+  }
+
+  .badge-logo-text {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.05em;
+  }
+
+  .badge-subtitle {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #0284c7;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .badge-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+  }
+
+  /* Description text blocks */
+  .about-us-intro-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about-us-intro-text p {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .about-us-intro-text p:first-of-type {
+    font-size: 1.1875rem;
+    color: #0f172a;
+    font-weight: 500;
+  }
+
+  /* Mission and Vision Grid */
+  .mission-vision-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .mission-vision-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .mission-vision-card {
+    background-color: #f8fafc;
+    border: 1px solid #f1f5f9;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .mission-vision-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-icon-container {
+    width: 60px;
+    height: 60px;
+    background-color: #e0f2fe;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0284c7;
+  }
+
+  .card-icon-container svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .mission-vision-card h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .mission-vision-card p {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0;
+    color: #475569;
+  }
+{% endstylesheet %}
+
+<!-- Hero Section (Full-width) -->
+<header class="about-us-hero full-width">
+  <h1>{{ section.settings.hero_title | default: "Quiénes Somos" }}</h1>
+  <p>{{ section.settings.hero_subtitle | default: "Tecnología premium y servicio de confianza desde Pereira para todo el país." }}</p>
+</header>
+
+<div class="about-us-container">
+
+  <!-- Main Intro Grid -->
+  <section class="about-us-intro">
+    
+    <!-- Left column: Visual brand badge or Image -->
+    <div class="about-us-visual-badge">
+      {% if section.settings.badge_image != blank %}
+        {{ section.settings.badge_image | image_url: width: 600 | image_tag: class: "about-us-badge-img", loading: "lazy" }}
+      {% else %}
+        <div class="badge-logo-container">
+          <span class="badge-logo-text">{{ section.settings.badge_logo_text | default: "88JM" }}</span>
+        </div>
+        <span class="badge-subtitle">{{ section.settings.badge_location | default: "Pereira, Colombia" }}</span>
+        <h3 class="badge-title">{{ section.settings.badge_title | default: "88jmbubble" }}</h3>
+      {% endif %}
+    </div>
+
+    <!-- Right column: Text description -->
+    <div class="about-us-intro-text">
+      <p>{{ section.settings.paragraph_1 }}</p>
+      <p>{{ section.settings.paragraph_2 }}</p>
+    </div>
+
+  </section>
+
+  <!-- Mission & Vision Cards -->
+  <section class="mission-vision-grid">
+    
+    <!-- Mission Card -->
+    <article class="mission-vision-card">
+      <div class="card-icon-container">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Dart/Target icon -->
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="12" r="6"></circle>
+          <circle cx="12" cy="12" r="2"></circle>
+        </svg>
+      </div>
+      <h2>{{ section.settings.mission_title | default: "Nuestra Misión" }}</h2>
+      <p>{{ section.settings.mission_text }}</p>
+    </article>
+
+    <!-- Vision Card -->
+    <article class="mission-vision-card">
+      <div class="card-icon-container" style="background-color: #ecfdf5; color: #10b981;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Eye icon -->
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </div>
+      <h2>{{ section.settings.vision_title | default: "Nuestra Visión" }}</h2>
+      <p>{{ section.settings.vision_text }}</p>
+    </article>
+
+  </section>
+
+</div>
+
+{% schema %}
+{
+  "name": "Quiénes Somos",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "badge_image",
+      "label": "Imagen del Cuadro Lateral",
+      "info": "Si se selecciona una imagen, reemplazará el texto del logotipo del cuadro lateral."
+    },
+    {
+      "type": "text",
+      "id": "badge_logo_text",
+      "label": "Texto del Círculo (Logo)",
+      "default": "88JM"
+    },
+    {
+      "type": "text",
+      "id": "badge_location",
+      "label": "Ubicación",
+      "default": "Pereira, Colombia"
+    },
+    {
+      "type": "text",
+      "id": "badge_title",
+      "label": "Nombre del Cuadro",
+      "default": "88jmbubble"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Título Principal",
+      "default": "Quiénes Somos"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Subtítulo Principal",
+      "default": "Tecnología premium y servicio de confianza desde Pereira para todo el país."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_1",
+      "label": "Párrafo Introducción 1",
+      "default": "En 88jmbubble, somos apasionados por la tecnología que transforma y mejora tu día a día. Desde nuestra sede en Pereira, Colombia, nos hemos consolidado como un comercio especializado en ofrecer soluciones tecnológicas avanzadas, conectando a nuestros clientes con dispositivos de carga de la más alta calidad y gama, lo último en sistemas de audio premium, y un servicio técnico experto dedicado a la venta y reparación de celulares iPhone. Además, complementamos tu experiencia digital con un catálogo seleccionado de accesorios esenciales, que incluye desde cases y vidrios templados para la máxima protección de tu celular, hasta teclados, mouses y adaptadores de alto rendimiento para tu PC."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_2",
+      "label": "Párrafo Introducción 2",
+      "default": "No somos solo una tienda de tecnología; somos tu aliado de confianza para equipar tu hogar, tu estudio o tu negocio con herramientas que potencian tu productividad y entretenimiento. Nos enorgullece respaldar cada una de tus compras con garantía directa, transacciones 100% seguras y envíos eficientes a todo el país."
+    },
+    {
+      "type": "text",
+      "id": "mission_title",
+      "label": "Título Misión",
+      "default": "Nuestra Misión"
+    },
+    {
+      "type": "textarea",
+      "id": "mission_text",
+      "label": "Texto Misión",
+      "default": "Nuestra misión es conectar a las personas con la tecnología de vanguardia que necesitan para optimizar su vida diaria, ofreciendo dispositivos de audio, soluciones de carga de alta gama y periféricos confiables bajo los más estrictos estándares de calidad. Nos comprometemos a brindar una experiencia de compra excepcional (tanto en hardware, adaptadores y accesorios de protección) como en un servicio técnico especializado en iPhone de máxima confiabilidad, garantizando siempre la satisfacción y el valor real para nuestra comunidad en Pereira y en toda Colombia."
+    },
+    {
+      "type": "text",
+      "id": "vision_title",
+      "label": "Título Visión",
+      "default": "Nuestra Visión"
+    },
+    {
+      "type": "textarea",
+      "id": "vision_text",
+      "label": "Texto Visión",
+      "default": "Para el año 2030, 88jmbubble aspira a ser reconocida como la tienda de comercio electrónico líder y el referente principal en tecnología premium, accesorios especializados, soluciones de carga y servicio Apple en la región del Eje Cafetero y a nivel nacional. Nos proyectamos como una empresa en constante innovación digital, expandiendo nuestro catálogo con las marcas más exclusivas del mercado (desde componentes esenciales para PC hasta lo último en movilidad móvil) y manteniendo siempre el trato cercano, honesto y profesional que nos define desde nuestros inicios."
+    }
+  ]
+}
+{% endschema %}

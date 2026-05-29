@@ -6,9 +6,9 @@
 
       {%- comment -%} Col 1: Brand & Socials {%- endcomment -%}
       <div class="footer-col footer-col-brand">
-        <a href="{{ routes.root_url }}" class="footer-logo-link">
+        <a href="{{ routes.root_url }}" class="footer-logo-link" style="justify-content: center;display:flex;">
           {%- if section.settings.logo_image != blank -%}
-            {{ section.settings.logo_image | image_url: width: 220 | image_tag: class: 'footer-logo-img', alt: shop.name }}
+            {{ section.settings.logo_image | image_url: width: 300 | image_tag: class: 'footer-logo-img', alt: shop.name }}
           {%- elsif section.settings.logo_svg != blank -%}
             {{ section.settings.logo_svg }}
           {%- else -%}
@@ -18,18 +18,14 @@
 
         {%- if section.settings.show_social -%}
           <div class="footer-social-wrapper">
-            <span class="footer-social-title">SÍGUENOS</span>
-            <div class="footer-social-icons">
-              {%- if settings.social_facebook_link != blank -%}
-                <a href="{{ settings.social_facebook_link }}" class="social-icon" target="_blank" rel="noopener" aria-label="Facebook">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-                </a>
-              {%- endif -%}
-              {%- if settings.social_instagram_link != blank -%}
-                <a href="{{ settings.social_instagram_link }}" class="social-icon" target="_blank" rel="noopener" aria-label="Instagram">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                </a>
-              {%- endif -%}
+            <span class="footer-social-title" style="text-align:center;">SÍGUENOS</span>
+            <div class="footer-social-icons" style="justify-content: center;">
+              <a href="https://www.facebook.com/88JMBubble" class="social-icon" target="_blank" rel="noopener" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+              <a href="https://www.instagram.com/88jmbubble/" class="social-icon" target="_blank" rel="noopener" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </a>
               {%- if settings.social_tiktok_link != blank -%}
                 <a href="{{ settings.social_tiktok_link }}" class="social-icon" target="_blank" rel="noopener" aria-label="TikTok">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
@@ -50,7 +46,7 @@
         <h3 class="footer-col-title">Nosotros</h3>
         <ul class="footer-menu">
           <li><a href="/pages/quienes-somos">Quienes somos</a></li>
-          <li><a href="/pages/nuestras-tiendas">Nuestras Tiendas</a></li>
+          <li><a href="https://maps.app.goo.gl/dLY2rpd7EXjYzfsEA">Visitanos:<br>Carrera 17 # 8-140 Local 9 Pinares de Aragón</a></li>
         </ul>
       </div>
 
@@ -58,10 +54,10 @@
       <div class="footer-col">
         <h3 class="footer-col-title">Información Legal</h3>
         <ul class="footer-menu">
-          <li><a href="/pages/aviso-de-privacidad">Aviso de privacidad</a></li>
-          <li><a href="/pages/politica-de-tratamiento-de-la-informacion">Política de tratamiento de la información</a></li>
-          <li><a href="/pages/politica-de-pago-envio-y-derecho-de-retracto">Política de pago en línea, envío y derecho de retracto</a></li>
-          <li><a href="/pages/politicas-de-garantia">Políticas de garantía</a></li>
+          <li><a href="/pages/politicas-de-privacidad">Aviso de privacidad</a></li>
+          <li><a href="/pages/politicas-de-tratamiento-de-datos">Política de tratamiento de la información</a></li>
+          <li><a href="/pages/politica-de-pago-en-linea-envio-y-derecho-de-retracto">Política de pago en línea, envío y derecho de retracto</a></li>
+          <li><a href="/pages/politicas-de-garantias">Políticas de garantía</a></li>
           <li><a href="https://www.sic.gov.co" target="_blank" rel="noopener">Entidad de protección al consumidor www.sic.gov.co</a></li>
         </ul>
       </div>
@@ -70,10 +66,10 @@
       <div class="footer-col">
         <h3 class="footer-col-title">Ayuda</h3>
         <ul class="footer-menu">
-          <li><a href="/pages/servicio-al-cliente">Servicio al Cliente</a></li>
-          <li><a href="/pages/seguimiento-a-mi-pedido">Seguimiento a mi Pedido</a></li>
+          <li><a href="/pages/contact">Servicio al Cliente</a></li>
+          <!--<li><a href="/pages/seguimiento-a-mi-pedido">Seguimiento a mi Pedido</a></li>
           <li><a href="/pages/preguntas-frecuentes">Preguntas Frecuentes</a></li>
-          <li><a href="/pages/pqrs">PQRS</a></li>
+          <li><a href="/pages/pqrs">PQRS</a></li>-->
         </ul>
       </div>
 
@@ -151,12 +147,12 @@
   }
 
   .footer-logo-img {
-    max-height: 52px;
+    max-height: 120px;
     width: auto;
     object-fit: contain;
   }
 
-  .footer-col-brand svg { max-height: 52px; width: auto; fill: #ffffff; }
+  .footer-col-brand svg { max-height: 120px; width: auto; fill: #ffffff; }
 
   .footer-logo-text {
     font-size: 1.625rem;

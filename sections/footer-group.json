@@ -14,7 +14,11 @@
     "footer": {
       "type": "footer",
       "settings": {
-        "show_payment_icons": true
+        "logo_image": "shopify://shop_images/WhatsApp_Image_2026-05-26_at_10.08.39_AM-removebg-preview.png",
+        "logo_svg": "",
+        "show_social": true,
+        "show_payment_icons": true,
+        "wa_number": ""
       }
     }
   },

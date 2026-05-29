@@ -1,0 +1,33 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "quienes-somos",
+      "settings": {
+        "badge_image": "shopify://shop_images/626190111_18092446031054033_4674419792876979286_n.webp",
+        "badge_logo_text": "88JM",
+        "badge_location": "Pereira, Colombia",
+        "badge_title": "88jmbubble",
+        "hero_title": "Quiénes Somos",
+        "hero_subtitle": "Tecnología premium y servicio de confianza desde Pereira para todo el país.",
+        "paragraph_1": "Somos un comercio consolidado y especializado en ofrecer soluciones tecnológicas avanzadas, conectando a nuestros clientes con dispositivos de carga de la más alta calidad y gama, lo último en sistemas de audio premium, y un servicio técnico experto dedicado a la venta y reparación de celulares iPhone. Además, complementamos tu experiencia digital con un catálogo seleccionado de accesorios esenciales, que incluye desde cases y vidrios templados para la máxima protección de tu celular, hasta teclados, mouses y adaptadores de alto rendimiento para tu PC.\n\nNo somos solo una tienda de tecnología; somos tu aliado de confianza para equipar tu hogar, tu estudio o tu negocio con herramientas que potencian tu productividad y entretenimiento. Nos enorgullece respaldar cada una de tus compras con garantía directa, transacciones 100% seguras y envíos eficientes a todo el país, desde nuestra sede en Pereira, Colombia.\n\nEn 88 JM Bubble, somos apasionados por la tecnología que transforma y mejora tu día a día.",
+        "paragraph_2": "No somos solo una tienda de tecnología; somos tu aliado de confianza para equipar tu hogar, tu estudio o tu negocio con herramientas que potencian tu productividad y entretenimiento. Nos enorgullece respaldar cada una de tus compras con garantía directa, transacciones 100% seguras y envíos eficientes a todo el país.",
+        "mission_title": "Nuestra Misión",
+        "mission_text": "Nuestra misión es conectar a las personas con la tecnología de vanguardia que necesitan para optimizar su vida diaria, ofreciendo dispositivos de audio, soluciones de carga de alta gama y periféricos confiables bajo los más estrictos estándares de calidad. Nos comprometemos a brindar una experiencia de compra excepcional (tanto en hardware, adaptadores y accesorios de protección) como en un servicio técnico especializado en iPhone de máxima confiabilidad, garantizando siempre la satisfacción y el valor real para nuestra comunidad en Pereira y en toda Colombia.",
+        "vision_title": "Nuestra Visión",
+        "vision_text": "Para el año 2030, 88jmbubble aspira a ser reconocida como la tienda de comercio electrónico líder y el referente principal en tecnología premium, accesorios especializados, soluciones de carga y servicio Apple en la región del Eje Cafetero y a nivel nacional. Nos proyectamos como una empresa en constante innovación digital, expandiendo nuestro catálogo con las marcas más exclusivas del mercado (desde componentes esenciales para PC hasta lo último en movilidad móvil) y manteniendo siempre el trato cercano, honesto y profesional que nos define desde nuestros inicios."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,300 @@
+{% comment %}
+  Section: Política de Garantías y Soporte Técnico
+  Renders the custom Warranty and Technical Support policies page content for 88jmbubble.
+{% endcomment %}
+
+{% stylesheet %}
+  /* Container for the page contents (constrained layout) */
+  .warranty-container {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem 1.5rem;
+    font-family: inherit;
+    color: #334155;
+  }
+
+  /* Hero Section styling - spans full-width and has no margin-top */
+  .warranty-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #d97706 100%); /* Amber/Gold gradient */
+    border-radius: 0;
+    padding: 5rem 2rem;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 4rem;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .warranty-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 80% 20%, rgba(217, 119, 6, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .warranty-hero h1 {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.03em;
+    background: linear-gradient(to right, #ffffff, #e2e8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+  }
+
+  .warranty-hero p {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: #cbd5e1;
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Document content styles */
+  .warranty-content {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  .warranty-content p {
+    margin: 0 0 1.5rem 0;
+  }
+
+  .warranty-content p.intro-lead {
+    font-size: 1.1875rem;
+    color: #0f172a;
+    font-weight: 500;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .warranty-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 3rem 0 1.25rem 0;
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.5rem;
+  }
+
+  .warranty-content h2:first-of-type {
+    margin-top: 0;
+  }
+
+  /* List items */
+  .warranty-content ul {
+    margin: 0 0 2rem 0;
+    padding-left: 1.5rem;
+    list-style: none;
+  }
+
+  .warranty-content ul li {
+    position: relative;
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+  }
+
+  .warranty-content ul li::before {
+    content: "•";
+    color: #d97706; /* Amber bullet to match the hero theme */
+    font-weight: bold;
+    font-size: 1.25rem;
+    position: absolute;
+    left: -1rem;
+    top: -0.1rem;
+  }
+
+  .warranty-content strong {
+    color: #0f172a;
+    font-weight: 600;
+  }
+{% endstylesheet %}
+
+<!-- Hero Section (Full-width) -->
+<header class="warranty-hero full-width">
+  <h1>{{ section.settings.hero_title | default: "Políticas de Garantía Legal y Soporte Técnico" }}</h1>
+  <p>{{ section.settings.hero_subtitle | default: "Respaldamos la calidad, originalidad e idoneidad de cada uno de nuestros productos y servicios." }}</p>
+</header>
+
+<div class="warranty-container">
+  
+  <article class="warranty-content">
+    <p class="intro-lead">{{ section.settings.intro_text }}</p>
+    
+    <h2>1. Tiempos de Cobertura de la Garantía</h2>
+    <p>{{ section.settings.coverage_intro }}</p>
+    <ul>
+      <li><strong>Dispositivos de Carga de Alta Gama y Componentes de PC:</strong> {{ section.settings.coverage_charging }}</li>
+      <li><strong>Sistemas de Audio y Altavoces Premium:</strong> {{ section.settings.coverage_audio }}</li>
+      <li><strong>Servicio Técnico y Reparación de Celulares (iPhone):</strong> {{ section.settings.coverage_service }}</li>
+      <li><strong>Accesorios de Protección Básica:</strong> {{ section.settings.coverage_accessories }}</li>
+    </ul>
+
+    <h2>2. Condiciones para Hacer Efectiva la Garantía</h2>
+    <p>{{ section.settings.conditions_text_1 }}</p>
+    <p>{{ section.settings.conditions_text_2 | replace: "[Tu Correo de Soporte Aquí]", section.settings.support_email }}</p>
+    <p>{{ section.settings.conditions_text_3 }}</p>
+
+    <h2>3. Procedimiento y Tiempos de Respuesta</h2>
+    <ul>
+      <li><strong>Diagnóstico Integral:</strong> {{ section.settings.step_diagnosis }}</li>
+      <li><strong>Reparación Gratuita:</strong> {{ section.settings.step_repair }}</li>
+      <li><strong>Cambio o Reembolso:</strong> {{ section.settings.step_exchange }}</li>
+    </ul>
+
+    <h2>4. Exclusiones de la Garantía (Cuándo NO aplica)</h2>
+    <p>{{ section.settings.exclusions_intro }}</p>
+    <ul>
+      <li><strong>Uso indebido o negligente:</strong> {{ section.settings.exclusion_use }}</li>
+      <li><strong>Humedad y líquidos:</strong> {{ section.settings.exclusion_humidity }}</li>
+      <li><strong>Problemas eléctricos externos:</strong> {{ section.settings.exclusion_electrical }}</li>
+      <li><strong>Manipulación de terceros:</strong> {{ section.settings.exclusion_manipulation }}</li>
+      <li>{{ section.settings.exclusion_manual }}</li>
+    </ul>
+  </article>
+
+</div>
+
+{% schema %}
+{
+  "name": "Políticas de Garantías",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Título Principal",
+      "default": "Políticas de Garantía Legal y Soporte Técnico"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Subtítulo Principal",
+      "default": "Respaldamos la calidad, originalidad e idoneidad de cada uno de nuestros productos y servicios."
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Texto Introducción",
+      "default": "En 88jmbubble, respaldamos la calidad, originalidad e idoneidad de cada uno de los productos que comercializamos y de los servicios técnicos que prestamos. Todas tus compras y reparaciones están estrictamente protegidas bajo el Estatuto del Consumidor en Colombia (Ley 1480 de 2011).\n\nA continuación, te detallamos los términos de cobertura, plazos de respuesta y condiciones para hacer efectiva tu garantía de forma ágil y transparente:"
+    },
+    {
+      "type": "text",
+      "id": "support_email",
+      "label": "Correo de Soporte",
+      "default": "soporte@88jmbubble.com"
+    },
+    {
+      "type": "textarea",
+      "id": "coverage_intro",
+      "label": "Cobertura: Intro",
+      "default": "Salvo que se especifique un plazo diferente y superior en la descripción de la ficha técnica del producto o en la factura de venta, nuestras coberturas estándar contra defectos de fabricación son:"
+    },
+    {
+      "type": "textarea",
+      "id": "coverage_charging",
+      "label": "Cobertura: Carga y PC",
+      "default": "Los cargadores de pared, baterías portátiles (powerbanks), cables premium, adaptadores, conectores, teclados y mouses cuentan con una garantía de seis (6) meses por fallas técnicas directas de fábrica."
+    },
+    {
+      "type": "textarea",
+      "id": "coverage_audio",
+      "label": "Cobertura: Audio",
+      "default": "Los audífonos (incluyendo diademas y sistemas de conducción ósea), micrófonos, bafles y sistemas de sonido cuentan con una garantía de seis (6) meses."
+    },
+    {
+      "type": "textarea",
+      "id": "coverage_service",
+      "label": "Cobertura: Soporte iPhone",
+      "default": "Todas las reparaciones de hardware y cambios de componentes para celulares iPhone cuentan con una garantía legal de tres (3) meses, contados a partir del momento de la entrega del equipo reparado. Esta garantía cubre exclusivamente el componente reemplazado y la mano de obra del servicio prestado."
+    },
+    {
+      "type": "textarea",
+      "id": "coverage_accessories",
+      "label": "Cobertura: Accesorios",
+      "default": "Los cases (carcasas) y vidrios templados para celulares cuentan con garantía únicamente por defectos evidentes de fábrica verificables al momento de la recepción del producto. No se cubre el desgaste natural, decoloración, rayones por uso o quiebres del vidrio templado derivados de una mala instalación por parte del cliente o de impactos posteriores."
+    },
+    {
+      "type": "textarea",
+      "id": "conditions_text_1",
+      "label": "Condición 1: Defectos",
+      "default": "La garantía cubre única y exclusivamente defectos de fabricación, fallas internas de hardware o mal funcionamiento técnico bajo condiciones de uso normal y siguiendo las instrucciones de los manuales del usuario."
+    },
+    {
+      "type": "textarea",
+      "id": "conditions_text_2",
+      "label": "Condición 2: Reporte",
+      "default": "Para iniciar una solicitud de garantía, el cliente debe reportar el caso a nuestro correo oficial de soporte: [Tu Correo de Soporte Aquí] o a través de nuestros canales autorizados de atención, adjuntando copia de la factura de compra o datos de la orden, descripción clara de la falla y, de ser posible, fotos o videos que evidencien el problema."
+    },
+    {
+      "type": "textarea",
+      "id": "conditions_text_3",
+      "label": "Condición 3: Transportes",
+      "default": "En cumplimiento de la ley, los costos de transporte y fletes de envío requeridos para la recolección, diagnóstico y reenvío del artículo reportado por garantía serán asumidos en su totalidad por 88jmbubble, siempre y cuando se determine que el daño corresponde a un defecto de fábrica."
+    },
+    {
+      "type": "textarea",
+      "id": "step_diagnosis",
+      "label": "Paso 1: Diagnóstico",
+      "default": "Una vez recibido el artículo en nuestra sede física, nuestro equipo de soporte técnico realizará una evaluación y diagnóstico integral del dispositivo en un plazo máximo de quince (15) días hábiles contados a partir del día siguiente de la recepción."
+    },
+    {
+      "type": "textarea",
+      "id": "step_repair",
+      "label": "Paso 2: Reparación",
+      "default": "Si el diagnóstico confirma un defecto de fabricación, se procederá con la reparación técnica del artículo o el reemplazo de la parte afectada de manera totalmente gratuita para el consumidor, garantizando su óptimo funcionamiento."
+    },
+    {
+      "type": "textarea",
+      "id": "step_exchange",
+      "label": "Paso 3: Cambio / Reembolso",
+      "default": "Si el artículo no admite una reparación efectiva, la falla técnica es repetitiva o el daño es mayor, el cliente tendrá la total libertad de elegir entre el cambio del artículo por uno nuevo de la misma referencia (o similares características) o la devolución total del 100% del dinero invertido. Si se opta por el reembolso, este se hará efectivo en un plazo máximo de quince (15) días calendario."
+    },
+    {
+      "type": "textarea",
+      "id": "exclusions_intro",
+      "label": "Exclusiones: Intro",
+      "default": "88jmbubble se reserva el derecho de rechazar la aplicación de la garantía, de acuerdo con el artículo 16 de la Ley 1480 de 2011, cuando el diagnóstico técnico demuestre que la falla fue originada por:"
+    },
+    {
+      "type": "textarea",
+      "id": "exclusion_use",
+      "label": "Exclusión: Uso indebido",
+      "default": "Golpes, caídas, abolladuras, raspaduras, cables pelados o rotos, o quiebres estructurales causados por impactos posteriores a la entrega."
+    },
+    {
+      "type": "textarea",
+      "id": "exclusion_humidity",
+      "label": "Exclusión: Humedad",
+      "default": "Evidencias de sulfatación, ingreso de agua o fluidos en los circuitos internos del dispositivo (a menos que el producto certifique resistencia sumergible específica y se demuestre que se usó dentro de los límites estrictos del fabricante)."
+    },
+    {
+      "type": "textarea",
+      "id": "exclusion_electrical",
+      "label": "Exclusión: Eléctrico",
+      "default": "Quemaduras o daños internos causados por sobrecargas eléctricas, fluctuaciones de voltaje en la red, o el uso de adaptadores y cables de carga defectuosos o no compatibles con las especificaciones del equipo."
+    },
+    {
+      "type": "textarea",
+      "id": "exclusion_manipulation",
+      "label": "Exclusión: Terceros",
+      "default": "Dispositivos o teléfonos iPhone que hayan sido abiertos, modificados, alterados o reparados por laboratorios técnicos o personas externas no autorizadas expresamente por nuestra tienda."
+    },
+    {
+      "type": "textarea",
+      "id": "exclusion_manual",
+      "label": "Exclusión: Manuales",
+      "default": "El no seguimiento de las instrucciones de instalación, uso o mantenimiento descritas en el manual del producto."
+    }
+  ]
+}
+{% endschema %}

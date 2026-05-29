@@ -55,10 +55,73 @@
     "description": {
       "type": "product-description",
       "settings": {}
+    },
+    "brands-marquee": {
+      "type": "brands-marquee",
+      "blocks": {
+        "brand_UB3FEp": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/LOGO-HORIZONTAL_Mesa-de-trabajo-1-removebg-preview.png",
+            "brand_name": "MARCA",
+            "alt_text": ""
+          }
+        },
+        "brand_PU9mfp": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/logo_banner.webp",
+            "brand_name": "MARCA",
+            "alt_text": ""
+          }
+        },
+        "brand_4dWJki": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/apple_logo_icon_168588.png",
+            "brand_name": "MARCA",
+            "alt_text": ""
+          }
+        },
+        "brand_nfaJQL": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/ugreen-logo-1-1024x272.webp",
+            "brand_name": "MARCA",
+            "alt_text": ""
+          }
+        },
+        "brand_NBKPqD": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Imagotipo-Horizontal-Full-Color.webp",
+            "brand_name": "MARCA",
+            "alt_text": ""
+          }
+        },
+        "brand-1": {
+          "type": "brand",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_oc22beoc22beoc22.webp",
+            "brand_name": "JBL",
+            "alt_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "brand_UB3FEp",
+        "brand_PU9mfp",
+        "brand_4dWJki",
+        "brand_nfaJQL",
+        "brand_NBKPqD",
+        "brand-1"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "description"
+    "description",
+    "brands-marquee"
   ]
 }

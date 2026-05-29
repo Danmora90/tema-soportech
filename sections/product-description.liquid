@@ -60,6 +60,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
     align-content: start;
+    align-self: start;
   }
 
   @media(max-width: 1024px) {
@@ -127,6 +128,71 @@
     line-height: 1.4;
     margin: 0;
   }
+
+  /* Collapsible Description Container */
+  .product-description-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .product-description-inner {
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+  }
+
+  /* Gradient fade at the bottom of the container */
+  .product-description-wrapper.has-collapse:not(.is-expanded) .product-description-inner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .product-description-wrapper.is-expanded .product-description-inner::after {
+    opacity: 0;
+  }
+
+  /* Read More button resembling the design */
+  .read-more-btn {
+    display: none; /* Controlled by JS based on height comparison */
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: #2563eb;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.75rem 0;
+    margin-top: 0.5rem;
+    width: fit-content;
+    transition: color 0.2s ease;
+    align-self: flex-start;
+  }
+
+  .read-more-btn:hover {
+    color: #1d4ed8;
+  }
+
+  .read-more-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  .product-description-wrapper.is-expanded .read-more-icon {
+    transform: rotate(180deg);
+  }
 {% endstylesheet %}
 
 <div class="product-description-section" id="Description-{{ section.id }}">
@@ -135,16 +201,26 @@
   <div class="product-description-layout">
     
     <!-- Left Column (60%) -->
-    <div class="product-description-content">
-      {% if product.description != blank %}
-        {{ product.description }}
-      {% else %}
-        <p>{{ 'La descripción de este producto no está disponible' | t | default: 'La descripción de este producto no está disponible.' }}</p>
-      {% endif %}
+    <div class="product-description-wrapper" id="DescriptionWrapper-{{ section.id }}">
+      <div class="product-description-inner" id="ProductDescriptionInner-{{ section.id }}">
+        <div class="product-description-content">
+          {% if product.description != blank %}
+            {{ product.description }}
+          {% else %}
+            <p>{{ 'La descripción de este producto no está disponible' | t | default: 'La descripción de este producto no está disponible.' }}</p>
+          {% endif %}
+        </div>
+      </div>
+      <button type="button" class="read-more-btn" id="ReadMoreBtn-{{ section.id }}">
+        <span>Ver descripción completa</span>
+        <svg class="read-more-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
     </div>
 
     <!-- Right Column (40%) -->
-    <div class="product-info-features">
+    <div class="product-info-features" id="ProductFeatures-{{ section.id }}">
       
       <!-- Icon 1 -->
       <div class="feature-item">
@@ -202,6 +278,74 @@
 
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sectionId = '{{ section.id }}';
+      const wrapper = document.getElementById('DescriptionWrapper-' + sectionId);
+      const inner = document.getElementById('ProductDescriptionInner-' + sectionId);
+      const content = inner ? inner.querySelector('.product-description-content') : null;
+      const features = document.getElementById('ProductFeatures-' + sectionId);
+      const button = document.getElementById('ReadMoreBtn-' + sectionId);
+
+      if (!wrapper || !inner || !content || !features || !button) return;
+
+      let featuresHeight = features.offsetHeight;
+      let contentHeight = content.offsetHeight;
+
+      function checkHeights() {
+        featuresHeight = features.offsetHeight;
+        contentHeight = content.offsetHeight;
+        const isDesktop = window.innerWidth >= 768;
+        const limitHeight = isDesktop ? featuresHeight : 350;
+
+        if (contentHeight > limitHeight) {
+          wrapper.classList.add('has-collapse');
+          if (!wrapper.classList.contains('is-expanded')) {
+            inner.style.maxHeight = limitHeight + 'px';
+            button.style.display = 'flex';
+          } else {
+            inner.style.maxHeight = contentHeight + 'px';
+          }
+        } else {
+          wrapper.classList.remove('has-collapse');
+          inner.style.maxHeight = 'none';
+          button.style.display = 'none';
+        }
+      }
+
+      if (typeof ResizeObserver !== 'undefined') {
+        const observer = new ResizeObserver(() => {
+          checkHeights();
+        });
+        observer.observe(content);
+        observer.observe(features);
+      } else {
+        window.addEventListener('resize', checkHeights);
+        window.addEventListener('load', checkHeights);
+        setTimeout(checkHeights, 500);
+      }
+
+      button.addEventListener('click', function() {
+        if (wrapper.classList.contains('is-expanded')) {
+          wrapper.classList.remove('is-expanded');
+          button.querySelector('span').textContent = 'Ver descripción completa';
+          checkHeights();
+          
+          const sectionHeader = document.getElementById('Description-' + sectionId);
+          if (sectionHeader) {
+            sectionHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        } else {
+          wrapper.classList.add('is-expanded');
+          button.querySelector('span').textContent = 'Ver menos';
+          inner.style.maxHeight = content.offsetHeight + 'px';
+        }
+      });
+
+      checkHeights();
+    });
+  </script>
 </div>
 
 {% schema %}
