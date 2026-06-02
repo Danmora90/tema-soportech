@@ -13,7 +13,7 @@
       "type": "announcement-bar",
       "settings": {
         "message_1": "🚚 Envíos a todo el país",
-        "message_2": "📍 Visítanos en Pereira: Calle 16 # 6-55",
+        "message_2": "📍 Visítanos en Pereira: Cra. 17 #8-140 Local 9, Pereira, Risaralda",
         "message_3": "🔋 Garantía directa en todos los productos",
         "scroll_speed": 30
       }
@@ -430,7 +430,7 @@
           "settings": {
             "icon": "shopify://shop_images/Icono_case_para_celular_202605280018-removebg-preview.webp",
             "title": "Case para celular",
-            "url": ""
+            "url": "shopify://collections/cases"
           }
         },
         "category_4nHQA6": {
@@ -438,7 +438,7 @@
           "settings": {
             "icon": "shopify://shop_images/Icono_case_para_celular_202605280021-removebg-preview.webp",
             "title": "Parlantes",
-            "url": ""
+            "url": "shopify://collections/parlantes"
           }
         },
         "cat-1": {
@@ -446,7 +446,7 @@
           "settings": {
             "icon": "shopify://shop_images/Icono_case_para_celular_202605280025-removebg-preview.webp",
             "title": "Accesorios",
-            "url": ""
+            "url": "shopify://collections/adaptadores"
           }
         },
         "cat-2": {
@@ -454,7 +454,7 @@
           "settings": {
             "icon": "shopify://shop_images/Icono_case_para_celular_202605280022-removebg-preview.webp",
             "title": "Audífonos",
-            "url": ""
+            "url": "shopify://collections/audifonos"
           }
         },
         "cat-3": {
@@ -462,7 +462,7 @@
           "settings": {
             "icon": "shopify://shop_images/Icono_case_para_celular_202605280026-removebg-preview.webp",
             "title": "Teclados y maouses",
-            "url": ""
+            "url": "shopify://collections"
           }
         },
         "cat-4": {
@@ -470,7 +470,7 @@
           "settings": {
             "icon": "shopify://shop_images/Icono_case_para_celular_202605280023-removebg-preview.webp",
             "title": "Cargadores",
-            "url": ""
+            "url": "shopify://collections/cargadores"
           }
         }
       },

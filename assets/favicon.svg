@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" role="img" aria-label="Soportech logo">
+  <title>Soportech</title>
+
+  <!-- Outer ring with cyan glow -->
+  <circle cx="100" cy="100" r="96" stroke="url(#ring-gradient)" stroke-width="1.5" fill="none" opacity="0.7"/>
+
+  <!-- Inner ring -->
+  <circle cx="100" cy="100" r="88" stroke="url(#ring-gradient)" stroke-width="0.5" fill="none" opacity="0.35"/>
+
+  <!-- Main circle background -->
+  <circle cx="100" cy="100" r="84" fill="#000000"/>
+
+  <!-- Subtle tech-arc accent top-left -->
+  <path d="M 30 70 A 76 76 0 0 1 70 30" stroke="url(#arc-gradient)" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Subtle tech-arc accent bottom-right -->
+  <path d="M 170 130 A 76 76 0 0 1 130 170" stroke="url(#arc-gradient)" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- "ST" lettermark -->
+  <text
+    x="100"
+    y="96"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-family="'Arial Black', 'Helvetica Neue', sans-serif"
+    font-weight="900"
+    font-size="42"
+    fill="#ffffff"
+    letter-spacing="-2"
+  >ST</text>
+
+  <!-- "SOPORTECH" wordmark beneath -->
+  <text
+    x="100"
+    y="130"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-family="'Arial', 'Helvetica Neue', sans-serif"
+    font-weight="700"
+    font-size="13"
+    fill="url(#text-gradient)"
+    letter-spacing="4"
+  >SOPORTECH</text>
+
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="ring-gradient" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="arc-gradient" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="text-gradient" x1="0" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#7dd3fc"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -29,8 +29,8 @@
     position: relative;
     overflow: hidden;
     padding: 11px 0;
-    background: linear-gradient(90deg, #0a0a0a 0%, #0f172a 40%, #0a0a0a 100%);
-    border-bottom: 1px solid rgba(6, 182, 212, 0.18);
+    background: #06b6d4;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
   }
 
   /* Edge fade masks */
@@ -46,11 +46,11 @@
   }
   .announcement-bar::before {
     left: 0;
-    background: linear-gradient(to right, #0a0a0a, transparent);
+    background: linear-gradient(to right, #06b6d4, transparent);
   }
   .announcement-bar::after {
     right: 0;
-    background: linear-gradient(to left, #0a0a0a, transparent);
+    background: linear-gradient(to left, #06b6d4, transparent);
   }
 
   .announcement-bar__track {
@@ -74,16 +74,13 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     padding: 0 1.5rem;
-    color: #ffffff;
+    color: #0f172a;
   }
 
   .announcement-bar__sep {
     flex-shrink: 0;
     font-size: 0.45rem;
-    background: linear-gradient(90deg, #06b6d4, #3b82f6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #0f172a;
     line-height: 1;
   }
 

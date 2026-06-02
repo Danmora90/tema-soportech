@@ -1,8 +1,27 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "contact": {
       "type": "contact-page",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Estamos aquí para ayudarte",
+        "hero_title": "Contáctanos",
+        "hero_text": "Completa el formulario y te responderemos a la brevedad, o si lo prefieres, llámanos o escríbenos directamente por WhatsApp.",
+        "info_title": "¿Cómo podemos ayudarte?",
+        "info_text": "Nuestro equipo está disponible para asesorarte sobre equipos de audio, soporte técnico, cotizaciones y más. No dudes en contactarnos por cualquier canal.",
+        "email": "88jmestudio@gmail.com",
+        "phone": "+57 302 798 3622",
+        "whatsapp": "+573027983622",
+        "address": "Pereira, Risaralda, Colombia"
+      }
     }
   },
   "order": [

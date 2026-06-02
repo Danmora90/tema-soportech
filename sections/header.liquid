@@ -3,6 +3,15 @@
   <!-- Nivel Superior: Logo, Buscador, Redes y Cuenta/Carrito -->
   <div class="header__top">
     
+    <!-- Mobile Menu Toggle -->
+    <button type="button" class="header__menu-toggle" aria-label="Abrir menú" aria-controls="mobile-menu-drawer" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+    
     <!-- Logo -->
     <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
       {% if section.settings.logo != blank %}
@@ -86,6 +95,36 @@
   </div>
 </header>
 
+<!-- Cajón de Navegación Móvil (Drawer) -->
+<div id="mobile-menu-drawer" class="mobile-drawer" aria-hidden="true">
+  <div class="mobile-drawer__overlay"></div>
+  <div class="mobile-drawer__content">
+    <div class="mobile-drawer__header">
+      <h2 class="mobile-drawer__title">Menú</h2>
+      <button type="button" class="mobile-drawer__close" aria-label="Cerrar menú">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <nav class="mobile-drawer__menu">
+      {% assign active_menu = section.settings.menu | default: 'main-menu' %}
+      {% for link in linklists[active_menu].links %}
+        <a href="{{ link.url }}" class="mobile-drawer__link">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+    <div class="mobile-drawer__social">
+      <a href="https://www.facebook.com/88JMBubble" target="_blank" aria-label="Facebook" class="social-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+      </a>
+      <a href="https://www.instagram.com/88jmbubble/" target="_blank" aria-label="Instagram" class="social-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
 {% stylesheet %}
   .header {
     background-color: #ffffff;
@@ -93,6 +132,138 @@
     position: sticky;
     top: 0;
     z-index: 100;
+  }
+
+  .header__menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #111827;
+    padding: 0.5rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header__menu-toggle:hover {
+    color: #06b6d4;
+  }
+
+  .header__menu-toggle svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* MOBILE DRAWER STYLES */
+  .mobile-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    visibility: hidden;
+    transition: visibility 0.3s;
+  }
+
+  .mobile-drawer.is-open {
+    visibility: visible;
+  }
+
+  .mobile-drawer__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .mobile-drawer.is-open .mobile-drawer__overlay {
+    opacity: 1;
+  }
+
+  .mobile-drawer__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    max-width: 320px;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .mobile-drawer.is-open .mobile-drawer__content {
+    transform: translateX(0);
+  }
+
+  .mobile-drawer__header {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .mobile-drawer__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+  }
+
+  .mobile-drawer__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4b5563;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-drawer__close svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .mobile-drawer__menu {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+  .mobile-drawer__link {
+    text-decoration: none;
+    color: #374151;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .mobile-drawer__link:hover {
+    color: #06b6d4;
+  }
+
+  .mobile-drawer__social {
+    padding: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 1rem;
   }
   
   /* TOP ROW */
@@ -297,10 +468,24 @@
       flex-wrap: wrap;
       padding: 1rem 1.5rem;
       gap: 1rem;
+      justify-content: space-between;
+    }
+
+    .header__menu-toggle {
+      display: flex;
+      order: 1;
+    }
+
+    .header__logo {
+      order: 2;
+    }
+
+    .header__actions {
+      order: 3;
     }
     
     .header__search {
-      order: 3;
+      order: 4;
       width: 100%;
       max-width: 100%;
       margin-top: 0.5rem;
@@ -340,3 +525,32 @@
   ]
 }
 {% endschema %}
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.querySelector('.header__menu-toggle');
+    const closeBtn = document.querySelector('.mobile-drawer__close');
+    const drawer = document.getElementById('mobile-menu-drawer');
+    const overlay = document.querySelector('.mobile-drawer__overlay');
+
+    if (!toggleBtn || !drawer) return;
+
+    function openDrawer() {
+      drawer.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    toggleBtn.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if (overlay) overlay.addEventListener('click', closeDrawer);
+  });
+{% endjavascript %}

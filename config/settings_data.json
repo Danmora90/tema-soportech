@@ -8,5 +8,8 @@
  * ------------------------------------------------------------
  */
 {
-  "current": {}
+  "current": {
+    "favicon": "shopify://shop_images/WhatsApp_Image_2026-05-26_at_10.08.39_AM__1_-removebg-preview.png",
+    "content_for_index": []
+  }
 }
