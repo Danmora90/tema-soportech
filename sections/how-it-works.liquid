@@ -1,0 +1,304 @@
+<!-- ── Mecanismo de Compra: Cómo Funciona ── -->
+<section class="hw full-width" aria-labelledby="hw-heading-{{ section.id }}" {{ section.shopify_attributes }}>
+  <div class="hw__container">
+    
+    <!-- Header -->
+    <div class="hw__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="hw__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h2 id="hw-heading-{{ section.id }}" class="hw__title">{{ section.settings.title | escape }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="hw__subtitle">{{ section.settings.subtitle | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- Steps Grid -->
+    {%- if section.blocks.size > 0 -%}
+      <div class="hw__grid hw__grid--{{ section.blocks.size }}">
+        {%- for block in section.blocks -%}
+          <div class="hw-step" {{ block.shopify_attributes }}>
+            <!-- Step Badge & Icon -->
+            <div class="hw-step__header">
+              <div class="hw-step__badge">Paso {{ forloop.index }}</div>
+              <div class="hw-step__icon-wrap">
+                {%- case block.settings.icon -%}
+                  {%- when 'search' -%}
+                    <svg class="hw-step__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                  {%- when 'truck' -%}
+                    <svg class="hw-step__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect x="1" y="3" width="15" height="13"></rect>
+                      <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                      <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                      <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                    </svg>
+                  {%- when 'support' -%}
+                    <svg class="hw-step__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                  {%- when 'shield' -%}
+                    <svg class="hw-step__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                  {%- else -%}
+                    <svg class="hw-step__svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                {%- endcase -%}
+              </div>
+            </div>
+
+            <!-- Content -->
+            <h3 class="hw-step__title">{{ block.settings.title | escape }}</h3>
+            <p class="hw-step__text">{{ block.settings.text | escape }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .hw {
+    background-color: #ffffff;
+    padding: 6rem 1.25rem;
+    color: #0f172a;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .hw__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hw__header {
+    text-align: center;
+    margin-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hw__eyebrow {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #06b6d4;
+  }
+
+  .hw__title {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .hw__subtitle {
+    margin: 0.5rem 0 0;
+    font-size: 1.0625rem;
+    color: #4b5563;
+    max-width: 580px;
+    line-height: 1.6;
+  }
+
+  /* Grid layout */
+  .hw__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 640px) {
+    .hw__grid--2, .hw__grid--4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .hw__grid--3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hw__grid--4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Step Card */
+  .hw-step {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 1.25rem;
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    position: relative;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+
+  .hw-step:hover {
+    transform: translateY(-4px);
+    border-color: #06b6d4;
+    box-shadow: 0 10px 20px -5px rgba(6, 182, 212, 0.08);
+  }
+
+  .hw-step__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hw-step__badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .hw-step__icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #06b6d4;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+  }
+
+  .hw-step__svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .hw-step__title {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .hw-step__text {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: #4b5563;
+    margin: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "¿Cómo Funciona?",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Copete (Eyebrow)",
+      "default": "Pasos Simples"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título Principal",
+      "default": "¿Cómo Compramos?"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Nuestra experiencia de compra está pensada para darte la máxima seguridad y el mejor soporte."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Paso",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono del paso",
+          "options": [
+            { "value": "search", "label": "Lupa (Buscar)" },
+            { "value": "truck", "label": "Camión (Envío)" },
+            { "value": "support", "label": "Mensaje (Soporte)" },
+            { "value": "shield", "label": "Escudo (Garantía)" }
+          ],
+          "default": "search"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título del paso",
+          "default": "1. Escoge tu producto"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Descripción del paso",
+          "default": "Selecciona entre los mejores equipos de audio profesional y accesorios de carga original."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "¿Cómo Funciona?",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "icon": "search",
+            "title": "Escoge tu producto",
+            "text": "Explora nuestro catálogo en línea y selecciona el dispositivo de audio o cargador ideal para tus necesidades."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon": "truck",
+            "title": "Envío gratis a todo el país",
+            "text": "Despachamos tu pedido sin costo adicional. Llega directamente a tu puerta en cualquier rincón de Colombia."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon": "support",
+            "title": "Instalación/Soporte incluido",
+            "text": "Nuestros asesores técnicos te guiarán de forma gratuita en la configuración de tus nuevos equipos por WhatsApp."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon": "shield",
+            "title": "Garantía directa 12 meses",
+            "text": "Todos nuestros productos cuentan con garantía respaldada directamente en nuestra tienda física en Pereira."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

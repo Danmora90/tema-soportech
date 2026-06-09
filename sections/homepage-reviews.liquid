@@ -1,0 +1,475 @@
+<!-- ── Testimonios y Social Proof ── -->
+<section class="hr full-width" aria-labelledby="hr-heading-{{ section.id }}" {{ section.shopify_attributes }}>
+  <div class="hr__container">
+    
+    <!-- Header with rating summary -->
+    <div class="hr__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="hr__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h2 id="hr-heading-{{ section.id }}" class="hr__title">{{ section.settings.title | escape }}</h2>
+      
+      <!-- Rating Summary Badge -->
+      <div class="hr__rating-summary">
+        <div class="hr__rating-stars">
+          {%- for i in (1..5) -%}
+            <svg class="hr__star" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="#facc15"/>
+            </svg>
+          {%- endfor -%}
+        </div>
+        <span class="hr__rating-text">
+          <strong>{{ section.settings.rating_value | escape }}/{{ section.settings.rating_max | escape }}</strong> 
+          basado en {{ section.settings.reviews_count | escape }} {{ section.settings.reviews_text | escape }}
+        </span>
+      </div>
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="hr__subtitle">{{ section.settings.subtitle | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- Testimonials Grid -->
+    {%- if section.blocks.size > 0 -%}
+      <div class="hr__grid">
+        {%- for block in section.blocks -%}
+          <div class="hr-card" {{ block.shopify_attributes }}>
+            <div class="hr-card__header">
+              <div class="hr-card__rating">
+                {%- assign rating = block.settings.rating | default: 5 -%}
+                {%- for i in (1..5) -%}
+                  <svg class="hr-card__star" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" 
+                      {% if i <= rating %}fill="#facc15"{% else %}fill="#e2e8f0"{% endif %}/>
+                  </svg>
+                {%- endfor -%}
+              </div>
+              <span class="hr-card__date">{{ block.settings.date | escape }}</span>
+            </div>
+
+            <blockquote class="hr-card__quote">
+              <p class="hr-card__text">"{{ block.settings.text | escape }}"</p>
+            </blockquote>
+
+            <div class="hr-card__author">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image 
+                  | image_url: width: 100, height: 100, crop: 'center'
+                  | image_tag: 
+                    loading: 'lazy', 
+                    class: 'hr-card__avatar', 
+                    alt: block.settings.author_name 
+                }}
+              {%- else -%}
+                <div class="hr-card__avatar hr-card__avatar--placeholder">
+                  {{ block.settings.author_name | slice: 0 | upcase }}
+                </div>
+              {%- endif -%}
+              <div class="hr-card__author-info">
+                <cite class="hr-card__name">{{ block.settings.author_name | escape }}</cite>
+                {%- if block.settings.verified -%}
+                  <span class="hr-card__verified">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    Comprador Verificado
+                  </span>
+                {%- endif -%}
+              </div>
+            </div>
+
+            {%- if block.settings.product_image != blank -%}
+              <div class="hr-card__product-link">
+                {{ block.settings.product_image
+                  | image_url: width: 300
+                  | image_tag:
+                    loading: 'lazy',
+                    class: 'hr-card__prod-img',
+                    alt: 'Producto comprado'
+                }}
+                {%- if block.settings.product_name != blank -%}
+                  <span class="hr-card__prod-name">{{ block.settings.product_name | escape }}</span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .hr {
+    background-color: #f8fafc;
+    padding: 5rem 1.25rem;
+    color: #0f172a;
+  }
+
+  .hr__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hr__header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hr__eyebrow {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #06b6d4;
+  }
+
+  .hr__title {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0f172a;
+  }
+
+  .hr__rating-summary {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+    background: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+  }
+
+  @media (min-width: 640px) {
+    .hr__rating-summary {
+      flex-direction: row;
+      gap: 0.75rem;
+    }
+  }
+
+  .hr__rating-stars {
+    display: flex;
+    gap: 0.125rem;
+  }
+
+  .hr__star {
+    flex-shrink: 0;
+  }
+
+  .hr__rating-text {
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+
+  .hr__rating-text strong {
+    color: #0f172a;
+    font-weight: 800;
+  }
+
+  .hr__subtitle {
+    margin: 0.5rem 0 0;
+    font-size: 1.0625rem;
+    color: #4b5563;
+    max-width: 620px;
+    line-height: 1.6;
+  }
+
+  /* ── Testimonials Grid ── */
+  .hr__grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .hr__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hr__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Testimonial Card */
+  .hr-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .hr-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  }
+
+  .hr-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hr-card__rating {
+    display: flex;
+    gap: 0.125rem;
+  }
+
+  .hr-card__star {
+    flex-shrink: 0;
+  }
+
+  .hr-card__date {
+    font-size: 0.75rem;
+    color: #94a3b8;
+  }
+
+  .hr-card__quote {
+    margin: 0;
+    flex: 1;
+  }
+
+  .hr-card__text {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: #334155;
+    font-style: italic;
+    margin: 0;
+  }
+
+  .hr-card__author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 1rem;
+  }
+
+  .hr-card__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #cbd5e1;
+  }
+
+  .hr-card__avatar--placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    color: #0369a1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+
+  .hr-card__author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .hr-card__name {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: #0f172a;
+  }
+
+  .hr-card__verified {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: #10b981;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  /* Attached product image / lifestyle */
+  .hr-card__product-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f8fafc;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    margin-top: 0.25rem;
+    border: 1px dashed #e2e8f0;
+  }
+
+  .hr-card__prod-img {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 0.375rem;
+  }
+
+  .hr-card__prod-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Testimonios y Reseñas",
+  "max_blocks": 9,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Copete (Eyebrow)",
+      "default": "Opiniones de Clientes"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título Principal",
+      "default": "La confianza de nuestra comunidad"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Descubre por qué cientos de clientes recomiendan Soportech para su equipamiento de audio y accesorios de carga."
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Valor Promedio Reseñas",
+      "default": "4.7"
+    },
+    {
+      "type": "text",
+      "id": "rating_max",
+      "label": "Escala Máxima",
+      "default": "5"
+    },
+    {
+      "type": "text",
+      "id": "reviews_count",
+      "label": "Total Reseñas",
+      "default": "180"
+    },
+    {
+      "type": "text",
+      "id": "reviews_text",
+      "label": "Texto del Total",
+      "default": "reseñas verificadas"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Reseña",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Estrellas (Calificación)",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Fecha de la reseña",
+          "default": "Hace 3 días"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Comentario del cliente",
+          "default": "Excelente sonido del parlante JBL, la potencia es brutal y la atención de la tienda física en Pereira fue impecable. Muy recomendados."
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Nombre del cliente",
+          "default": "Carlos Mendoza"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Cliente Verificado",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Avatar del cliente (Opcional)"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Nombre del producto adquirido (Opcional)",
+          "default": "JBL PartyBox 110"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Foto del producto en uso (Opcional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonios y Reseñas",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "author_name": "Mauricio Gómez",
+            "text": "Los cargadores de pared y las powerbanks son originales, cargan a velocidad ultrarrápida. Los compré para mi negocio y el envío a Bogotá tardó solo 24 horas.",
+            "product_name": "Cargador Rápido 20W + Cable"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author_name": "Carlos Mendoza",
+            "text": "Excelente sonido del parlante JBL, la potencia es brutal y la atención de la tienda física en Pereira fue impecable. Muy recomendados.",
+            "product_name": "JBL PartyBox 110"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author_name": "Andrea Restrepo",
+            "text": "La garantía directa de 12 meses me dio toda la tranquilidad que necesitaba para comprar mi equipo de audio profesional. Resuelven rápido por WhatsApp.",
+            "product_name": "Cabina Activa JBL EON715"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

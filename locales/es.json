@@ -1,0 +1,52 @@
+{
+  "404": {
+    "title": "404",
+    "not_found": "Página no encontrada.",
+    "back_to_shopping": "Volver a la tienda"
+  },
+  "blog": {
+    "article_comments": "Comentarios",
+    "article_metadata_html": "{{ date }} por {{ author }}",
+    "comment_form_body": "Comentario",
+    "comment_form_email": "Correo electrónico",
+    "comment_form_name": "Nombre",
+    "comment_form_submit": "Publicar",
+    "comment_form_title": "Agregar un comentario"
+  },
+  "cart": {
+    "checkout": "Pagar pedido",
+    "title": "Carrito",
+    "update": "Actualizar",
+    "remove": "Eliminar"
+  },
+  "customers": {
+    "login": {
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "title": "Iniciar sesión"
+    }
+  },
+  "collections": {
+    "title": "Colecciones"
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Agregar a Apple Wallet",
+    "card": "Tarjeta de regalo",
+    "expired": "Esta tarjeta de regalo ha expirado",
+    "expires_on": "Expira el {{ expires_on }}",
+    "use_at_checkout": "Usa esta tarjeta de regalo al pagar"
+  },
+  "password": {
+    "title": "Esta tienda es privada",
+    "password": "Contraseña",
+    "enter": "Entrar"
+  },
+  "search": {
+    "title": "Buscar",
+    "placeholder": "Buscar artículos, páginas o productos",
+    "submit": "Buscar",
+    "no_results_html": "No se encontraron resultados para {{ terms }}",
+    "results_for_html": "Se encontraron {{ count }} resultados para {{ terms }}"
+  }
+}

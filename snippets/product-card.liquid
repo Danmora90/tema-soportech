@@ -17,7 +17,7 @@
   <!-- Image -->
   <a class="pc__img-wrap" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
     {%- if has_sale -%}
-      <span class="pc__badge">-{{ savings_pct | round }}%</span>
+      <span class="pc__badge">{{ savings_pct | round }}% OFF</span>
     {%- elsif product.available == false -%}
       <span class="pc__badge pc__badge--sold-out">Agotado</span>
     {%- endif -%}
@@ -63,6 +63,7 @@
       {%- if has_sale -%}
         <span class="pc__price pc__price--sale">{{ product.price | money }}</span>
         <span class="pc__price pc__price--compare"><s>{{ product.compare_at_price | money }}</s></span>
+        <span class="pc__price-discount">{{ savings_pct | round }}% DTO.</span>
       {%- else -%}
         <span class="pc__price">{{ product.price | money }}</span>
       {%- endif -%}
@@ -201,30 +202,45 @@
   /* ── Prices ── */
   .pc__price-row {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.5rem;
     flex-wrap: wrap;
-    margin-top: 0.2rem;
+    margin-top: 0.35rem;
+    margin-bottom: 0.35rem;
   }
 
   .pc__price {
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 1.125rem;
+    font-weight: 800;
     color: #0f172a;
+    letter-spacing: -0.01em;
   }
 
   .pc__price--sale {
-    font-size: 1.0625rem;
+    font-size: 1.25rem;
     color: #0f172a;
   }
 
   .pc__price--compare {
-    font-size: 0.8125rem;
-    font-weight: 400;
-    color: #9ca3af;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #94a3b8;
   }
 
   .pc__price--compare s { text-decoration: line-through; }
+
+  .pc__price-discount {
+    font-size: 0.6875rem;
+    font-weight: 800;
+    background-color: #ecfdf5; /* emerald-50 */
+    color: #059669; /* emerald-600 */
+    padding: 0.2rem 0.45rem;
+    border-radius: 0.375rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: center;
+  }
 
   /* ── Add to Cart ── */
   .pc__form { margin-top: auto; padding-top: 0.75rem; }

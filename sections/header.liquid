@@ -126,12 +126,19 @@
 </div>
 
 {% stylesheet %}
-  .header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
+  [id$="__header"],
+  #shopify-section-header,
+  .shopify-section:has(.header) {
     position: sticky;
     top: 0;
     z-index: 100;
+  }
+
+  .header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    position: relative;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
   .header__menu-toggle {
@@ -275,6 +282,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
+    transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1), gap 0.3s ease;
   }
 
   .header__logo {
@@ -287,7 +295,7 @@
   .header__logo svg {
     width: auto;
     height: 3.25rem;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .header__logo:hover svg {
@@ -299,6 +307,7 @@
     height: auto;
     max-height: 120px; /* Aumentado para que el logo se muestre a su tamaño original sin ser encogido por el contenedor */
     object-fit: contain;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* SEARCH BAR */
@@ -306,6 +315,10 @@
     flex-grow: 1;
     max-width: 500px;
     margin: 0 auto;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    visibility: visible;
+    max-height: 100px;
   }
   
   .search-form {
@@ -371,6 +384,7 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .social-link {
@@ -392,12 +406,14 @@
     width: 1px;
     height: 24px;
     background-color: #e5e7eb;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .header__icons {
     display: flex;
     gap: 1rem;
     align-items: center;
+    transition: gap 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .header__icon-link {
@@ -407,6 +423,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .header__icons svg {
@@ -460,6 +477,88 @@
   
   .header__menu-link:hover {
     color: #06b6d4;
+  }
+
+  /* ── Sticky Scrolled State ── */
+  .header--scrolled {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    border-color: #f1f5f9;
+  }
+
+  .header--scrolled .header__top {
+    padding: 0.5rem 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .header--scrolled .header__logo-image {
+    max-height: 45px;
+  }
+
+  .header--scrolled .header__logo svg {
+    height: 2.25rem;
+  }
+
+  .header--scrolled .header__search {
+    opacity: 0;
+    visibility: hidden;
+    max-width: 0;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  @media (min-width: 769px) {
+    .header--scrolled .header__social,
+    .header--scrolled .header__separator,
+    .header--scrolled .header__icons shopify-account,
+    .header--scrolled .header__icons .header__icon-link:not(.cart-link) {
+      opacity: 0;
+      visibility: hidden;
+      width: 0;
+      margin: 0;
+      padding: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .header--scrolled .header__icons {
+      gap: 0;
+    }
+
+    /* Move navigation menu right next to the logo */
+    .header__bottom {
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .header__menu {
+      transition: gap 0.3s ease;
+    }
+
+    .header--scrolled .header__bottom {
+      position: absolute;
+      left: calc(max(0px, 50% - 600px) + 190px); /* Spaced perfectly next to the 45px logo + padding */
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      width: auto;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .header--scrolled .header__menu {
+      height: 100%;
+      padding: 0;
+      gap: 1.5rem;
+    }
+
+    .header--scrolled .header__menu-link {
+      font-size: 0.875rem;
+    }
   }
 
   /* Responsive Adjustments */
@@ -533,24 +632,53 @@
     const drawer = document.getElementById('mobile-menu-drawer');
     const overlay = document.querySelector('.mobile-drawer__overlay');
 
-    if (!toggleBtn || !drawer) return;
+    if (toggleBtn && drawer) {
+      function openDrawer() {
+        drawer.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
 
-    function openDrawer() {
-      drawer.classList.add('is-open');
-      drawer.setAttribute('aria-hidden', 'false');
-      toggleBtn.setAttribute('aria-expanded', 'true');
-      document.body.style.overflow = 'hidden';
+      function closeDrawer() {
+        drawer.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+
+      toggleBtn.addEventListener('click', openDrawer);
+      if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+      if (overlay) overlay.addEventListener('click', closeDrawer);
     }
 
-    function closeDrawer() {
-      drawer.classList.remove('is-open');
-      drawer.setAttribute('aria-hidden', 'true');
-      toggleBtn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
+    // Scroll Sticky Header Effect
+    const header = document.querySelector('.header');
+    if (header) {
+      let ticking = false;
+      const thresholdDown = 120; // Scroll down threshold to compress header
+      const thresholdUp = 30;    // Scroll up threshold to restore header
 
-    toggleBtn.addEventListener('click', openDrawer);
-    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-    if (overlay) overlay.addEventListener('click', closeDrawer);
+      function checkScroll() {
+        if (window.scrollY > thresholdDown) {
+          header.classList.add('header--scrolled');
+        } else if (window.scrollY < thresholdUp) {
+          header.classList.remove('header--scrolled');
+        }
+      }
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          window.requestAnimationFrame(function() {
+            checkScroll();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+
+      // Initial check in case page loads scrolled down
+      checkScroll();
+    }
   });
 {% endjavascript %}
