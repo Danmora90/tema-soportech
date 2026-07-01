@@ -245,6 +245,16 @@
         "columns_mobile": "1"
       }
     },
+    "clickable_banner_home": {
+      "type": "clickable-banner",
+      "settings": {
+        "image": "shopify://shop_images/ChatGPTImage1jul2026_12_51_11a.m..webp",
+        "link": "shopify://products/kit-proteccion-iphone",
+        "alt_text": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
     "homepage-reviews": {
       "type": "homepage-reviews",
       "blocks": {
@@ -638,6 +648,7 @@
     "featured-collection",
     "youtube-showcase",
     "seasonal-promo",
+    "clickable_banner_home",
     "homepage-reviews",
     "simple_text_aGF7nm",
     "17799171797baacb38",

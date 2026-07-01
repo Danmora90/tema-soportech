@@ -1,0 +1,331 @@
+{%- assign products_limit = section.settings.products_to_show | default: 4 -%}
+
+{%- comment -%} Find the primary collection of the current product {%- endcomment -%}
+{%- assign current_collection = null -%}
+{%- for col in product.collections -%}
+  {%- if col.handle != 'all' and col.handle != 'frontpage' -%}
+    {%- assign current_collection = col -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} Resolve collections for both tabs {%- endcomment -%}
+{%- assign related_collection = current_collection -%}
+{%- assign best_sellers_collection = collections[section.settings.best_sellers_collection] -%}
+{%- if best_sellers_collection == blank -%}
+  {%- assign best_sellers_collection = collections['lo-mas-top-nuestros-superventas'] -%}
+{%- endif -%}
+{%- if best_sellers_collection == blank -%}
+  {%- assign best_sellers_collection = current_collection -%}
+{%- endif -%}
+
+<section class="prod-recs full-width" aria-labelledby="recs-heading-{{ section.id }}">
+  <div class="prod-recs__header">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="prod-recs__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    <h2 id="recs-heading-{{ section.id }}" class="prod-recs__title">{{ section.settings.heading }}</h2>
+  </div>
+
+  <!-- Tabs Selector -->
+  <div class="prod-recs__tabs">
+    <button 
+      class="prod-recs__tab-btn active" 
+      data-tab="related" 
+      role="tab" 
+      aria-selected="true" 
+      aria-controls="panel-related-{{ section.id }}"
+    >
+      Productos Similares
+    </button>
+    <button 
+      class="prod-recs__tab-btn" 
+      data-tab="bestsellers" 
+      role="tab" 
+      aria-selected="false" 
+      aria-controls="panel-bestsellers-{{ section.id }}"
+    >
+      Los Más Vendidos
+    </button>
+  </div>
+
+  <!-- Tab Content: Related Products -->
+  <div 
+    id="panel-related-{{ section.id }}" 
+    class="prod-recs__content active" 
+    role="tabpanel" 
+    aria-labelledby="tab-related"
+  >
+    <div class="prod-recs__grid">
+      {%- assign related_count = 0 -%}
+      {%- if related_collection != blank and related_collection.products_count > 1 -%}
+        {%- for prod in related_collection.products -%}
+          {%- if prod.id != product.id -%}
+            {% render 'product-card', product: prod %}
+            {%- assign related_count = related_count | plus: 1 -%}
+            {%- if related_count >= products_limit -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- if related_count == 0 -%}
+        {%- comment -%} Fallback placeholder cards if no related products {%- endcomment -%}
+        {%- for i in (1..products_limit) -%}
+          <article class="pc">
+            <div class="pc__img-wrap">
+              {{ 'product-' | append: i | placeholder_svg_tag: 'pc__img pc__img--placeholder' }}
+            </div>
+            <div class="pc__info">
+              <span class="pc__vendor">Soportech</span>
+              <h3 class="pc__title"><a href="#">Producto Similar {{ i }}</a></h3>
+              <div class="pc__price-row">
+                <span class="pc__price">$45.000</span>
+              </div>
+              <button class="pc__atc" disabled>Agregar al carrito</button>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+
+  <!-- Tab Content: Best Sellers -->
+  <div 
+    id="panel-bestsellers-{{ section.id }}" 
+    class="prod-recs__content" 
+    role="tabpanel" 
+    aria-labelledby="tab-bestsellers"
+  >
+    <div class="prod-recs__grid">
+      {%- assign best_count = 0 -%}
+      {%- if best_sellers_collection != blank and best_sellers_collection.products_count > 0 -%}
+        {%- for prod in best_sellers_collection.products -%}
+          {%- if prod.id != product.id -%}
+            {% render 'product-card', product: prod %}
+            {%- assign best_count = best_count | plus: 1 -%}
+            {%- if best_count >= products_limit -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- if best_count == 0 -%}
+        {%- comment -%} Fallback placeholder cards if no best sellers {%- endcomment -%}
+        {%- for i in (1..products_limit) -%}
+          <article class="pc">
+            <div class="pc__img-wrap">
+              {{ 'product-' | append: i | placeholder_svg_tag: 'pc__img pc__img--placeholder' }}
+            </div>
+            <div class="pc__info">
+              <span class="pc__vendor">Soportech</span>
+              <h3 class="pc__title"><a href="#">Más Vendido {{ i }}</a></h3>
+              <div class="pc__price-row">
+                <span class="pc__price">$75.000</span>
+              </div>
+              <button class="pc__atc" disabled>Agregar al carrito</button>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  /* ══════════════════════════════════════════
+     PRODUCT RECOMMENDATIONS SECTION
+  ══════════════════════════════════════════ */
+
+  .prod-recs {
+    background-color: #f8fafc;
+    padding: 5rem 0;
+    border-top: 1px solid #e2e8f0;
+    width: 100%;
+  }
+
+  .prod-recs__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  @media (min-width: 750px) {
+    .prod-recs__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      padding: 0 2.5rem;
+    }
+  }
+
+  @media (min-width: 990px) {
+    .prod-recs__grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      padding: 0 5rem;
+    }
+  }
+
+  .prod-recs__header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prod-recs__eyebrow {
+    margin: 0;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #06b6d4;
+  }
+
+  .prod-recs__title {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── Tabs selector ── */
+  .prod-recs__tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.75rem;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .prod-recs__tab-btn {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #64748b;
+    padding: 0.5rem 1.25rem;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s ease;
+  }
+
+  .prod-recs__tab-btn:hover {
+    color: #0f172a;
+  }
+
+  .prod-recs__tab-btn.active {
+    color: #06b6d4;
+  }
+
+  .prod-recs__tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -0.875rem;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #06b6d4;
+    transform: scaleX(0);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .prod-recs__tab-btn.active::after {
+    transform: scaleX(1);
+  }
+
+  /* ── Tab Content ── */
+  .prod-recs__content {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+
+  .prod-recs__content.active {
+    display: block;
+    opacity: 1;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.prod-recs__tab-btn');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        const section = this.closest('.prod-recs');
+        const targetTab = this.dataset.tab;
+        
+        if (!section) return;
+
+        // Reset active tab button
+        section.querySelectorAll('.prod-recs__tab-btn').forEach(btn => {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-selected', 'false');
+        });
+
+        // Set clicked button active
+        this.classList.add('active');
+        this.setAttribute('aria-selected', 'true');
+
+        // Toggle visibility of panels
+        section.querySelectorAll('.prod-recs__content').forEach(panel => {
+          panel.classList.remove('active');
+        });
+
+        const targetPanel = section.querySelector(`[id^="panel-${targetTab}"]`);
+        if (targetPanel) {
+          targetPanel.classList.add('active');
+        }
+      });
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Recomendados y Populares",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título de Sección",
+      "default": "Completa tu Experiencia"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Subtítulo",
+      "default": "Recomendaciones para ti"
+    },
+    {
+      "type": "collection",
+      "id": "best_sellers_collection",
+      "label": "Colección de más vendidos (Opcional)",
+      "info": "Si no se selecciona ninguna, se mostrarán productos destacados de la misma categoría del producto."
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 12,
+      "step": 4,
+      "default": 4,
+      "label": "Cantidad de productos a mostrar"
+    }
+  ]
+}
+{% endschema %}
+{% comment %} Trigger sync {% endcomment %}

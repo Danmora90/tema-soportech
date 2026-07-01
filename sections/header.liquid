@@ -126,12 +126,17 @@
 </div>
 
 {% stylesheet %}
+  html {
+    overflow-anchor: none;
+  }
+
   [id$="__header"],
   #shopify-section-header,
   .shopify-section:has(.header) {
     position: sticky;
     top: 0;
     z-index: 100;
+    overflow-anchor: none;
   }
 
   .header {
@@ -139,6 +144,7 @@
     border-bottom: 1px solid #e5e7eb;
     position: relative;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    overflow-anchor: none;
   }
 
   .header__menu-toggle {
@@ -570,17 +576,23 @@
       justify-content: space-between;
     }
 
-    .header__menu-toggle {
-      display: flex;
+    .header__logo {
       order: 1;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.5rem;
     }
 
-    .header__logo {
+    .header__menu-toggle {
+      display: flex;
       order: 2;
     }
 
     .header__actions {
       order: 3;
+      display: flex;
+      justify-content: flex-end;
     }
     
     .header__search {
@@ -588,6 +600,25 @@
       width: 100%;
       max-width: 100%;
       margin-top: 0.5rem;
+    }
+
+    /* Restablecer layout anterior al hacer scroll en móviles */
+    .header--scrolled .header__logo {
+      order: 2;
+      width: auto;
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 0;
+    }
+
+    .header--scrolled .header__menu-toggle {
+      order: 1;
+    }
+
+    .header--scrolled .header__actions {
+      order: 3;
+      display: flex;
+      justify-content: flex-end;
     }
 
     .header__social, .header__separator {
@@ -656,8 +687,8 @@
     const header = document.querySelector('.header');
     if (header) {
       let ticking = false;
-      const thresholdDown = 120; // Scroll down threshold to compress header
-      const thresholdUp = 30;    // Scroll up threshold to restore header
+      const thresholdDown = 150; // Scroll down threshold to compress header
+      const thresholdUp = 20;    // Scroll up threshold to restore header
 
       function checkScroll() {
         if (window.scrollY > thresholdDown) {

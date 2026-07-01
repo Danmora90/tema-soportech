@@ -56,6 +56,12 @@
       "type": "product-description",
       "settings": {}
     },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "best_sellers_collection": "lo-mas-top-nuestros-superventas"
+      }
+    },
     "brands-marquee": {
       "type": "brands-marquee",
       "blocks": {
@@ -122,6 +128,7 @@
   "order": [
     "main",
     "description",
+    "recommendations",
     "brands-marquee"
   ]
-}
+}   
