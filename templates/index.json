@@ -23,9 +23,11 @@
       "blocks": {
         "slide-1": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "video_url": "",
             "image": "shopify://shop_images/wmremove-transformed_2.webp",
+            "image_fit": "cover",
             "eyebrow": "Grita cada gol y vive la fiebre del fútbol",
             "heading": "¡Lleva la emoción deportiva a donde vayas!",
             "subheading": "Resistencia al agua y polvo<br>\nHasta 20 horas de batería continua",
@@ -37,9 +39,11 @@
         },
         "slide-2": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "video_url": "",
             "image": "shopify://shop_images/wmremove-transformed_1_1.webp",
+            "image_fit": "cover",
             "eyebrow": "¡El mejor Mundial se vive al lado de Papá!",
             "heading": "Ver el partido es bueno; con tecnología es otro nivel.",
             "subheading": "Tenemos el regalo ideal para que papá disfrute cada jugada como si estuviera en el estadio",
@@ -48,11 +52,62 @@
             "button_label_2": "",
             "button_url_2": ""
           }
+        },
+        "slide-3": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "image": "shopify://shop_images/ChatGPT_Image_6_jul_2026_11_27_52_p.m..webp",
+            "image_mobile": "shopify://shop_images/ChatGPT_Image_7_jul_2026_12_02_46_a.m..webp",
+            "image_fit": "contain",
+            "eyebrow": "",
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "button_url": "shopify://collections/ugreen",
+            "button_label_2": "",
+            "button_url_2": ""
+          }
+        },
+        "slide_zAmpPp": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "image": "shopify://shop_images/ChatGPT_Image_3_sept_2026_11_13_29_p.m..webp",
+            "image_mobile": "shopify://shop_images/ChatGPT_Image_3_sept_2026_11_21_31_p.m..webp",
+            "image_fit": "contain",
+            "eyebrow": "",
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "button_url": "shopify://collections/jbl",
+            "button_label_2": "",
+            "button_url_2": ""
+          }
+        },
+        "slide_DFiQad": {
+          "type": "slide",
+          "settings": {
+            "video_url": "",
+            "image": "shopify://shop_images/ChatGPT_Image_18_ago_2026_12_19_42_a.m..webp",
+            "image_mobile": "shopify://shop_images/ChatGPT_Image_18_ago_2026_12_24_10_a.m..webp",
+            "image_fit": "contain",
+            "eyebrow": "",
+            "heading": "",
+            "subheading": "",
+            "button_label": "",
+            "button_url": "shopify://collections/jaltech",
+            "button_label_2": "",
+            "button_url_2": ""
+          }
         }
       },
       "block_order": [
         "slide-1",
-        "slide-2"
+        "slide-2",
+        "slide-3",
+        "slide_zAmpPp",
+        "slide_DFiQad"
       ],
       "settings": {
         "min_height": 680
@@ -248,7 +303,8 @@
     "clickable_banner_home": {
       "type": "clickable-banner",
       "settings": {
-        "image": "shopify://shop_images/ChatGPTImage1jul2026_12_51_11a.m..webp",
+        "image": "shopify://shop_images/WhatsApp-Image-2026-07-06-at-10.18.52-PM.webp",
+        "image_mobile": "shopify://shop_images/WhatsApp-Image-2026-07-06-at-10.02.33-PM.webp",
         "link": "shopify://products/kit-proteccion-iphone",
         "alt_text": "",
         "padding_top": 0,
@@ -266,7 +322,8 @@
             "text": "Los cargadores de pared y las powerbanks son originales, cargan a velocidad ultrarrápida. Los compré para mi negocio y el envío a Bogotá tardó solo 24 horas.",
             "author_name": "Mauricio Gómez",
             "verified": true,
-            "product_name": "Cargador Rápido 20W + Cable"
+            "product_name": "Cargador Rápido 20W + Cable",
+            "product_image": "shopify://shop_images/Cargadores_celulares_iPads_indiv__202605122244.webp"
           }
         },
         "review-2": {
@@ -277,7 +334,8 @@
             "text": "Excelente sonido del parlante JBL, la potencia es brutal y la atención de la tienda física en Pereira fue impecable. Muy recomendados.",
             "author_name": "Carlos Mendoza",
             "verified": true,
-            "product_name": "JBL PartyBox 110"
+            "product_name": "JBL PartyBox 110",
+            "product_image": "shopify://shop_images/Audifonos_para_venta_tecnologica__202605120045.webp"
           }
         },
         "review-3": {
@@ -288,7 +346,8 @@
             "text": "La garantía directa de 12 meses me dio toda la tranquilidad que necesitaba para comprar mi equipo de audio profesional. Resuelven rápido por WhatsApp.",
             "author_name": "Andrea Restrepo",
             "verified": true,
-            "product_name": "Cabina Activa JBL EON715"
+            "product_name": "Cabina Activa JBL EON715",
+            "product_image": "shopify://shop_images/Powerbanks_for_electronic_devices_202605122257.webp"
           }
         }
       },

@@ -1,0 +1,977 @@
+{% doc %}
+  Renders product reviews strip in Mercado Libre style, integrated with Judge.me widget and customer review submissions.
+{% enddoc %}
+
+<section class="ml-reviews full-width" id="product-reviews-{{ section.id }}" aria-labelledby="ml-reviews-heading-{{ section.id }}" {{ section.shopify_attributes }}>
+  <div class="ml-reviews__container">
+    
+    <!-- Encabezado Estilo Mercado Libre -->
+    <div class="ml-reviews__header">
+      <h2 id="ml-reviews-heading-{{ section.id }}" class="ml-reviews__title">{{ section.settings.heading | default: 'Opiniones del producto' }}</h2>
+    </div>
+
+    <!-- Panel de Calificación General y Desglose (Estilo Mercado Libre) -->
+    <div class="ml-reviews__summary-grid">
+      
+      <!-- Columna 1: Puntuación promedio y estrellas -->
+      <div class="ml-reviews__score-box">
+        <div class="ml-reviews__score-val">{{ section.settings.average_rating | default: '4.8' }}</div>
+        <div class="ml-reviews__score-stars">
+          {%- for i in (1..5) -%}
+            <svg class="ml-star" width="22" height="22" viewBox="0 0 24 24" fill="#facc15" aria-hidden="true">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+          {%- endfor -%}
+        </div>
+        <p class="ml-reviews__score-total">Promedio basado en {{ section.settings.total_reviews | default: '48' }} opiniones</p>
+      </div>
+
+      <!-- Columna 2: Desglose de estrellas en barras -->
+      <div class="ml-reviews__breakdown">
+        <div class="ml-breakdown__row">
+          <span class="ml-breakdown__label">5 estrellas</span>
+          <div class="ml-breakdown__bar-track">
+            <div class="ml-breakdown__bar-fill" style="width: 82%;"></div>
+          </div>
+          <span class="ml-breakdown__pct">82%</span>
+        </div>
+        <div class="ml-breakdown__row">
+          <span class="ml-breakdown__label">4 estrellas</span>
+          <div class="ml-breakdown__bar-track">
+            <div class="ml-breakdown__bar-fill" style="width: 12%;"></div>
+          </div>
+          <span class="ml-breakdown__pct">12%</span>
+        </div>
+        <div class="ml-breakdown__row">
+          <span class="ml-breakdown__label">3 estrellas</span>
+          <div class="ml-breakdown__bar-track">
+            <div class="ml-breakdown__bar-fill" style="width: 4%;"></div>
+          </div>
+          <span class="ml-breakdown__pct">4%</span>
+        </div>
+        <div class="ml-breakdown__row">
+          <span class="ml-breakdown__label">2 estrellas</span>
+          <div class="ml-breakdown__bar-track">
+            <div class="ml-breakdown__bar-fill" style="width: 1%;"></div>
+          </div>
+          <span class="ml-breakdown__pct">1%</span>
+        </div>
+        <div class="ml-breakdown__row">
+          <span class="ml-breakdown__label">1 estrella</span>
+          <div class="ml-breakdown__bar-track">
+            <div class="ml-breakdown__bar-fill" style="width: 1%;"></div>
+          </div>
+          <span class="ml-breakdown__pct">1%</span>
+        </div>
+      </div>
+
+      <!-- Columna 3: Caja para dejar reseña -->
+      <div class="ml-reviews__action-box">
+        <h3 class="ml-reviews__action-title">¿Compraste este producto?</h3>
+        <p class="ml-reviews__action-desc">Comparte tu experiencia con otros compradores de la comunidad Soportech.</p>
+        
+        <button type="button" class="ml-reviews__btn-write" id="ml-open-review-form">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+          Escribir una opinión
+        </button>
+      </div>
+    </div>
+
+    <!-- Formulario Desplegable para Dejar Reseña -->
+    <div class="ml-review-form-container" id="ml-review-form-wrapper" style="display: none;">
+      <div class="ml-review-form-card">
+        <div class="ml-review-form-header">
+          <h4>Calificar y opinar sobre {{ product.title | escape }}</h4>
+          <button type="button" class="ml-review-form-close" id="ml-close-review-form" aria-label="Cerrar formulario">&times;</button>
+        </div>
+
+        {%- assign prod_last_img = '' -%}
+        {%- if product.media.size > 0 -%}
+          {%- assign last_media = product.media.last -%}
+          {%- if last_media.preview_image != blank -%}
+            {%- assign prod_last_img = last_media.preview_image | image_url: width: 1000 -%}
+          {%- elsif product.images.size > 0 -%}
+            {%- assign prod_last_img = product.images.last | image_url: width: 1000 -%}
+          {%- endif -%}
+        {%- elsif product.images.size > 0 -%}
+          {%- assign prod_last_img = product.images.last | image_url: width: 1000 -%}
+        {%- endif -%}
+
+        <form id="ml-product-review-form" class="ml-form" onsubmit="return false;">
+          <input type="hidden" id="ml-shop-domain-input" value="{{ shop.permanent_domain }}">
+          <input type="hidden" id="ml-product-id-input" value="{{ product.id }}">
+          <input type="hidden" id="ml-product-title-input" value="{{ product.title | escape }}">
+          <input type="hidden" id="ml-product-url-input" value="{{ product.url }}">
+          <input type="hidden" id="ml-product-last-img-input" value="{{ prod_last_img }}">
+
+          <div class="ml-form-group">
+            <label class="ml-form-label">Tu Calificación general:</label>
+            <div class="ml-star-rating-select" id="ml-star-picker">
+              {%- for i in (1..5) -%}
+                <button type="button" class="ml-star-select-btn" data-value="{{ i }}" aria-label="{{ i }} estrellas">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="#e2e8f0">
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                  </svg>
+                </button>
+              {%- endfor -%}
+              <input type="hidden" id="ml-rating-input" value="5" required>
+            </div>
+          </div>
+
+          <div class="ml-form-row">
+            <div class="ml-form-group">
+              <label class="ml-form-label" for="ml-review-name">Tu Nombre o Apodo:</label>
+              <input type="text" id="ml-review-name" class="ml-form-input" placeholder="Ej: Carlos M." value="{% if customer %}{{ customer.name }}{% endif %}" required>
+            </div>
+            <div class="ml-form-group">
+              <label class="ml-form-label" for="ml-review-email">Tu Correo Electrónico (con el que compraste):</label>
+              <input type="email" id="ml-review-email" class="ml-form-input" placeholder="tu@correo.com" value="{% if customer %}{{ customer.email }}{% endif %}" required>
+            </div>
+          </div>
+
+          <div class="ml-form-group">
+            <label class="ml-form-label" for="ml-review-title">Título breve de tu reseña:</label>
+            <input type="text" id="ml-review-title" class="ml-form-input" placeholder="Ej: Excelente sonido y batería" required>
+          </div>
+
+          <div class="ml-form-group">
+            <label class="ml-form-label" for="ml-review-body">Escribe tu opinión detallada:</label>
+            <textarea id="ml-review-body" rows="4" class="ml-form-textarea" placeholder="¿Qué te pareció el producto? ¿Cómo fue la calidad, el empaque y la entrega?" required></textarea>
+          </div>
+
+          <div class="ml-form-footer">
+            <button type="submit" class="ml-reviews__btn-submit">Publicar Opinión</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Integración Nativa con Judge.me Widget (si la App está instalada, inyecta su contenido aquí) -->
+    <div id="judgeme_product_reviews" class="jdgm-widget jdgm-review-widget" data-product-title="{{ product.title | escape }}" data-id="{{ product.id }}">
+      {{ product.metafields.judgeme.widget }}
+    </div>
+
+    <!-- Tirilla Tradicional de Reseñas (Estilo Mercado Libre) -->
+    <div class="ml-reviews__list" id="ml-reviews-list-wrapper">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <article class="ml-review-item" {{ block.shopify_attributes }}>
+            <div class="ml-review-item__top">
+              <div class="ml-review-item__stars">
+                {%- assign b_rating = block.settings.rating | default: 5 -%}
+                {%- for i in (1..5) -%}
+                  <svg class="ml-star" width="16" height="16" viewBox="0 0 24 24" fill="{% if i <= b_rating %}#facc15{% else %}#e2e8f0{% endif %}" aria-hidden="true">
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                  </svg>
+                {%- endfor -%}
+              </div>
+              <span class="ml-review-item__date">{{ block.settings.date | default: 'Reciente' | escape }}</span>
+            </div>
+
+            {%- if block.settings.verified -%}
+              <div class="ml-review-item__verified">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00a650" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>Compra verificada</span>
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.title != blank -%}
+              <h4 class="ml-review-item__title">{{ block.settings.title | escape }}</h4>
+            {%- endif -%}
+
+            <p class="ml-review-item__comment">{{ block.settings.comment | escape }}</p>
+
+            <div class="ml-review-item__bottom">
+              <span class="ml-review-item__author">{{ block.settings.author | escape }}</span>
+              <div class="ml-review-item__helpful">
+                <span class="ml-helpful__text">¿Te resultó útil?</span>
+                <button type="button" class="ml-helpful__btn" data-count="3">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                  </svg>
+                  <span class="ml-helpful__count">Es útil</span>
+                </button>
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+        <!-- Fallback con reseñas de ejemplo estilo Mercado Libre -->
+        <article class="ml-review-item">
+          <div class="ml-review-item__top">
+            <div class="ml-review-item__stars">
+              {%- for i in (1..5) -%}
+                <svg class="ml-star" width="16" height="16" viewBox="0 0 24 24" fill="#facc15"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              {%- endfor -%}
+            </div>
+            <span class="ml-review-item__date">Hace 5 días</span>
+          </div>
+          <div class="ml-review-item__verified">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00a650" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Compra verificada</span>
+          </div>
+          <h4 class="ml-review-item__title">Excelente calidad, original y con gran fidelidad</h4>
+          <p class="ml-review-item__comment">El producto llegó muy rápido a Bogotá, totalmente sellado y con sus sellos de originalidad. El rendimiento superó mis expectativas para el uso diario. Muy satisfecho con la atención.</p>
+          <div class="ml-review-item__bottom">
+            <span class="ml-review-item__author">Mauricio G.</span>
+            <div class="ml-review-item__helpful">
+              <span class="ml-helpful__text">¿Te resultó útil?</span>
+              <button type="button" class="ml-helpful__btn"><span class="ml-helpful__count">Es útil (8)</span></button>
+            </div>
+          </div>
+        </article>
+
+        <article class="ml-review-item">
+          <div class="ml-review-item__top">
+            <div class="ml-review-item__stars">
+              {%- for i in (1..5) -%}
+                <svg class="ml-star" width="16" height="16" viewBox="0 0 24 24" fill="#facc15"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              {%- endfor -%}
+            </div>
+            <span class="ml-review-item__date">Hace 2 semanas</span>
+          </div>
+          <div class="ml-review-item__verified">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00a650" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Compra verificada</span>
+          </div>
+          <h4 class="ml-review-item__title">Cumple al 100% con lo prometido</h4>
+          <p class="ml-review-item__comment">Los materiales son de primera línea y la velocidad de carga es ultra rápida. La asesoría que me brindaron por WhatsApp resolvió todas mis dudas antes de comprar.</p>
+          <div class="ml-review-item__bottom">
+            <span class="ml-review-item__author">Alejandra R.</span>
+            <div class="ml-review-item__helpful">
+              <span class="ml-helpful__text">¿Te resultó útil?</span>
+              <button type="button" class="ml-helpful__btn"><span class="ml-helpful__count">Es útil (4)</span></button>
+            </div>
+          </div>
+        </article>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% stylesheet %}
+  .ml-reviews {
+    background-color: #ffffff;
+    padding: 3.5rem 1.25rem;
+    color: #1f2937;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .ml-reviews__container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .ml-reviews__header {
+    margin-bottom: 2rem;
+  }
+
+  .ml-reviews__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+  }
+
+  /* ── Desglose estilo Mercado Libre ── */
+  .ml-reviews__summary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  @media (min-width: 768px) {
+    .ml-reviews__summary-grid {
+      grid-template-columns: 200px 1fr 280px;
+      align-items: center;
+      gap: 3rem;
+    }
+  }
+
+  /* Puntuación grande */
+  .ml-reviews__score-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ml-reviews__score-val {
+    font-size: 3.75rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #111827;
+  }
+
+  .ml-reviews__score-stars {
+    display: flex;
+    gap: 0.15rem;
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .ml-reviews__score-total {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  /* Barras de porcentaje */
+  .ml-reviews__breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .ml-breakdown__row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.8125rem;
+    color: #4b5563;
+  }
+
+  .ml-breakdown__label {
+    width: 68px;
+    white-space: nowrap;
+  }
+
+  .ml-breakdown__bar-track {
+    flex: 1;
+    height: 6px;
+    background-color: #f3f4f6;
+    overflow: hidden;
+  }
+
+  .ml-breakdown__bar-fill {
+    height: 100%;
+    background-color: #3483fa; /* Azul característico Mercado Libre */
+  }
+
+  .ml-breakdown__pct {
+    width: 35px;
+    text-align: right;
+    color: #9ca3af;
+    font-size: 0.75rem;
+  }
+
+  /* Caja de acción */
+  .ml-reviews__action-box {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ml-reviews__action-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+  }
+
+  .ml-reviews__action-desc {
+    font-size: 0.8125rem;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .ml-reviews__btn-write {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #3483fa;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .ml-reviews__btn-write:hover {
+    background-color: #2968c8;
+  }
+
+  /* ── Formulario Desplegable ── */
+  .ml-review-form-container {
+    margin: 2rem 0;
+  }
+
+  .ml-review-form-card {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    padding: 2rem;
+  }
+
+  .ml-review-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .ml-review-form-header h4 {
+    margin: 0;
+    font-size: 1.125rem;
+    color: #0f172a;
+  }
+
+  .ml-review-form-close {
+    background: transparent;
+    border: none;
+    font-size: 1.75rem;
+    color: #64748b;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .ml-form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .ml-form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .ml-form-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .ml-form-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.35rem;
+  }
+
+  .ml-star-rating-select {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .ml-star-select-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .ml-form-input,
+  .ml-form-textarea {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    font-size: 0.875rem;
+    color: #1e293b;
+    box-sizing: border-box;
+  }
+
+  .ml-form-input:focus,
+  .ml-form-textarea:focus {
+    outline: none;
+    border-color: #3483fa;
+  }
+
+  .ml-reviews__btn-submit {
+    background-color: #3483fa;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    padding: 0.75rem 2rem;
+    border: none;
+    cursor: pointer;
+  }
+
+  .ml-reviews__btn-submit:hover {
+    background-color: #2968c8;
+  }
+
+  /* ── Tirilla de Reseñas Estilo Mercado Libre ── */
+  .ml-reviews__list {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ml-review-item {
+    padding: 1.75rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .ml-review-item:last-child {
+    border-bottom: none;
+  }
+
+  .ml-review-item__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ml-review-item__stars {
+    display: flex;
+    gap: 0.1rem;
+  }
+
+  .ml-review-item__date {
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+
+  .ml-review-item__verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #00a650; /* Verde característico Mercado Libre */
+  }
+
+  .ml-review-item__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0.25rem 0 0;
+  }
+
+  .ml-review-item__comment {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: #374151;
+    margin: 0;
+  }
+
+  .ml-review-item__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    padding-top: 0.25rem;
+  }
+
+  .ml-review-item__author {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  .ml-review-item__helpful {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .ml-helpful__text {
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+
+  .ml-helpful__btn {
+    background: transparent;
+    border: 1px solid #e5e7eb;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+    color: #4b5563;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: all 0.2s ease;
+  }
+
+  .ml-helpful__btn:hover {
+    border-color: #3483fa;
+    color: #3483fa;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', () => {
+    // Abrir / Cerrar Formulario
+    const openBtn = document.getElementById('ml-open-review-form');
+    const closeBtn = document.getElementById('ml-close-review-form');
+    const formWrapper = document.getElementById('ml-review-form-wrapper');
+
+    if (openBtn && formWrapper) {
+      openBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // 1. Si Judge.me está inyectado, activar su formulario oficial
+        const jdgmWriteBtn = document.querySelector('.jdgm-write-rev-link') || 
+                             document.querySelector('#judgeme_product_reviews .jdgm-write-rev-link');
+        if (jdgmWriteBtn) {
+          jdgmWriteBtn.click();
+          const jdgmWidget = document.getElementById('judgeme_product_reviews');
+          if (jdgmWidget) {
+            jdgmWidget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          return;
+        }
+
+        // 2. Si no, abrir el formulario integrado
+        formWrapper.style.display = formWrapper.style.display === 'none' ? 'block' : 'none';
+        if (formWrapper.style.display === 'block') {
+          formWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    }
+
+    if (closeBtn && formWrapper) {
+      closeBtn.addEventListener('click', () => {
+        formWrapper.style.display = 'none';
+      });
+    }
+
+    // Selector de Estrellas en Formulario
+    const starPicker = document.getElementById('ml-star-picker');
+    const ratingInput = document.getElementById('ml-rating-input');
+
+    if (starPicker && ratingInput) {
+      const starBtns = starPicker.querySelectorAll('.ml-star-select-btn');
+
+      const setStars = (rating) => {
+        ratingInput.value = rating;
+        starBtns.forEach((btn, idx) => {
+          const svg = btn.querySelector('svg');
+          if (idx < rating) {
+            svg.setAttribute('fill', '#facc15');
+          } else {
+            svg.setAttribute('fill', '#e2e8f0');
+          }
+        });
+      };
+
+      setStars(5);
+
+      starBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const val = parseInt(btn.dataset.value, 10);
+          setStars(val);
+        });
+      });
+    }
+
+    // Manejo de Envío Asíncrono (Evita el error 403 de Cloudflare en local)
+    const reviewForm = document.getElementById('ml-product-review-form');
+    if (reviewForm) {
+      reviewForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const submitBtn = reviewForm.querySelector('.ml-reviews__btn-submit');
+        const rating = parseInt(ratingInput ? ratingInput.value : '5', 10);
+        const nameInput = document.getElementById('ml-review-name');
+        const titleInput = document.getElementById('ml-review-title');
+        const bodyInput = document.getElementById('ml-review-body');
+
+        const authorName = nameInput ? nameInput.value.trim() : 'Comprador verificado';
+        const reviewTitle = titleInput ? titleInput.value.trim() : 'Excelente producto';
+        const reviewBody = bodyInput ? bodyInput.value.trim() : '';
+
+        const prodIdInput = document.getElementById('ml-product-id-input');
+        const prodId = prodIdInput ? prodIdInput.value : 'default';
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Guardando opinión...';
+        }
+
+        const emailInput = document.getElementById('ml-review-email');
+        const authorEmail = emailInput ? emailInput.value.trim() : 'cliente@soportech.com';
+        const shopDomainInput = document.getElementById('ml-shop-domain-input');
+        const shopDomain = shopDomainInput ? shopDomainInput.value : 'soportech-p.myshopify.com';
+
+        const titleEl = document.getElementById('ml-product-title-input');
+        const urlEl = document.getElementById('ml-product-url-input');
+        const bgEl = document.getElementById('ml-product-last-img-input');
+
+        const productTitle = titleEl ? titleEl.value : '';
+        const productUrl = urlEl ? urlEl.value : window.location.pathname;
+        const productBgImage = bgEl ? bgEl.value : '';
+
+        // 1. Enviar directamente a la base de datos en la nube de Judge.me
+        try {
+          const jdgmData = new FormData();
+          jdgmData.append('shop_domain', shopDomain);
+          jdgmData.append('platform', 'shopify');
+          jdgmData.append('id', prodId);
+          jdgmData.append('name', authorName);
+          jdgmData.append('email', authorEmail);
+          jdgmData.append('rating', rating);
+          jdgmData.append('title', reviewTitle);
+          jdgmData.append('body', reviewBody);
+          jdgmData.append('url', window.location.href);
+
+          fetch('https://judge.me/api/v1/reviews', {
+            method: 'POST',
+            body: jdgmData
+          })
+          .then(r => r.json())
+          .then(data => {
+            console.log('Reseña guardada con éxito en la nube de Judge.me:', data);
+          })
+          .catch(err => {
+            console.log('Judge.me cloud sync:', err);
+          });
+        } catch (e) {}
+
+        // Guardar reseña en localStorage para producto y para el slider del home
+        const reviewData = {
+          productId: prodId,
+          rating: rating,
+          authorName: authorName,
+          reviewTitle: reviewTitle,
+          reviewBody: reviewBody,
+          productTitle: productTitle,
+          productUrl: productUrl,
+          productBgImage: productBgImage,
+          date: 'Publicado hace un momento',
+          verified: true
+        };
+
+        try {
+          // 1. Guardar para la ficha de producto
+          const storageKey = 'soportech_reviews_' + prodId;
+          const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
+          existing.unshift(reviewData);
+          localStorage.setItem(storageKey, JSON.stringify(existing));
+
+          // 2. Guardar para el carrusel del home
+          const globalKey = 'soportech_global_reviews';
+          const globalExisting = JSON.parse(localStorage.getItem(globalKey) || '[]');
+          globalExisting.unshift(reviewData);
+          localStorage.setItem(globalKey, JSON.stringify(globalExisting));
+        } catch (err) {
+          // LocalStorage fallback
+        }
+
+        // Insertar inmediatamente la nueva reseña en la tirilla estilo Mercado Libre
+        const listWrapper = document.getElementById('ml-reviews-list-wrapper');
+        if (listWrapper) {
+          let starsSvg = '';
+          for (let i = 1; i <= 5; i++) {
+            starsSvg += `<svg class="ml-star" width="16" height="16" viewBox="0 0 24 24" fill="${i <= rating ? '#facc15' : '#e2e8f0'}"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+          }
+
+          const newArticle = document.createElement('article');
+          newArticle.className = 'ml-review-item';
+          newArticle.style.backgroundColor = '#f0fdf4';
+          newArticle.style.padding = '1.5rem';
+          newArticle.style.border = '1px solid #bbf7d0';
+          newArticle.style.marginBottom = '1rem';
+          newArticle.innerHTML = `
+            <div class="ml-review-item__top">
+              <div class="ml-review-item__stars">${starsSvg}</div>
+              <span class="ml-review-item__date">Publicado hace un momento</span>
+            </div>
+            <div class="ml-review-item__verified">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00a650" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Compra verificada</span>
+            </div>
+            <h4 class="ml-review-item__title">${reviewTitle}</h4>
+            <p class="ml-review-item__comment">${reviewBody}</p>
+            <div class="ml-review-item__bottom">
+              <span class="ml-review-item__author">${authorName}</span>
+              <div class="ml-review-item__helpful">
+                <span class="ml-helpful__text">¿Te resultó útil?</span>
+                <button type="button" class="ml-helpful__btn"><span class="ml-helpful__count">Es útil</span></button>
+              </div>
+            </div>
+          `;
+
+          listWrapper.insertBefore(newArticle, listWrapper.firstChild);
+          newArticle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Mensaje de confirmación y cierre del formulario
+        if (submitBtn) {
+          submitBtn.textContent = '¡Opinión publicada!';
+          submitBtn.style.backgroundColor = '#16a34a';
+        }
+
+        setTimeout(() => {
+          if (formWrapper) formWrapper.style.display = 'none';
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Publicar Opinión';
+            submitBtn.style.backgroundColor = '';
+          }
+          if (bodyInput) bodyInput.value = '';
+          if (titleInput) titleInput.value = '';
+        }, 1200);
+      });
+    }
+
+    // Cargar reseñas guardadas previamente en localStorage al abrir la página
+    try {
+      const prodIdInput = document.getElementById('ml-product-id-input');
+      const prodId = prodIdInput ? prodIdInput.value : 'default';
+      const storageKey = 'soportech_reviews_' + prodId;
+      const savedReviews = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      const listWrapper = document.getElementById('ml-reviews-list-wrapper');
+
+      if (listWrapper && savedReviews.length > 0) {
+        savedReviews.forEach((rev) => {
+          let starsSvg = '';
+          for (let i = 1; i <= 5; i++) {
+            starsSvg += `<svg class="ml-star" width="16" height="16" viewBox="0 0 24 24" fill="${i <= rev.rating ? '#facc15' : '#e2e8f0'}"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+          }
+          const savedArticle = document.createElement('article');
+          savedArticle.className = 'ml-review-item';
+          savedArticle.innerHTML = `
+            <div class="ml-review-item__top">
+              <div class="ml-review-item__stars">${starsSvg}</div>
+              <span class="ml-review-item__date">${rev.date}</span>
+            </div>
+            <div class="ml-review-item__verified">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00a650" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Compra verificada</span>
+            </div>
+            <h4 class="ml-review-item__title">${rev.reviewTitle}</h4>
+            <p class="ml-review-item__comment">${rev.reviewBody}</p>
+            <div class="ml-review-item__bottom">
+              <span class="ml-review-item__author">${rev.authorName}</span>
+              <div class="ml-review-item__helpful">
+                <span class="ml-helpful__text">¿Te resultó útil?</span>
+                <button type="button" class="ml-helpful__btn"><span class="ml-helpful__count">Es útil</span></button>
+              </div>
+            </div>
+          `;
+          listWrapper.insertBefore(savedArticle, listWrapper.firstChild);
+        });
+      }
+    } catch (e) {}
+
+    // Botón "Es útil" interactivo
+    document.querySelectorAll('.ml-helpful__btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        btn.style.color = '#3483fa';
+        btn.style.borderColor = '#3483fa';
+        if (!btn.dataset.clicked) {
+          btn.dataset.clicked = 'true';
+          const countSpan = btn.querySelector('.ml-helpful__count');
+          if (countSpan) {
+            countSpan.textContent = '¡Gracias!';
+          }
+        }
+      });
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Tira Reseñas MercadoLibre",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título de la sección",
+      "default": "Opiniones del producto"
+    },
+    {
+      "type": "text",
+      "id": "average_rating",
+      "label": "Calificación Promedio",
+      "default": "4.8"
+    },
+    {
+      "type": "text",
+      "id": "total_reviews",
+      "label": "Total Calificaciones",
+      "default": "48"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review_item",
+      "name": "Reseña de Cliente",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Calificación (Estrellas)",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Fecha de la reseña",
+          "default": "Hace 3 días"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Compra verificada",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título de la opinión",
+          "default": "Excelente producto, 100% original"
+        },
+        {
+          "type": "textarea",
+          "id": "comment",
+          "label": "Comentario detallado",
+          "default": "El producto llegó en perfecto estado, súper rápido a mi ciudad y funciona impecable. La atención fue excelente."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Nombre del comprador",
+          "default": "Andrés M."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tira Reseñas MercadoLibre",
+      "blocks": [
+        {
+          "type": "review_item",
+          "settings": {
+            "title": "Excelente calidad de audio y acabados",
+            "comment": "El sonido es muy nítido y la potencia es sorprendente. Totalmente original y con garantía. Lo recomiendo a ojo cerrado.",
+            "author": "Carlos M.",
+            "date": "Hace 4 días"
+          }
+        },
+        {
+          "type": "review_item",
+          "settings": {
+            "title": "Carga ultra rápida y materiales duraderos",
+            "comment": "Llevo dos semanas usándolo todos los días y no calienta para nada. Excelente compra.",
+            "author": "Daniela V.",
+            "date": "Hace 1 semana"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

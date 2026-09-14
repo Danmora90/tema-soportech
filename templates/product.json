@@ -30,7 +30,10 @@
         },
         "buy": {
           "type": "buy_buttons",
-          "settings": {}
+          "settings": {
+            "show_quantity_selector": true,
+            "show_dynamic_checkout": true
+          }
         },
         "favorite": {
           "type": "favorite_button",
@@ -38,7 +41,11 @@
         },
         "trust": {
           "type": "trust_badges",
-          "settings": {}
+          "settings": {
+            "badge_1_text": "Garantía 12 meses",
+            "badge_2_text": "Somos distribuidores autorizados",
+            "badge_3_text": "Envío Nacional"
+          }
         }
       },
       "block_order": [
@@ -59,7 +66,10 @@
     "recommendations": {
       "type": "product-recommendations",
       "settings": {
-        "best_sellers_collection": "lo-mas-top-nuestros-superventas"
+        "heading": "Completa tu Experiencia",
+        "eyebrow": "Recomendaciones para ti",
+        "best_sellers_collection": "lo-mas-top-nuestros-superventas",
+        "products_to_show": 4
       }
     },
     "brands-marquee": {
@@ -123,12 +133,31 @@
         "brand-1"
       ],
       "settings": {}
+    },
+    "1789358933a8499f12": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_3fYNY8": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_3fYNY8"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "main",
     "description",
+    "1789358933a8499f12",
     "recommendations",
     "brands-marquee"
   ]
-}   
+}

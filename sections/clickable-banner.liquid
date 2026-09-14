@@ -1,6 +1,8 @@
 <div class="clickable-banner full-width section-{{ section.id }}" style="
   --padding-top: {{ section.settings.padding_top }}px;
   --padding-bottom: {{ section.settings.padding_bottom }}px;
+  --image-max-width: {{ section.settings.image.width | default: 'none' }}{% if section.settings.image.width %}px{% endif %};
+  --image-mobile-max-width: {{ section.settings.image_mobile.width | default: section.settings.image.width | default: 'none' }}{% if section.settings.image_mobile.width or section.settings.image.width %}px{% endif %};
 ">
   <a href="{{ section.settings.link | default: '#' }}" class="clickable-banner__link">
     {%- if section.settings.image != blank -%}
@@ -50,9 +52,16 @@
   }
   .clickable-banner__img {
     width: 100%;
+    max-width: var(--image-max-width, 100%);
     height: auto;
     display: block;
-    object-fit: cover;
+    margin: 0 auto;
+    object-fit: contain;
+  }
+  @media screen and (max-width: 767px) {
+    .clickable-banner__img {
+      max-width: var(--image-mobile-max-width, 100%);
+    }
   }
   .clickable-banner__placeholder {
     width: 100%;

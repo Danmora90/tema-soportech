@@ -14,7 +14,8 @@
     "header": {
       "type": "header",
       "settings": {
-        "logo": "shopify://shop_images/WhatsApp_Image_2026-05-26_at_10.09.01_AM__1_-removebg-preview.png",
+        "logo": "shopify://shop_images/WhatsApp_Image_2026-05-26_at_10.09.01_AM__1_-removebg-preview_468f9a23-16d0-43f3-976a-a5566b6f8692.png",
+        "logo_mobile": "shopify://shop_images/logo_7b6b5d14-fa79-4cf7-a581-caf312490142.png",
         "menu": "main-menu",
         "customer_account_menu": "customer-account-main-menu"
       }

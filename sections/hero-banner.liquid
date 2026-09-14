@@ -11,6 +11,10 @@
         aria-hidden="{%- if forloop.first -%}false{%- else -%}true{%- endif -%}"
         {{ block.shopify_attributes }}
       >
+        {%- if block.settings.button_label == blank and block.settings.button_url != blank -%}
+          <a href="{{ block.settings.button_url }}" class="hero-slider__full-link" aria-label="{{ block.settings.heading | default: 'Slide' }}"></a>
+        {%- endif -%}
+
         <!-- Media -->
         <div class="hero-slider__media" aria-hidden="true">
           {%- if block.settings.video_url != blank -%}
@@ -20,16 +24,36 @@
               autoplay loop muted playsinline preload="none"
             ></video>
           {%- elsif block.settings.image != blank -%}
-            {{
-              block.settings.image
-              | image_url: width: 2000
-              | image_tag:
-                loading: 'eager',
-                fetchpriority: 'high',
-                class: 'hero-slider__image',
-                widths: '375, 750, 1100, 1500, 2000',
-                sizes: '100vw'
-            }}
+            {%- assign image_fit = block.settings.image_fit | default: 'cover' -%}
+            {%- capture img_style -%}object-fit: {{ image_fit }};{%- endcapture -%}
+            {%- if block.settings.image_mobile != blank -%}
+              <picture class="hero-slider__picture">
+                <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 750 }}">
+                {{
+                  block.settings.image
+                  | image_url: width: 2000
+                  | image_tag:
+                    loading: 'eager',
+                    fetchpriority: 'high',
+                    class: 'hero-slider__image',
+                    style: img_style,
+                    widths: '375, 750, 1100, 1500, 2000',
+                    sizes: '100vw'
+                }}
+              </picture>
+            {%- else -%}
+              {{
+                block.settings.image
+                | image_url: width: 2000
+                | image_tag:
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  class: 'hero-slider__image',
+                  style: img_style,
+                  widths: '375, 750, 1100, 1500, 2000',
+                  sizes: '100vw'
+              }}
+            {%- endif -%}
           {%- else -%}
             <div class="hero-slider__fallback" aria-hidden="true"></div>
           {%- endif -%}
@@ -40,7 +64,12 @@
         <div class="hero-slider__noise"   aria-hidden="true"></div>
 
         <!-- Content -->
-        <div class="hero-slider__content">
+        {%- assign has_text_content = false -%}
+        {%- if block.settings.eyebrow != blank or block.settings.heading != blank or block.settings.subheading != blank or block.settings.button_label != blank or block.settings.button_label_2 != blank -%}
+          {%- assign has_text_content = true -%}
+        {%- endif -%}
+
+        <div class="hero-slider__content{% unless has_text_content %} hero-slider__content--badges-only{% endunless %}">
           {%- if block.settings.eyebrow != blank -%}
             <p class="hero-slider__eyebrow">
               <span class="hero-slider__eyebrow-dot" aria-hidden="true"></span>
@@ -499,6 +528,42 @@
     .hero-slider__scroll-line { animation: none; }
     .hero-slider__eyebrow-dot { animation: none; }
   }
+
+  .hero-slider__full-link {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    cursor: pointer;
+  }
+
+  .hero-slider__picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-slider__content--badges-only {
+    position: absolute;
+    bottom: 5.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    align-items: center;
+    justify-content: center;
+    width: auto !important;
+    z-index: 6;
+  }
+
+  .hero-slider__content--badges-only .hero-slider__badges {
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.65);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
 {% endstylesheet %}
 
 {% javascript %}
@@ -607,6 +672,27 @@
           "type": "image_picker",
           "id": "image",
           "label": "t:sections.hero_banner.settings.fallback_image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Imagen para móvil"
+        },
+        {
+          "type": "select",
+          "id": "image_fit",
+          "label": "Ajuste de la imagen",
+          "options": [
+            {
+              "value": "cover",
+              "label": "Cubrir (Cover)"
+            },
+            {
+              "value": "contain",
+              "label": "Contener (Contain)"
+            }
+          ],
+          "default": "cover"
         },
         {
           "type": "header",

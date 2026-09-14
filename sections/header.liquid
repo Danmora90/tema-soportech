@@ -16,7 +16,14 @@
     <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
       {% if section.settings.logo != blank %}
         {% assign logo_alt = section.settings.logo.alt | default: shop.name | escape %}
-        {{ section.settings.logo | image_url: width: 400 | image_tag: alt: logo_alt, class: 'header__logo-image' }}
+        {% if section.settings.logo_mobile != blank %}
+          <picture class="header__logo-picture">
+            <source media="(max-width: 768px)" srcset="{{ section.settings.logo_mobile | image_url: width: 400 }}">
+            {{ section.settings.logo | image_url: width: 400 | image_tag: alt: logo_alt, class: 'header__logo-image' }}
+          </picture>
+        {% else %}
+          {{ section.settings.logo | image_url: width: 400 | image_tag: alt: logo_alt, class: 'header__logo-image' }}
+        {% endif %}
       {% else %}
         {{ 'logo-soportech.svg' | inline_asset_content }}
       {% endif %}
@@ -308,6 +315,11 @@
     opacity: 0.85;
   }
 
+  .header__logo-picture {
+    display: flex;
+    align-items: center;
+  }
+
   .header__logo-image {
     width: auto;
     height: auto;
@@ -571,8 +583,9 @@
   @media(max-width: 768px) {
     .header__top {
       flex-wrap: wrap;
-      padding: 1rem 1.5rem;
-      gap: 1rem;
+      padding: 0.5rem 1.5rem;
+      column-gap: 1rem;
+      row-gap: 0px;
       justify-content: space-between;
     }
 
@@ -582,6 +595,22 @@
       display: flex;
       justify-content: center;
       margin-bottom: 0.5rem;
+      padding-top: 20px;
+      padding-bottom: 10px;
+    }
+
+    .header__logo-image {
+      width: 60%;
+      max-height: none;
+    }
+
+    .header__logo-picture {
+      width: 60%;
+      justify-content: center;
+    }
+
+    .header__logo-picture .header__logo-image {
+      width: 100%;
     }
 
     .header__menu-toggle {
@@ -603,22 +632,54 @@
     }
 
     /* Restablecer layout anterior al hacer scroll en móviles */
+    .header--scrolled .header__top {
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.25rem;
+    }
+
     .header--scrolled .header__logo {
       order: 2;
       width: auto;
+      flex-grow: 1;
       display: flex;
-      justify-content: flex-start;
+      justify-content: center;
       margin-bottom: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      min-width: 0;
+    }
+
+    .header--scrolled .header__logo-image {
+      width: auto;
+      max-height: 24px;
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .header--scrolled .header__logo-picture {
+      width: auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .header--scrolled .header__logo-picture .header__logo-image {
+      width: auto;
+      max-height: 24px;
     }
 
     .header--scrolled .header__menu-toggle {
       order: 1;
+      flex-shrink: 0;
     }
 
     .header--scrolled .header__actions {
       order: 3;
       display: flex;
       justify-content: flex-end;
+      flex-shrink: 0;
     }
 
     .header__social, .header__separator {
@@ -639,6 +700,12 @@
       "type": "image_picker",
       "id": "logo",
       "label": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_mobile",
+      "label": "Logo para móvil (opcional)",
+      "info": "Si no se selecciona, se mostrará el logo principal en todos los dispositivos."
     },
     {
       "type": "link_list",

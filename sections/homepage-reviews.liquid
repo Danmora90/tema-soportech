@@ -1,8 +1,8 @@
-<!-- ── Testimonios y Social Proof ── -->
+<!-- ── Testimonios y Social Proof (Slider) ── -->
 <section class="hr full-width" aria-labelledby="hr-heading-{{ section.id }}" {{ section.shopify_attributes }}>
   <div class="hr__container">
     
-    <!-- Header with rating summary -->
+    <!-- Header with rating summary (Original Centered Style) -->
     <div class="hr__header">
       {%- if section.settings.eyebrow != blank -%}
         <p class="hr__eyebrow">{{ section.settings.eyebrow | escape }}</p>
@@ -29,88 +29,141 @@
       {%- endif -%}
     </div>
 
-    <!-- Testimonials Grid -->
+    <!-- Testimonials Slider Wrapper -->
     {%- if section.blocks.size > 0 -%}
-      <div class="hr__grid">
-        {%- for block in section.blocks -%}
-          <div class="hr-card" {{ block.shopify_attributes }}>
-            <div class="hr-card__header">
-              <div class="hr-card__rating">
-                {%- assign rating = block.settings.rating | default: 5 -%}
-                {%- for i in (1..5) -%}
-                  <svg class="hr-card__star" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" 
-                      {% if i <= rating %}fill="#facc15"{% else %}fill="#e2e8f0"{% endif %}/>
-                  </svg>
-                {%- endfor -%}
-              </div>
-              <span class="hr-card__date">{{ block.settings.date | escape }}</span>
-            </div>
+      <div class="hr__slider-container">
+        <!-- Slider Navigation Controls -->
+        <button type="button" class="hr__nav-btn hr__nav-btn--prev" id="hr-prev-{{ section.id }}" aria-label="Reseña anterior">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
 
-            <blockquote class="hr-card__quote">
-              <p class="hr-card__text">"{{ block.settings.text | escape }}"</p>
-            </blockquote>
+        <div class="hr__slider-track" id="hr-track-{{ section.id }}" role="region" aria-label="Carrusel de opiniones de clientes">
+          {%- for block in section.blocks -%}
+            {%- assign prod = block.settings.product -%}
+            {%- assign bg_image_url = '' -%}
 
-            <div class="hr-card__author">
-              {%- if block.settings.image != blank -%}
-                {{ block.settings.image 
-                  | image_url: width: 100, height: 100, crop: 'center'
-                  | image_tag: 
-                    loading: 'lazy', 
-                    class: 'hr-card__avatar', 
-                    alt: block.settings.author_name 
-                }}
-              {%- else -%}
-                <div class="hr-card__avatar hr-card__avatar--placeholder">
-                  {{ block.settings.author_name | slice: 0 | upcase }}
-                </div>
+            {%- comment -%}
+              Obtener la última imagen del catálogo del producto asignado.
+            {%- endcomment -%}
+            {%- if prod != blank and prod.media.size > 0 -%}
+              {%- assign last_media = prod.media.last -%}
+              {%- if last_media.preview_image != blank -%}
+                {%- assign bg_image_url = last_media.preview_image | image_url: width: 1000 -%}
+              {%- elsif prod.images.size > 0 -%}
+                {%- assign bg_image_url = prod.images.last | image_url: width: 1000 -%}
               {%- endif -%}
-              <div class="hr-card__author-info">
-                <cite class="hr-card__name">{{ block.settings.author_name | escape }}</cite>
-                {%- if block.settings.verified -%}
-                  <span class="hr-card__verified">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                    Comprador Verificado
-                  </span>
-                {%- endif -%}
-              </div>
-            </div>
-
-            {%- if block.settings.product_image != blank -%}
-              <div class="hr-card__product-link">
-                {{ block.settings.product_image
-                  | image_url: width: 300
-                  | image_tag:
-                    loading: 'lazy',
-                    class: 'hr-card__prod-img',
-                    alt: 'Producto comprado'
-                }}
-                {%- if block.settings.product_name != blank -%}
-                  <span class="hr-card__prod-name">{{ block.settings.product_name | escape }}</span>
-                {%- endif -%}
-              </div>
+            {%- elsif prod != blank and prod.images.size > 0 -%}
+              {%- assign bg_image_url = prod.images.last | image_url: width: 1000 -%}
+            {%- elsif block.settings.background_image != blank -%}
+              {%- assign bg_image_url = block.settings.background_image | image_url: width: 1000 -%}
+            {%- elsif block.settings.product_image != blank -%}
+              {%- assign bg_image_url = block.settings.product_image | image_url: width: 1000 -%}
             {%- endif -%}
-          </div>
-        {%- endfor -%}
+
+            <article class="hr-card" {{ block.shopify_attributes }}>
+              <!-- Card Background Image (Última foto de catálogo del producto) -->
+              {%- if bg_image_url != blank -%}
+                <div class="hr-card__bg" style="background-image: url('{{ bg_image_url }}');" aria-hidden="true"></div>
+              {%- else -%}
+                <div class="hr-card__bg hr-card__bg--placeholder" aria-hidden="true"></div>
+              {%- endif -%}
+              
+              <!-- Card Dark Overlay for Legibility -->
+              <div class="hr-card__overlay" aria-hidden="true"></div>
+
+              <!-- Card Content -->
+              <div class="hr-card__content">
+                <div class="hr-card__header">
+                  <div class="hr-card__rating">
+                    {%- assign rating = block.settings.rating | default: 5 -%}
+                    {%- for i in (1..5) -%}
+                      <svg class="hr-card__star" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" 
+                          {% if i <= rating %}fill="#facc15"{% else %}fill="rgba(255,255,255,0.3)"{% endif %}/>
+                      </svg>
+                    {%- endfor -%}
+                  </div>
+                  <span class="hr-card__date">{{ block.settings.date | escape }}</span>
+                </div>
+
+                <blockquote class="hr-card__quote">
+                  <p class="hr-card__text">"{{ block.settings.text | escape }}"</p>
+                </blockquote>
+
+                <div class="hr-card__footer">
+                  <div class="hr-card__author">
+                    {%- if block.settings.image != blank -%}
+                      {{ block.settings.image 
+                        | image_url: width: 96, height: 96, crop: 'center'
+                        | image_tag: 
+                          loading: 'lazy', 
+                          class: 'hr-card__avatar', 
+                          alt: block.settings.author_name 
+                      }}
+                    {%- else -%}
+                      <div class="hr-card__avatar hr-card__avatar--placeholder">
+                        {{ block.settings.author_name | slice: 0 | upcase }}
+                      </div>
+                    {%- endif -%}
+                    <div class="hr-card__author-info">
+                      <cite class="hr-card__name">{{ block.settings.author_name | escape }}</cite>
+                      {%- if block.settings.verified -%}
+                        <span class="hr-card__verified">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                          Comprador Verificado
+                        </span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+
+                  <!-- Product Reference -->
+                  {%- if prod != blank -%}
+                    <a href="{{ prod.url }}" class="hr-card__product-link">
+                      <span class="hr-card__prod-name">{{ prod.title | escape }}</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="hr-card__prod-arrow">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                      </svg>
+                    </a>
+                  {%- elsif block.settings.product_name != blank -%}
+                    <div class="hr-card__product-link">
+                      <span class="hr-card__prod-name">{{ block.settings.product_name | escape }}</span>
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+
+        <button type="button" class="hr__nav-btn hr__nav-btn--next" id="hr-next-{{ section.id }}" aria-label="Siguiente reseña">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
     {%- endif -%}
   </div>
 </section>
 
 {% stylesheet %}
+  /* ── Fondo y contenedor original de la sección ── */
   .hr {
     background-color: #f8fafc;
     padding: 5rem 1.25rem;
     color: #0f172a;
+    position: relative;
   }
 
   .hr__container {
-    max-width: 1200px;
+    max-width: 1240px;
     margin: 0 auto;
   }
 
+  /* ── Cabecera original centrada ── */
   .hr__header {
     text-align: center;
     margin-bottom: 3.5rem;
@@ -183,43 +236,163 @@
     color: #4b5563;
     max-width: 620px;
     line-height: 1.6;
+    text-align: center;
   }
 
-  /* ── Testimonials Grid ── */
-  .hr__grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 1.5rem;
+  /* ── Slider Wrapper con Flechas Laterales ── */
+  .hr__slider-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hr__nav-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 0 !important;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #0f172a;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
+    z-index: 10;
+    flex-shrink: 0;
   }
 
   @media (min-width: 768px) {
-    .hr__grid {
-      grid-template-columns: repeat(2, 1fr);
+    .hr__nav-btn {
+      display: inline-flex;
+    }
+    .hr__nav-btn--prev {
+      margin-right: 0.75rem;
+    }
+    .hr__nav-btn--next {
+      margin-left: 0.75rem;
+    }
+  }
+
+  .hr__nav-btn:hover {
+    background: #0284c7;
+    border-color: #0284c7;
+    color: #ffffff;
+  }
+
+  .hr__nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: #f1f5f9;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+  }
+
+  .hr__slider-track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.5rem 0.25rem 1rem;
+    width: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+
+  .hr__slider-track::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  .hr__slider-track::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+  }
+
+  /* ── Tarjetas Rediseñadas (Sin Border Radius, Más Altura, Fondo Producto) ── */
+  .hr-card {
+    flex: 0 0 86%;
+    min-width: 280px;
+    scroll-snap-align: start;
+    position: relative;
+    border-radius: 0 !important;
+    border: 1px solid #e2e8f0;
+    min-height: 440px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: #0f172a;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  @media (min-width: 640px) {
+    .hr-card {
+      flex: 0 0 calc(50% - 0.75rem);
     }
   }
 
   @media (min-width: 1024px) {
-    .hr__grid {
-      grid-template-columns: repeat(3, 1fr);
+    .hr-card {
+      flex: 0 0 calc(33.333% - 1rem);
+      min-height: 460px;
     }
-  }
-
-  /* Testimonial Card */
-  .hr-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 1.25rem;
-    padding: 1.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
 
   .hr-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Imagen de fondo (Última foto del catálogo) */
+  .hr-card__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+    transition: transform 0.4s ease;
+  }
+
+  .hr-card:hover .hr-card__bg {
+    transform: scale(1.05);
+  }
+
+  .hr-card__bg--placeholder {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  }
+
+  /* Overlay degradado oscuro para que el texto siempre sea 100% legible */
+  .hr-card__overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.72) 0%,
+      rgba(15, 23, 42, 0.85) 50%,
+      rgba(15, 23, 42, 0.96) 100%
+    );
+    z-index: 2;
+    backdrop-filter: blur(1px);
+  }
+
+  /* Contenido interior */
+  .hr-card__content {
+    position: relative;
+    z-index: 3;
+    padding: 2rem 1.75rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
   }
 
   .hr-card__header {
@@ -230,7 +403,7 @@
 
   .hr-card__rating {
     display: flex;
-    gap: 0.125rem;
+    gap: 0.15rem;
   }
 
   .hr-card__star {
@@ -240,105 +413,239 @@
   .hr-card__date {
     font-size: 0.75rem;
     color: #94a3b8;
+    font-weight: 500;
   }
 
   .hr-card__quote {
     margin: 0;
     flex: 1;
+    display: flex;
+    align-items: center;
   }
 
   .hr-card__text {
-    font-size: 0.9375rem;
-    line-height: 1.6;
-    color: #334155;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: #ffffff;
     font-style: italic;
+    font-weight: 400;
     margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  .hr-card__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 1.25rem;
   }
 
   .hr-card__author {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    border-top: 1px solid #f1f5f9;
-    padding-top: 1rem;
   }
 
   .hr-card__avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    border-radius: 0 !important;
     object-fit: cover;
-    background: #cbd5e1;
+    background: #334155;
   }
 
   .hr-card__avatar--placeholder {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #e0f2fe;
-    color: #0369a1;
+    width: 42px;
+    height: 42px;
+    border-radius: 0 !important;
+    background: #0284c7;
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 0.875rem;
+    font-weight: 800;
+    font-size: 0.95rem;
   }
 
   .hr-card__author-info {
     display: flex;
     flex-direction: column;
-    gap: 0.125rem;
+    gap: 0.2rem;
   }
 
   .hr-card__name {
     font-style: normal;
     font-weight: 700;
-    font-size: 0.875rem;
-    color: #0f172a;
+    font-size: 0.9375rem;
+    color: #ffffff;
   }
 
   .hr-card__verified {
-    font-size: 0.6875rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    color: #10b981;
+    color: #34d399;
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.3rem;
   }
 
-  /* Attached product image / lifestyle */
   .hr-card__product-link {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0 !important;
+    padding: 0.5rem 0.75rem;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    background: #f8fafc;
-    padding: 0.5rem;
-    border-radius: 0.75rem;
-    margin-top: 0.25rem;
-    border: 1px dashed #e2e8f0;
+    justify-content: space-between;
+    text-decoration: none;
+    color: #e2e8f0;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 
-  .hr-card__prod-img {
-    width: 44px;
-    height: 44px;
-    object-fit: cover;
-    border-radius: 0.375rem;
+  .hr-card__product-link:hover {
+    background: rgba(30, 41, 59, 0.85);
+    border-color: #38bdf8;
   }
 
   .hr-card__prod-name {
-    font-size: 0.75rem;
+    font-size: 0.775rem;
     font-weight: 600;
-    color: #64748b;
+    color: #f1f5f9;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .hr-card__prod-arrow {
+    flex-shrink: 0;
+    color: #38bdf8;
+    margin-left: 0.5rem;
+  }
 {% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', () => {
+    const tracks = document.querySelectorAll('.hr__slider-track');
+    
+    tracks.forEach((track) => {
+      // 1. Cargar reseñas publicadas por usuarios desde las páginas de productos
+      try {
+        let userReviews = JSON.parse(localStorage.getItem('soportech_global_reviews') || '[]');
+
+        // Migración/recuperación automática de cualquier reseña guardada previamente
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('soportech_reviews_')) {
+            try {
+              const items = JSON.parse(localStorage.getItem(key) || '[]');
+              items.forEach(it => {
+                const exists = userReviews.some(u => u.reviewTitle === it.reviewTitle && u.authorName === it.authorName);
+                if (!exists) {
+                  userReviews.push(it);
+                }
+              });
+            } catch (e) {}
+          }
+        }
+
+        // Si existen reseñas de usuarios, agregarlas al slider del home
+        if (userReviews.length > 0) {
+          userReviews.forEach(rev => {
+            const author = rev.authorName || 'Comprador verificado';
+            const initial = author.charAt(0).toUpperCase();
+            const rating = parseInt(rev.rating || 5, 10);
+            const prodName = rev.productTitle || 'Altavoz Bluetooth JBL Flip 7';
+            const prodUrl = rev.productUrl || '#';
+            const bgImg = rev.productBgImage || 'https://soportech-p.myshopify.com/cdn/shop/files/Audifonos_para_venta_tecnologica__202605120045.webp';
+
+            let starsHtml = '';
+            for (let s = 1; s <= 5; s++) {
+              starsHtml += `<svg class="hr-card__star" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="${s <= rating ? '#facc15' : 'rgba(255,255,255,0.3)'}"/>
+              </svg>`;
+            }
+
+            const article = document.createElement('article');
+            article.className = 'hr-card hr-card--user-review';
+            article.innerHTML = `
+              <div class="hr-card__bg" style="background-image: url('${bgImg}');" aria-hidden="true"></div>
+              <div class="hr-card__overlay" aria-hidden="true"></div>
+              <div class="hr-card__content">
+                <div class="hr-card__header">
+                  <div class="hr-card__rating">${starsHtml}</div>
+                  <span class="hr-card__date">${rev.date || 'Reciente'}</span>
+                </div>
+                <blockquote class="hr-card__quote">
+                  <p class="hr-card__text">"${rev.reviewBody || rev.comment || ''}"</p>
+                </blockquote>
+                <div class="hr-card__footer">
+                  <div class="hr-card__author">
+                    <div class="hr-card__avatar hr-card__avatar--placeholder">${initial}</div>
+                    <div class="hr-card__author-info">
+                      <cite class="hr-card__name">${author}</cite>
+                      <span class="hr-card__verified">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        Comprador Verificado
+                      </span>
+                    </div>
+                  </div>
+                  <a href="${prodUrl}" class="hr-card__product-link">
+                    <span class="hr-card__prod-name">${prodName}</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="hr-card__prod-arrow">
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            `;
+            track.insertBefore(article, track.firstChild);
+          });
+        }
+      } catch (err) {
+        console.error('Error cargando reseñas globales en el home:', err);
+      }
+
+      // 2. Controladores del Slider
+      const sectionId = track.id.replace('hr-track-', '');
+      const prevBtn = document.getElementById(`hr-prev-${sectionId}`);
+      const nextBtn = document.getElementById(`hr-next-${sectionId}`);
+
+      if (!prevBtn || !nextBtn) return;
+
+      const getScrollDistance = () => {
+        const firstCard = track.querySelector('.hr-card');
+        if (!firstCard) return track.clientWidth * 0.8;
+        return firstCard.offsetWidth + 24;
+      };
+
+      prevBtn.addEventListener('click', () => {
+        track.scrollBy({ left: -getScrollDistance(), behavior: 'smooth' });
+      });
+
+      nextBtn.addEventListener('click', () => {
+        track.scrollBy({ left: getScrollDistance(), behavior: 'smooth' });
+      });
+
+      const updateButtons = () => {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        prevBtn.disabled = track.scrollLeft <= 4;
+        nextBtn.disabled = track.scrollLeft >= maxScroll - 4;
+      };
+
+      track.addEventListener('scroll', updateButtons, { passive: true });
+      window.addEventListener('resize', updateButtons);
+      setTimeout(updateButtons, 100);
+    });
+  });
+{% endjavascript %}
 
 {% schema %}
 {
   "name": "Testimonios y Reseñas",
-  "max_blocks": 9,
+  "max_blocks": 12,
   "settings": [
     {
       "type": "text",
@@ -389,6 +696,16 @@
       "name": "Reseña",
       "settings": [
         {
+          "type": "product",
+          "id": "product",
+          "label": "Producto (para fondo con última foto de catálogo)"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Fondo alternativo (si no se selecciona producto)"
+        },
+        {
           "type": "range",
           "id": "rating",
           "label": "Estrellas (Calificación)",
@@ -429,20 +746,20 @@
         {
           "type": "text",
           "id": "product_name",
-          "label": "Nombre del producto adquirido (Opcional)",
+          "label": "Nombre producto fallback (si no se usa selector de producto)",
           "default": "JBL PartyBox 110"
         },
         {
           "type": "image_picker",
           "id": "product_image",
-          "label": "Foto del producto en uso (Opcional)"
+          "label": "Miniatura fallback (si no se usa selector de producto)"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Testimonios y Reseñas",
+      "name": "Testimonios y Reseñas (Slider)",
       "blocks": [
         {
           "type": "review",
