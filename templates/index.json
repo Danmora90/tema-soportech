@@ -12,7 +12,7 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "settings": {
-        "message_1": "🚚 Envíos a todo el país",
+        "message_1": "🚚 Envío Gratis por compras superiores a $99.900",
         "message_2": "📍 Visítanos en Pereira: Cra. 17 #8-140 Local 9, Pereira, Risaralda",
         "message_3": "🔋 Garantía directa en todos los productos",
         "scroll_speed": 30
@@ -359,7 +359,7 @@
       "settings": {
         "eyebrow": "Opiniones de Clientes",
         "title": "La confianza de nuestra comunidad",
-        "subtitle": "Descubre por qué cientos de clientes recomiendan Soportech para su equipamiento de audio y accesorios de carga.",
+        "subtitle": "Descubre por qué cientos de clientes recomiendan 88bubble para su equipamiento de audio y accesorios de carga.",
         "rating_value": "4.7",
         "rating_max": "5",
         "reviews_count": "180",
@@ -423,8 +423,8 @@
           "type": "step",
           "settings": {
             "icon": "truck",
-            "title": "Envío gratis a todo el país",
-            "text": "Despachamos tu pedido sin costo adicional. Llega directamente a tu puerta en cualquier rincón de Colombia."
+            "title": "Envío gratis desde $99.900",
+            "text": "Despachamos tu pedido sin costo adicional por compras superiores a $99.900. Llega directamente a tu puerta en cualquier rincón de Colombia."
           }
         },
         "step-3": {
@@ -579,7 +579,7 @@
       "settings": {
         "eyebrow": "Nuestra Comunidad",
         "title": "MÁS DE 5,000 CLIENTES EQUIPADOS",
-        "subtitle": "Clientes satisfechos de todo el país confían en Soportech."
+        "subtitle": "Clientes satisfechos de todo el país confían en 88bubble."
       }
     },
     "trust-badges": {

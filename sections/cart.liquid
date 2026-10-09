@@ -425,6 +425,34 @@
               </div>
             {% endif %}
 
+            {% comment %} FREE SHIPPING PROGRESS BAR {% endcomment %}
+            {% if section.settings.free_shipping_enabled %}
+              {% assign free_shipping_threshold = section.settings.free_shipping_threshold | times: 100 %}
+              <div class="free-shipping-progress" style="margin-bottom: 1.5rem; background: #f8fafc; padding: 1.25rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                {% if cart.total_price < free_shipping_threshold %}
+                  {% assign amount_missing = free_shipping_threshold | minus: cart.total_price %}
+                  {% assign progress_percentage = cart.total_price | times: 100.0 | divided_by: free_shipping_threshold %}
+                  {% if progress_percentage > 100 %}{% assign progress_percentage = 100 %}{% endif %}
+                  
+                  <p style="margin-top: 0; margin-bottom: 0.75rem; font-size: 0.95rem; color: #1e293b; text-align: center; line-height: 1.4;">
+                    ¡Casi lo logras! Te faltan solo <strong>{{ amount_missing | money }}</strong> para llevarte el <strong>ENVÍO GRATIS</strong>. ⚡<br>
+                    <span style="font-size: 0.85rem; color: #64748b; margin-top: 0.25rem; display: block;">Añade un accesorio más y nosotros cubrimos el envío.</span>
+                  </p>
+                  <div style="width: 100%; height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden;">
+                    <div style="width: {{ progress_percentage }}%; height: 100%; background: #06b6d4; border-radius: 99px; transition: width 0.3s ease;"></div>
+                  </div>
+                {% else %}
+                  <p style="margin: 0; font-size: 0.95rem; color: #059669; text-align: center; font-weight: 600;">
+                    ¡Misión cumplida! 🎉 Has desbloqueado el <strong>ENVÍO GRATIS</strong>.<br>
+                    <span style="font-size: 0.85rem; color: #047857; margin-top: 0.25rem; display: block; font-weight: 400;">¡Prepárate para disfrutar de tu tecnología sin costos extra!</span>
+                  </p>
+                  <div style="width: 100%; height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin-top: 0.75rem;">
+                    <div style="width: 100%; height: 100%; background: #10b981; border-radius: 99px;"></div>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+
             <div class="cart-subtotal-row">
               <span class="cart-subtotal-label">Subtotal</span>
               <span class="cart-subtotal-value">{{ cart.total_price | money }}</span>
@@ -509,6 +537,19 @@
     {
       "type": "header",
       "content": "Resumen del pedido"
+    },
+    {
+      "type": "checkbox",
+      "id": "free_shipping_enabled",
+      "default": true,
+      "label": "Habilitar barra de envío gratis"
+    },
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "default": 99900,
+      "label": "Monto para envío gratis",
+      "info": "Ej: 99900 para $99.900"
     },
     {
       "type": "checkbox",

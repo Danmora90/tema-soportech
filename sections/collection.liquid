@@ -11,15 +11,57 @@
         {{ collection.title }}
       {%- endif -%}
     </h1>
-    {%- if collection.description != blank -%}
+    {%- if section.settings.show_description and collection.description != blank -%}
       <div class="catalog-description">{{ collection.description }}</div>
     {%- endif -%}
   </div>
 
   <div class="catalog-container">
-    <!-- ══ Sidebar / Filtros ══ -->
-    <aside class="catalog-sidebar">
-      <h2 class="catalog-filters-title">Filtros</h2>
+    <!-- ══ Barra de acciones móvil (Botón Filtros) ══ -->
+    <div class="catalog-mobile-toolbar">
+      <button type="button" class="catalog-filter-trigger" id="openFiltersBtn" aria-label="Abrir filtros de productos" aria-expanded="false" aria-controls="catalogSidebar">
+        <svg class="filter-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="4" y1="21" x2="4" y2="14"></line>
+          <line x1="4" y1="10" x2="4" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12" y2="3"></line>
+          <line x1="20" y1="21" x2="20" y2="16"></line>
+          <line x1="20" y1="12" x2="20" y2="3"></line>
+          <line x1="1" y1="14" x2="7" y2="14"></line>
+          <line x1="9" y1="8" x2="15" y2="8"></line>
+          <line x1="17" y1="16" x2="23" y2="16"></line>
+        </svg>
+        <span>Filtros</span>
+        {%- assign total_active = 0 -%}
+        {%- for filter in collection.filters -%}
+          {%- assign total_active = total_active | plus: filter.active_values.size -%}
+          {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+            {%- assign total_active = total_active | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if current_tags.size > 0 -%}
+          {%- assign total_active = total_active | plus: current_tags.size -%}
+        {%- endif -%}
+        {%- if total_active > 0 -%}
+          <span class="filter-count-badge">{{ total_active }}</span>
+        {%- endif -%}
+      </button>
+    </div>
+
+    <!-- ══ Backdrop oscuro para drawer móvil ══ -->
+    <div class="catalog-drawer-backdrop" id="filtersBackdrop" aria-hidden="true"></div>
+
+    <!-- ══ Sidebar / Filtros (Drawer en móvil, Sidebar en desktop) ══ -->
+    <aside class="catalog-sidebar" id="catalogSidebar" aria-label="Filtros del catálogo">
+      <div class="catalog-sidebar-header">
+        <h2 class="catalog-filters-title">Filtros</h2>
+        <button type="button" class="catalog-drawer-close" id="closeFiltersBtn" aria-label="Cerrar panel de filtros">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
       <form id="CollectionFiltersForm" class="catalog-filters">
 
         {%- comment -%} ── Colecciones (desde objeto global collections) ── {%- endcomment -%}
@@ -211,6 +253,38 @@
         btn.setAttribute('aria-expanded', String(!expanded));
       });
     });
+
+    // ══ Drawer de filtros en móvil ══
+    const openBtn = document.getElementById('openFiltersBtn');
+    const closeBtn = document.getElementById('closeFiltersBtn');
+    const backdrop = document.getElementById('filtersBackdrop');
+    const sidebar = document.getElementById('catalogSidebar');
+
+    function openFiltersDrawer() {
+      if (!sidebar) return;
+      sidebar.classList.add('is-open');
+      if (backdrop) backdrop.classList.add('is-open');
+      document.body.classList.add('filters-drawer-open');
+      openBtn?.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeFiltersDrawer() {
+      if (!sidebar) return;
+      sidebar.classList.remove('is-open');
+      if (backdrop) backdrop.classList.remove('is-open');
+      document.body.classList.remove('filters-drawer-open');
+      openBtn?.setAttribute('aria-expanded', 'false');
+    }
+
+    openBtn?.addEventListener('click', openFiltersDrawer);
+    closeBtn?.addEventListener('click', closeFiltersDrawer);
+    backdrop?.addEventListener('click', closeFiltersDrawer);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sidebar?.classList.contains('is-open')) {
+        closeFiltersDrawer();
+      }
+    });
   });
 {% endjavascript %}
 
@@ -223,7 +297,16 @@
 
   .catalog-header {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 989px) {
+    .catalog-header {
+      margin-bottom: 1.25rem;
+    }
+    .catalog-description {
+      display: none;
+    }
   }
 
   .catalog-title {
@@ -242,12 +325,17 @@
     line-height: 1.6;
   }
 
+  /* Bloqueo de scroll al abrir drawer en móvil */
+  body.filters-drawer-open {
+    overflow: hidden;
+  }
+
   .catalog-container {
     max-width: 1400px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   @media (min-width: 990px) {
@@ -258,30 +346,170 @@
     }
   }
 
-  /* ── Sidebar ── */
-  .catalog-sidebar {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    width: 100%;
+  /* ── Barra y botón de filtros para móvil ── */
+  .catalog-mobile-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 0.5rem;
   }
 
-  @media (min-width: 990px) {
-    .catalog-sidebar {
-      width: 300px;
-      flex-shrink: 0;
-      position: sticky;
-      top: 2rem;
-    }
+  .catalog-filter-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 0.625rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #0f172a;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+
+  .catalog-filter-trigger:hover,
+  .catalog-filter-trigger:focus-visible {
+    border-color: #06b6d4;
+    color: #0891b2;
+    background: #f8fafc;
+  }
+
+  .filter-icon {
+    color: #06b6d4;
+    flex-shrink: 0;
+  }
+
+  .filter-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.35rem;
+    background: #06b6d4;
+    color: #ffffff;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-left: 0.25rem;
+  }
+
+  /* ── Backdrop oscuro para drawer móvil ── */
+  .catalog-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 1040;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .catalog-drawer-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── Sidebar (Drawer en móvil, Sidebar en desktop) ── */
+  .catalog-sidebar {
+    background: #ffffff;
+    padding: 1.5rem 1.5rem 4rem;
+    /* Móvil: Drawer off-canvas */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(340px, 85vw);
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+    z-index: 1050;
+    border: none;
+    border-radius: 0 1.25rem 1.25rem 0;
+    box-shadow: 10px 0 30px -5px rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .catalog-sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .catalog-sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f3f4f6;
   }
 
   .catalog-filters-title {
     font-size: 1.25rem;
     font-weight: 800;
-    margin: 0 0 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #f3f4f6;
+    margin: 0;
+    padding: 0;
+    color: #0f172a;
+  }
+
+  .catalog-drawer-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: #f1f5f9;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    padding: 0;
+  }
+
+  .catalog-drawer-close:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+
+  /* ── Estilos para Desktop (>= 990px) ── */
+  @media (min-width: 990px) {
+    .catalog-mobile-toolbar {
+      display: none;
+    }
+
+    .catalog-drawer-backdrop {
+      display: none;
+    }
+
+    .catalog-sidebar {
+      position: sticky;
+      top: 2rem;
+      left: auto;
+      width: 300px;
+      height: auto;
+      max-height: calc(100vh - 4rem);
+      transform: none !important;
+      border: 1px solid #e5e7eb;
+      border-radius: 1rem;
+      box-shadow: none;
+      padding: 1.5rem;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .catalog-drawer-close {
+      display: none;
+    }
   }
 
   .filter-group {
@@ -493,19 +721,20 @@
 
   .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 1.25rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 
   @media (min-width: 640px) {
     .catalog-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
     }
   }
 
   @media (min-width: 1200px) {
     .catalog-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 
@@ -604,6 +833,12 @@
 {
   "name": "Catálogo",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Mostrar descripción de la colección",
+      "default": false
+    },
     {
       "type": "header",
       "content": "Filtro de Colecciones"

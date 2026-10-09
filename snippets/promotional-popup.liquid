@@ -1,0 +1,349 @@
+{% doc %}
+  Renders a promotional modal popup that displays after 4 seconds of navigation.
+  Appears once per session and features responsive graphics for desktop and mobile.
+  Clicking 'Continuar explorando', the close icon, the backdrop, or pressing Escape
+  closes the popup so the user can continue browsing.
+
+  @example
+  {% render 'promotional-popup' %}
+{% enddoc %}
+
+<div
+  id="promo-popup"
+  class="promo-popup"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Promoción especial SoporteCH"
+  aria-hidden="true"
+>
+  <div class="promo-popup__backdrop" data-promo-close tabindex="-1"></div>
+
+  <div class="promo-popup__wrapper">
+    <div class="promo-popup__card">
+      <button
+        type="button"
+        class="promo-popup__close-btn"
+        aria-label="Cerrar ventana emergente"
+        data-promo-close
+      >
+        <svg
+          class="promo-popup__close-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        <span class="promo-popup__sr-only">Cerrar</span>
+      </button>
+
+      <picture class="promo-popup__picture">
+        <source
+          media="(max-width: 767px)"
+          srcset="{{ 'popup-banner-mobile.webp' | asset_url }}"
+          width="576"
+          height="1024"
+        >
+        <source
+          media="(min-width: 768px)"
+          srcset="{{ 'popup-banner-desktop.webp' | asset_url }}"
+          width="1024"
+          height="575"
+        >
+        <img
+          src="{{ 'popup-banner-desktop.webp' | asset_url }}"
+          alt="¡Quédate, lo mejor está por llegar! Envíos GRATIS por compras superiores a $99.900. Sigue explorando nuestro catálogo y equipa tu día a día con la mejor tecnología."
+          class="promo-popup__image"
+          width="1024"
+          height="575"
+          loading="eager"
+        >
+      </picture>
+
+      <button
+        type="button"
+        class="promo-popup__cta-btn"
+        aria-label="Continuar explorando el catálogo"
+        data-promo-close
+      >
+        <span class="promo-popup__sr-only">Continuar explorando</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .promo-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+  }
+
+  .promo-popup.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .promo-popup__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    cursor: pointer;
+  }
+
+  .promo-popup__wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .promo-popup__card {
+    position: relative;
+    width: min(840px, 92vw, calc(86vh * (1024 / 575)));
+    aspect-ratio: 1024 / 575;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+      0 0 35px rgba(0, 195, 255, 0.35),
+      0 25px 60px rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    background-color: #060b13;
+    line-height: 0;
+    transform: scale(0.92) translateY(10px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .promo-popup.is-open .promo-popup__card {
+    transform: scale(1) translateY(0);
+  }
+
+  .promo-popup__picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+    line-height: 0;
+  }
+
+  .promo-popup__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Close button styling */
+  .promo-popup__close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    background: rgba(3, 7, 18, 0.65);
+    border: 1px solid rgba(0, 229, 255, 0.45);
+    color: #ffffff;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    padding: 0;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: all 0.25s ease;
+  }
+
+  .promo-popup__close-btn:hover {
+    background: rgba(0, 229, 255, 0.25);
+    border-color: #00e5ff;
+    color: #00e5ff;
+    box-shadow: 0 0 16px rgba(0, 229, 255, 0.6);
+    transform: scale(1.08);
+  }
+
+  .promo-popup__close-btn:focus-visible {
+    outline: 2px solid #00e5ff;
+    outline-offset: 2px;
+  }
+
+  .promo-popup__close-icon {
+    width: 18px;
+    height: 18px;
+    display: block;
+    pointer-events: none;
+  }
+
+  /* CTA "Continuar explorando" button hit area */
+  .promo-popup__cta-btn {
+    position: absolute;
+    left: 8%;
+    top: 66%;
+    width: 34%;
+    height: 14%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 5;
+    border-radius: 9999px;
+    outline: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .promo-popup__cta-btn:hover {
+    background-color: rgba(0, 229, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.45);
+    transform: translateY(-2px);
+  }
+
+  .promo-popup__cta-btn:focus-visible {
+    outline: 2px solid #00e5ff;
+    outline-offset: 2px;
+  }
+
+  .promo-popup__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 767px) {
+    .promo-popup__card {
+      width: min(390px, 90vw, calc(86vh * (576 / 1024)));
+      aspect-ratio: 576 / 1024;
+      border-radius: 20px;
+    }
+
+    .promo-popup__close-btn {
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+    }
+
+    .promo-popup__close-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .promo-popup__cta-btn {
+      left: 9%;
+      top: 76%;
+      width: 82%;
+      height: 13%;
+    }
+  }
+
+  /* Prevent background scrolling when popup is open */
+  body.has-promo-popup-open {
+    overflow: hidden !important;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    const STORAGE_KEY = 'soportech_promo_popup_seen';
+    const DISPLAY_DELAY_MS = 4000;
+
+    function initPopup() {
+      // Check session storage first
+      try {
+        if (sessionStorage.getItem(STORAGE_KEY)) {
+          return;
+        }
+      } catch (e) {
+        // Fallback if sessionStorage is disabled or blocked
+      }
+
+      const popup = document.getElementById('promo-popup');
+      if (!popup) return;
+
+      let lastActiveElement = null;
+
+      function openPopup() {
+        // Guard against race conditions
+        try {
+          if (sessionStorage.getItem(STORAGE_KEY)) return;
+          sessionStorage.setItem(STORAGE_KEY, 'true');
+        } catch (e) {}
+
+        lastActiveElement = document.activeElement;
+        popup.classList.add('is-open');
+        popup.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('has-promo-popup-open');
+
+        const closeBtn = popup.querySelector('.promo-popup__close-btn');
+        if (closeBtn) {
+          closeBtn.focus();
+        }
+      }
+
+      function closePopup() {
+        popup.classList.remove('is-open');
+        popup.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('has-promo-popup-open');
+
+        // Ensure session storage flag is recorded upon close as well
+        try {
+          sessionStorage.setItem(STORAGE_KEY, 'true');
+        } catch (e) {}
+
+        if (lastActiveElement && typeof lastActiveElement.focus === 'function') {
+          lastActiveElement.focus();
+        }
+      }
+
+      // Schedule popup to display after 4 seconds
+      const timerId = setTimeout(openPopup, DISPLAY_DELAY_MS);
+
+      // Bind close actions to all elements with data-promo-close
+      const closeTargets = popup.querySelectorAll('[data-promo-close]');
+      closeTargets.forEach(function (target) {
+        target.addEventListener('click', function (event) {
+          event.preventDefault();
+          closePopup();
+        });
+      });
+
+      // Close on Escape key press
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && popup.classList.contains('is-open')) {
+          closePopup();
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPopup);
+    } else {
+      initPopup();
+    }
+  })();
+{% endjavascript %}
