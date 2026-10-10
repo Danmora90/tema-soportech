@@ -1,0 +1,136 @@
+{% doc %}
+  Renders an elegant payment providers block (Mercado Pago & Bold)
+  Usage: {% render 'trust-payments' %}
+{% enddoc %}
+
+<div class="trust-payments">
+  <div class="trust-payments__title">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-top:-2px; margin-right:6px;">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+    </svg>
+    <span style="vertical-align:middle;">Pagos 100% Seguros</span>
+  </div>
+  
+  <div class="trust-payments__logos">
+    <!-- Mercado Pago Block -->
+    <div class="trust-payments__provider">
+      <div class="trust-payments__provider-header">
+        <span class="trust-payments__name trust-payments__name--mp">mercado pago</span>
+      </div>
+      <div class="trust-payments__icons">
+        {{ 'visa' | payment_type_svg_tag: class: 'payment-icon' }}
+        {{ 'master' | payment_type_svg_tag: class: 'payment-icon' }}
+      </div>
+    </div>
+
+    <!-- Bold Block -->
+    <div class="trust-payments__provider trust-payments__provider--highlight">
+      <div class="trust-payments__provider-header">
+        <span class="trust-payments__name trust-payments__name--bold">Bold</span>
+        <span class="trust-payments__badge-text">(Incluye PSE)</span>
+      </div>
+      <div class="trust-payments__icons">
+        {{ 'american_express' | payment_type_svg_tag: class: 'payment-icon' }}
+        
+        <!-- PSE Icon Custom -->
+        <svg class="payment-icon payment-icon--pse" viewBox="0 0 46 28" xmlns="http://www.w3.org/2000/svg">
+          <rect width="46" height="28" rx="4" fill="#00438c"/>
+          <text x="23" y="19" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">PSE</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .trust-payments {
+    margin-top: 1rem;
+    padding: 0.85rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    text-align: center;
+  }
+  .trust-payments__title {
+    font-size: 0.95rem;
+    color: #1f2937;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .trust-payments__logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .trust-payments__provider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    flex: 1;
+    min-width: 140px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .trust-payments__provider:hover {
+    transform: translateY(-2px);
+    border-color: #94a3b8;
+  }
+  .trust-payments__provider--highlight {
+    background: #f0f9ff;
+    border-color: #bae6fd;
+  }
+  .trust-payments__provider--highlight:hover {
+    border-color: #7dd3fc;
+  }
+  .trust-payments__provider-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+  }
+  .trust-payments__name {
+    font-size: 1.1rem;
+    font-weight: 900;
+    font-style: italic;
+  }
+  .trust-payments__name--mp { color: #009ee3; }
+  .trust-payments__name--bold { color: #1e1b4b; font-style: normal; letter-spacing: -0.02em; }
+  
+  .trust-payments__badge-text {
+    font-size: 0.7rem;
+    color: #0369a1;
+    font-weight: 700;
+    margin-top: 0.1rem;
+  }
+  
+  .trust-payments__icons {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.25rem;
+  }
+  .payment-icon {
+    height: 22px;
+    width: auto;
+    border-radius: 3px;
+  }
+  .payment-icon--pse {
+    height: 26px; /* Hacemos el PSE ligeramente más grande para que destaque */
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+{% endstylesheet %}
